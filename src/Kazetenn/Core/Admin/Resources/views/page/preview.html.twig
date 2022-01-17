@@ -1,0 +1,15 @@
+{% extends '@Kazetenn/admin/admin_base.html.twig' %}
+
+{% block title %}
+    {% trans %}kazetenn_admin.page_title{% endtrans %}
+{% endblock %}
+
+{% block body %}
+    {% block page_title %}
+        <h1>{{ page.title }}</h1>
+    {% endblock %}
+
+    {% for order, data in page.pageContentsOrdered %}
+        {{ include('@Kazetenn/page/_display_block.html.twig', {block: data.0}) }}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends '@Kazetenn/admin/admin_base.html.twig' %}
+
+{% block title %}
+    {% trans %}kazetenn_admin.page_index_title{% endtrans %}
+{% endblock %}
+
+{% block nav_top %}
+    <div style="justify-content: center">
+        <h1>{% trans %}kazetenn_admin.page_index_title{% endtrans %}</h1>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    {% for page in pages %}
+        <div style="width: 75%">
+            <h3>Page {{ page.id }} - {{ page.Title }} ({{ page.Slug }})</h3>
+            <div>
+                <a href="{{ path('kazetenn_admin_page_show', {'id': page.id}) }}">preview</a>
+                <a href="{{ path('kazetenn_admin_page_handling', {'id': page.id}) }}">edit</a>
+
+                {% if null != page.parent %}
+                    <a href="{{ path('kazetenn_front_index', {'page_path_1': page.parent.slug, 'page_path_2': page.slug}) }}" target="_blank">Consulter</a>
+                {% else %}
+                    <a href="{{ path('kazetenn_front_index', {'page_path_1': page.slug}) }}" target="_blank">Consulter</a>
+                {% endif %}
+
+                <a href="{{ path('kazetenn_admin_page_content_new', {'id': page.id}) }}">add content ({{ page.pageContents|length }})</a>
+            </div>
+        </div>
+    {% else %}
+        <div>
+            <h2>no records found</h2>
+        </div>
+    {% endfor %}
+
+    <a href="{{ path('kazetenn_admin_page_handling') }}">Create new</a>
+{% endblock %}

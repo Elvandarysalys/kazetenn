@@ -1,0 +1,17 @@
+{% extends '@KazetennArticles/blog_article_base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    <div id="article_page_container" class="article_page_container">
+        {% block article_title %}
+            <div class="bloc_content">
+                <h1 id="article_page_title" class="article_page_title">{{ article.title }}</h1>
+            </div>
+        {% endblock %}
+
+        {% for order, data in article.articleContentsOrdered %}
+            {{ include('@KazetennArticles/content/_display_block.html.twig', {block: data.0}) }}
+        {% endfor %}
+    </div>
+{% endblock %}

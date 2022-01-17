@@ -1,0 +1,9 @@
+{
+  "entrypoints": {
+    "page_style": {
+      "css": [
+        "/page_style.css"
+      ]
+    }
+  }
+}

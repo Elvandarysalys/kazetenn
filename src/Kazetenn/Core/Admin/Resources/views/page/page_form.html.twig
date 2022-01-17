@@ -1,0 +1,21 @@
+{% extends '@Kazetenn/admin/admin_base.html.twig' %}
+
+{% block title %}New Page{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="application/javascript" src="{{ asset('bundles/kazetenn/page_form.js') }}" defer></script>
+{% endblock %}
+
+{% block body %}
+    <span style="display: none" data-ajaxurl="{{ ajax_route }}"></span>
+    <h1>Create new Page</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+
+    <a href="{{ path('kazetenn_admin_page_index') }}">back to list</a>
+{% endblock %}

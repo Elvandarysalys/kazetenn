@@ -1,0 +1,51 @@
+###> phpstorm ide ###
+.idea
+###< phpstorm ide ###
+
+/src/Kazetenn/*/.idea
+/src/Kazetenn/*/.git
+/src/Kazetenn/*/vendor
+/src/Kazetenn/*/node_modules
+
+/src/Kazetenn/Core/*/.idea
+/src/Kazetenn/Core/*/.git
+/src/Kazetenn/Core*/vendor
+/src/Kazetenn/Core*/node_modules
+
+src/App/
+
+/bin/
+/migrations/
+/public/
+/config/
+/templates/
+/translations/
+.env
+.env.test
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###

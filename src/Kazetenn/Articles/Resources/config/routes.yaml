@@ -1,0 +1,5 @@
+front_controller:
+  resource: '@KazetennArticles/Controller/ArticlesController.php'
+  type: annotation
+  prefix: '%kazetenn_articles.article_url%'
+  name_prefix: 'kazetenn_articles'

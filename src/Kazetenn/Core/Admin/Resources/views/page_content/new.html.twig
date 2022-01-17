@@ -1,0 +1,11 @@
+{% extends '@Kazetenn/admin/admin_base.html.twig' %}
+
+{% block title %}New PageContent{% endblock %}
+
+{% block body %}
+    <h1>Create new PageContent</h1>
+
+    {{ include('@Kazetenn/admin/page_content/_form.html.twig') }}
+
+    <a href="{{ path('kazetenn_admin_page_content_index') }}">back to list</a>
+{% endblock %}

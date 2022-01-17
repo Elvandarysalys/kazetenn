@@ -1,0 +1,63 @@
+{% trans_default_domain 'kazetenn_admin' %}
+
+<style>
+    .nav_list {
+        padding:0 5% 5% 5%;
+        display: block;
+        list-style: none
+    }
+
+    .item {
+        display: flex;
+        align-items: flex-start;
+        padding-top:3%
+    }
+
+    .item_header {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .link {
+        text-decoration: none;
+        align-items: center;
+        font-size: 15px;
+        color:white;
+        border-radius: 12px;
+        padding: 4%;
+        background-color: #AAAAA1;
+    }
+
+    .link:hover{
+        background-color: #dfdfdf;
+    }
+
+    .master_link {
+        text-decoration: none;
+        align-items: center;
+        font-size: 15px;
+        color:white;
+        padding: 4%;
+    }
+</style>
+
+<nav>
+    <ul class="nav_list">
+        <li class="item_header">
+            <a class="master_link">{% trans %}kazetenn_admin.nav_size.expand_collapse{% endtrans %}</a>
+        </li>
+    </ul>
+    <ul class="nav_list">
+        <li class="item_header">
+            <a class="master_link">{% trans %}kazetenn_admin.nav_size.main_menus{% endtrans %}</a>
+        </li>
+        {% if admin_menu_list is defined and admin_menu_list is not empty %}
+            {% for menu in admin_menu_list %}
+                <li class="item" id="{{ menu.name }}">
+                    <a class="link" href="{{ menu.destination }}">{{ menu.displayName }}</a>
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+</nav>
+

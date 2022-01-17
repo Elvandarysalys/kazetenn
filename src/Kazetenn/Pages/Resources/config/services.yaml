@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Kazetenn\Pages\:
+        resource: '../../'
+        exclude:
+            - '../../DependencyInjection/'
+            - '../../Tests/'

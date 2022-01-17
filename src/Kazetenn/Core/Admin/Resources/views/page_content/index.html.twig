@@ -1,0 +1,39 @@
+{% extends '@Kazetenn/admin/admin_base.html.twig' %}
+
+{% block title %}PageContent index{% endblock %}
+
+{% block body %}
+    <h1>PageContent index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Content</th>
+                <th>Template</th>
+                <th>Order</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for page_content in page_contents %}
+            <tr>
+                <td>{{ page_content.id }}</td>
+                <td>{{ page_content.content }}</td>
+                <td>{{ page_content.template }}</td>
+                <td>{{ page_content.blocOrder }}</td>
+                <td>
+                    <a href="{{ path('kazetenn_admin_page_content_show', {'id': page_content.id}) }}">show</a>
+                    <a href="{{ path('kazetenn_admin_page_content_edit', {'id': page_content.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('kazetenn_admin_page_content_new') }}">Create new</a>
+{% endblock %}

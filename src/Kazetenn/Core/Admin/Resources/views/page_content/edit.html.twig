@@ -1,0 +1,13 @@
+{% extends '@Kazetenn/admin/admin_base.html.twig' %}
+
+{% block title %}Edit PageContent{% endblock %}
+
+{% block body %}
+    <h1>Edit PageContent</h1>
+
+    {{ include('@Kazetenn/admin/page_content/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('kazetenn_admin_page_content_index') }}">back to list</a>
+
+    {{ include('@Kazetenn/admin/page_content/_delete_form.html.twig') }}
+{% endblock %}
