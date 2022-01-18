@@ -52,7 +52,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Kazetenn\\Core\\Admin": ""
+      "Kazetenn\\Core\\Admin\\": ""
     },
     "exclude-from-classmap": [
       "/Tests/"
