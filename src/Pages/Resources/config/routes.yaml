@@ -1,11 +1,11 @@
 front_controller:
   resource: '@KazetennPages/Controller/FrontPageController.php'
   type: annotation
-  prefix: '%kazetenn_pages.blog_url%'
+  prefix: '%kazetenn_pages.pages_url%'
   name_prefix: 'kazetenn_'
 
 error_controllers:
   resource: '@KazetennPages/Controller/ErrorController.php'
   type: annotation
-  prefix: '%kazetenn_pages.blog_url%'
+  prefix: '%kazetenn_pages.pages_url%'
   name_prefix: 'kazetenn_'

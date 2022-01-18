@@ -38,7 +38,7 @@ kazetenn_pages:
 in `config/packages/kazetenn-pages.yaml`:
 ```yaml
 kazetenn_pages:
-    blog_url: ""
+    pages_url: ""
 ```
 
 by default there is no prefix in front the diplay route, however, using this config you can add one.
@@ -62,11 +62,11 @@ this will be used to handle the page display and url
 
 if the page have no parent, her url will be:
 
-`/{blog_url}/{slug}`
+`/{pages_url}/{slug}`
 
 if the page have a parent, her url will be:
 
-`/{blog_url}/{parent_slug}/{slug}`
+`/{pages_url}/{parent_slug}/{slug}`
 
 ##### PageContent
 
