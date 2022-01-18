@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use function dump;
 
-class KazetennArticleExtension extends Extension
+class KazetennArticlesExtension extends Extension
 {
     /**
      * @throws Exception

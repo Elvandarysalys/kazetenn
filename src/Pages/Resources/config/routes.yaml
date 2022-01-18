@@ -7,3 +7,5 @@ front_controller:
 error_controllers:
   resource: '@KazetennPages/Controller/ErrorController.php'
   type: annotation
+  prefix: '%kazetenn_pages.blog_url%'
+  name_prefix: 'kazetenn_'
