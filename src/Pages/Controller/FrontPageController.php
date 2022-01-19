@@ -28,7 +28,7 @@ class FrontPageController extends AbstractController
         $page = $pageRepository->findPage($page_path_1, $page_path_2);
 
         if (null === $page) {
-            return $this->redirectToRoute('not_found');
+            return $this->redirectToRoute('kazetenn_not_found');
         }
 
         return $this->render('@KazetennPages/display_page.html.twig', [

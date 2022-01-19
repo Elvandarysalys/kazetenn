@@ -5,8 +5,8 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
-  .setOutputPath('src/Resources/public/')
-  .setPublicPath('/')
+  .setOutputPath('public/bundles/')
+  .setPublicPath('/bundles')
   .setManifestKeyPrefix('bundles/kazetenn')
   .enableSourceMaps(false)
   .enableVersioning(false)
@@ -14,9 +14,14 @@ Encore
   .enableSassLoader()
 
   /* entries */
-  .addEntry('page_form', '/src/Kazetenn/Core/Admin/Resources/assets/js/admin/page_form.js')
-  .addStyleEntry('admin_style', '/src/Kazetenn/Core/Admin/Resources/assets/stylesheet/admin.scss')
-  .addStyleEntry('page_style', '/src/Kazetenn/Pages/Resources/assets/stylesheet/page.scss')
+  .addEntry('page_form', '/src/Core/Admin/Resources/assets/js/page_form.js')
+  .addEntry('admin', '/src/Core/Admin/Resources/assets/js/admin.js')
+
+  .addStyleEntry('admin_style', '/src/Core/Admin/Resources/assets/stylesheet/admin.scss')
+
+  .addStyleEntry('page_style', '/src/Pages/Resources/assets/stylesheet/page.scss')
+
+  .addStyleEntry('article_style', '/src/Articles/Resources/assets/stylesheet/article.scss')
 
   .cleanupOutputBeforeBuild()
   .enableBuildNotifications()
@@ -30,8 +35,7 @@ Encore
     config.corejs = 3
   })
 
-// uncomment if you use React
-//.enableReactPreset()
+  .enableReactPreset()
 
 // uncomment to get integrity="..." attributes on your script & link tags
 // requires WebpackEncoreBundle 1.4 or higher

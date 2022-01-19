@@ -1,4 +1,4 @@
-{% extends '@Kazetenn/admin/admin_base.html.twig' %}
+{% extends '@KazetennAdmin/admin_base.html.twig' %}
 
 {% block title %}
     {% trans %}kazetenn_admin.page_title{% endtrans %}
@@ -10,6 +10,6 @@
     {% endblock %}
 
     {% for order, data in page.pageContentsOrdered %}
-        {{ include('@Kazetenn/page/_display_block.html.twig', {block: data.0}) }}
+        {{ include('@KazetennAdmin/page/_display_block.html.twig', {block: data.0}) }}
     {% endfor %}
 {% endblock %}

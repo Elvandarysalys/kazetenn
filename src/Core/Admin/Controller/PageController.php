@@ -2,6 +2,7 @@
 
 namespace Kazetenn\Core\Admin\Controller;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Kazetenn\Pages\Entity\Page;
 use Kazetenn\Pages\Entity\PageContent;
 use Kazetenn\Kazetenn\Core\Admin\Form\PageContentType;
@@ -34,7 +35,7 @@ class PageController extends BaseAdminController
      * @Route("/handling", name="page_handling", methods={"GET","POST"}, priority="1")
      * @Route("/handling/{id}", name="page_handling_edit", methods={"GET","POST"}, priority="1")
      */
-    public function createEditPage(Request $request, PageRepository $pageRepository, Page $page = null): Response
+    public function createEditPage(Request $request, PageRepository $pageRepository, ManagerRegistry $managerRegistry, Page $page = null): Response
     {
         if (null === $page) {
             $page = new Page();
@@ -43,7 +44,7 @@ class PageController extends BaseAdminController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $managerRegistry->getManager();
             $entityManager->persist($page);
             $entityManager->flush();
 
@@ -87,10 +88,10 @@ class PageController extends BaseAdminController
     /**
      * @Route("/{id}", name="page_delete", methods={"POST"}, priority="1")
      */
-    public function delete(Request $request, Page $page): Response
+    public function delete(Request $request, Page $page, ManagerRegistry $managerRegistry): Response
     {
         if ($this->isCsrfTokenValid('delete' . $page->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $managerRegistry->getManager();
             $entityManager->remove($page);
             $entityManager->flush();
         }
@@ -111,7 +112,7 @@ class PageController extends BaseAdminController
     /**
      * @Route("/new/{id}", name="page_content_new", methods={"GET","POST"}, priority="1")
      */
-    public function newContent(Page $page, Request $request, PageRepository $pageRepository, PageContentRepository $pageContentRepository): Response
+    public function newContent(Page $page, Request $request, PageRepository $pageRepository, PageContentRepository $pageContentRepository, ManagerRegistry $managerRegistry): Response
     {
         $pageContent = new PageContent();
         $pageContent->setPage($page);
@@ -119,7 +120,7 @@ class PageController extends BaseAdminController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $managerRegistry->getManager();
             $entityManager->persist($pageContent);
             $entityManager->flush();
 
@@ -145,13 +146,13 @@ class PageController extends BaseAdminController
     /**
      * @Route("/{id}/edit", name="page_content_edit", methods={"GET","POST"}, priority="1")
      */
-    public function editContent(Request $request, PageContent $pageContent): Response
+    public function editContent(Request $request, PageContent $pageContent, ManagerRegistry $managerRegistry): Response
     {
         $form = $this->createForm(PageContentType::class, $pageContent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $managerRegistry->getManager()->flush();
 
             return $this->redirectToRoute('kazetenn_admin_page_content_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -165,10 +166,10 @@ class PageController extends BaseAdminController
     /**
      * @Route("/{id}", name="page_content_delete", methods={"POST"}, priority="1")
      */
-    public function deleteContent(Request $request, PageContent $pageContent): Response
+    public function deleteContent(Request $request, PageContent $pageContent, ManagerRegistry $managerRegistry): Response
     {
         if ($this->isCsrfTokenValid('delete' . $pageContent->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $managerRegistry->getManager();
             $entityManager->remove($pageContent);
             $entityManager->flush();
         }

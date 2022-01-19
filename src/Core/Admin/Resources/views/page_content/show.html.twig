@@ -1,4 +1,4 @@
-{% extends '@Kazetenn/admin/admin_base.html.twig' %}
+{% extends '@KazetennAdmin/admin_base.html.twig' %}
 
 {% block title %}PageContent{% endblock %}
 
@@ -30,5 +30,5 @@
 
     <a href="{{ path('kazetenn_admin_page_content_edit', {'id': page_content.id}) }}">edit</a>
 
-    {{ include('@Kazetenn/admin/page_content/_delete_form.html.twig') }}
+    {{ include('@KazetennAdmin/page_content/_delete_form.html.twig') }}
 {% endblock %}

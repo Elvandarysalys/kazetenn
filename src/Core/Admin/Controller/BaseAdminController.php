@@ -2,7 +2,7 @@
 
 namespace Kazetenn\Core\Admin\Controller;
 
-use Kazetenn\Kazetenn\Core\Admin\Model\AdminMenu;
+use Kazetenn\Core\Admin\Model\AdminMenu;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
