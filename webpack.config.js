@@ -5,8 +5,8 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
-  .setOutputPath('public/bundles/')
-  .setPublicPath('/bundles')
+  .setOutputPath('public/bundles/kazetenn/')
+  .setPublicPath('/bundles/kazetenn')
   .setManifestKeyPrefix('bundles/kazetenn')
   .enableSourceMaps(false)
   .enableVersioning(false)

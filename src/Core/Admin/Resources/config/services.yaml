@@ -8,3 +8,7 @@ services:
         exclude:
             - '../../DependencyInjection/'
             - '../../Tests/'
+
+    Kazetenn\Core\Admin\EventListener\TimestampableListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }

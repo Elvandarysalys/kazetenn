@@ -1,10 +1,10 @@
 <?php
 
-namespace Kazetenn\Kazetenn\Core\Admin\Form;
+namespace Kazetenn\Core\Admin\Form;
 
-use Kazetenn\Kazetenn\Core\Admin\Entity\Page;
-use Kazetenn\Kazetenn\Core\Admin\Entity\PageContent;
-use Kazetenn\Repository\PageContentRepository;
+use Kazetenn\Pages\Entity\Page;
+use Kazetenn\Pages\Entity\PageContent;
+use Kazetenn\Pages\Repository\PageContentRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;

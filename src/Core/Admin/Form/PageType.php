@@ -1,9 +1,9 @@
 <?php
 
-namespace Kazetenn\Kazetenn\Core\Admin\Form;
+namespace Kazetenn\Core\Admin\Form;
 
-use Kazetenn\Kazetenn\Core\Admin\Entity\Page;
-use Kazetenn\Repository\PageRepository;
+use Kazetenn\Pages\Entity\Page;
+use Kazetenn\Pages\Repository\PageRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -17,13 +17,13 @@ class PageType extends AbstractType
     {
         $repository = $options['repository'];
         $builder
-            ->add('Title', TextType::class, [
+            ->add('title', TextType::class, [
                 'label' => 'page_title.label'
             ])
-            ->add('Slug', TextType::class, [
+            ->add('slug', TextType::class, [
                 'label' => 'page_url.label'
             ])
-            ->add('Parent', ChoiceType::class, [
+            ->add('parent', ChoiceType::class, [
                 'choices' => self::buildTargetChoices($repository),
                 'label'   => 'parent_page.label',
             ])
@@ -32,7 +32,8 @@ class PageType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

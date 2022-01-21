@@ -9,49 +9,56 @@
         {% endblock %}
 
         {% block javascripts %}
-            <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-            <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-            {#            <script src="../../assets/js/admin/admin.js" defer></script>#}
-            {# {{ encore_entry_script_tags('app') }} #}
         {% endblock %}
 
         {% trans_default_domain 'kazetenn_admin' %}
     </head>
-    <body>
-        <div id="main" class="main_container">
 
-            <aside id="nav-side" class="page_nav">
-                {% block nav_side %}
-                    {{ include('@KazetennAdmin/admin_menu.html.twig') }}
-                {% endblock %}
-            </aside>
+    <body class="page-columns">
+        <nav id="nav-top" class="navbar is-white">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="#">
+                        Kazetenn
+                    </a>
+                </div>
+                <div class="navbar-menu">
+                    {% block nav_top %}
+                        <p>
+                            je suis une navbar top
+                        </p>
+                    {% endblock %}
+                </div>
+            </div>
+        </nav>
 
-            <div id="page-container" class="page_container">
-                <div id="page-content" class="page_content">
-                    <nav id="nav-top" class="page_header">
-                        {% block nav_top %}
-                            <p>
-                                je suis une navbar top
-                            </p>
+        <section id="page-container" class="section" style="min-height: 77%; width: 100%;">
+            <div id="page-content" class="columns container is-full" style="height: 100%; width: 100%; min-width: 100%">
+                <div class="column is-3 aside_container">
+                    <aside id="nav-side" class="menu is-hidden-mobile ">
+                        {% block nav_side %}
+                            {{ include('@KazetennAdmin/admin_menu.html.twig') }}
                         {% endblock %}
-                    </nav>
+                    </aside>
+                </div>
 
-                    <div  class="page_body">
-                        <div id="body" class="body_container">
-                            {% block body %}
-                            {% endblock %}
-                        </div>
-                    </div>
+                <div class="column is-9 body_container" style="background-color: white;">
+                    {% block body_hidden_infos %}{% endblock %}
 
-                    <div id="footer" class="page_footer">
-                        {% block footer %}
-                            <p>
-                                Je suis un footer
-                            </p>
+                    <div id="body" class="section">
+                        {% block body %}
                         {% endblock %}
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    Je suis un footer
+                </p>
+            </div>
+        </footer>
     </body>
 </html>

@@ -31,7 +31,7 @@ class Page
      * @ORM\Id
      * @ORM\Column(type="uuid")
      */
-    private ?UuidV4 $id;
+    private $id;
 
     /**
      * @var Page[]
@@ -44,7 +44,7 @@ class Page
      * @ORM\ManyToOne(targetEntity="Kazetenn\Pages\Entity\Page", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
-    private Page $parent;
+    private ?Page $parent;
 
     /**
      * @var string
@@ -69,7 +69,7 @@ class Page
      * @var string|null
      * @ORM\Column(type="string")
      */
-    private ?string $template;
+    private $template;
 
     public function __construct()
     {
@@ -168,7 +168,10 @@ class Page
      */
     public function getParent(): ?Page
     {
-        return $this->parent;
+        if (isset($this->parent)) {
+            return $this->parent;
+        }
+        return null;
     }
 
     /**

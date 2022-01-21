@@ -3,10 +3,12 @@
 namespace Kazetenn\Core\Admin\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
+use Kazetenn\Core\Admin\Model\FormModel;
+use Kazetenn\Core\Admin\Form\PageContentType;
+use Kazetenn\Core\Admin\Form\PageType;
 use Kazetenn\Pages\Entity\Page;
 use Kazetenn\Pages\Entity\PageContent;
-use Kazetenn\Kazetenn\Core\Admin\Form\PageContentType;
-use Kazetenn\Kazetenn\Core\Admin\Form\PageType;
 use Kazetenn\Pages\Repository\PageContentRepository;
 use Kazetenn\Pages\Repository\PageRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,46 +35,103 @@ class PageController extends BaseAdminController
 
     /**
      * @Route("/handling", name="page_handling", methods={"GET","POST"}, priority="1")
-     * @Route("/handling/{id}", name="page_handling_edit", methods={"GET","POST"}, priority="1")
      */
-    public function createEditPage(Request $request, PageRepository $pageRepository, ManagerRegistry $managerRegistry, Page $page = null): Response
+    public function createEditPage(Page $page = null): Response
     {
         if (null === $page) {
-            $page = new Page();
-        }
-        $form = $this->createForm(PageType::class, $page, ['repository' => $pageRepository]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $managerRegistry->getManager();
-            $entityManager->persist($page);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('kazetenn_admin_page_index', [], Response::HTTP_SEE_OTHER);
+            $pageId = null;
+        } else {
+            $pageId = $page->getId();
         }
 
-        $ajaxRoute = $this->generateUrl('kazetenn_admin_ajax_page_handling_edit', ['id' => $page->getId()]);
+        $ajaxRoute = $this->generateUrl('kazetenn_admin_ajax_page_handling', ['id' => $pageId]);
 
         return $this->render('@KazetennAdmin/page/page_form.html.twig', [
-            'page' => $page,
-            'form' => $form->createView(),
-            'ajax_route' => $ajaxRoute
+            'ajax_route'       => $ajaxRoute,
+            'page_id'          => $pageId,
+            'ajax_add_content' => $this->generateUrl('kazetenn_admin_ajax_page_add_content', ['id' => null])
         ]);
     }
 
     /**
-     * @Route("/ajax_handling", name="ajax_page_handling", methods={"GET","POST"}, priority="1")
-     * @Route("/ajax_handling/{id}", name="ajax_page_handling_edit", methods={"GET","POST"}, priority="1")
+     * @Route("/ajax_add_content/{id<\S+>?}", name="ajax_page_add_content", methods={"GET","POST"}, priority="1")
+     * @throws Exception
      */
-    public function ajaxCreateEditPage(Request $request, PageRepository $pageRepository, SerializerInterface $serializer, Page $page = null): Response
+    public function ajaxAddContentToPage(Request $request, PageRepository $pageRepository, ManagerRegistry $managerRegistry, SerializerInterface $serializer, PageContent $pageContent = null): Response
+    {
+        if (null === $pageContent) {
+            $pageContent   = new PageContent();
+            $pageContentId = null;
+        } else {
+            $pageContentId = $pageContent->getId();
+        }
+
+        $form = $this->createForm(PageContentType::class, $pageContent, ['repository' => $pageRepository]);
+
+        if ($request->getMethod() === 'POST') {
+            $data = json_decode($request->getContent(), true);
+            $form->submit($data);
+            dump($form);
+        }
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $entityManager = $managerRegistry->getManager();
+                $entityManager->persist($pageContent);
+                $entityManager->flush();
+                $pageContentId = $pageContent->getId()->toRfc4122();
+            } else {
+                dump($form->getErrors());
+            }
+        }
+
+        $ajaxRoute = $this->generateUrl('kazetenn_admin_ajax_page_add_content', ['id' => $pageContentId]);
+
+        $formModel = new FormModel($form->createView());
+        return new JsonResponse($serializer->serialize([
+            'data'       => $formModel->getFormDataArray(),
+            'ajax_route' => $ajaxRoute
+        ],'json'));
+    }
+
+    /**
+     * @Route("/ajax_handling/{id<\S+>?}", name="ajax_page_handling", methods={"GET","POST"}, priority="1")
+     * @throws Exception
+     */
+    public function ajaxCreateEditPage(Request $request, PageRepository $pageRepository, ManagerRegistry $managerRegistry, SerializerInterface $serializer, Page $page = null): Response
     {
         if (null === $page) {
-            $page = new Page();
+            $page   = new Page();
+            $pageId = null;
+        } else {
+            $pageId = $page->getId();
         }
+
         $form = $this->createForm(PageType::class, $page, ['repository' => $pageRepository]);
-        $form->handleRequest($request);
-        dump($form);
-        return new JsonResponse($serializer->serialize($page, 'JSON'));
+
+        if ($request->getMethod() === 'POST') {
+            $data = json_decode($request->getContent(), true);
+            $form->submit($data);
+        }
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $managerRegistry->getManager()->persist($page);
+                $managerRegistry->getManager()->flush();
+                $pageId = $page->getId()->toRfc4122();
+            } else {
+                dump($form->getErrors());
+            }
+        }
+
+        $ajaxRoute = $this->generateUrl('kazetenn_admin_ajax_page_handling', ['id' => $pageId]);
+
+        $formModel = new FormModel($form->createView());
+        return new JsonResponse($serializer->serialize([
+            'data'       => $formModel->getFormDataArray(),
+            'ajax_route' => $ajaxRoute
+        ],
+            'json'));
     }
 
     /**
