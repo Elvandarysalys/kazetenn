@@ -12,3 +12,15 @@ body {
   padding: 0;
   margin: 0;
 }
+
+.admin_children_horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly
+}
+
+.admin_children_vertical {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly
+}

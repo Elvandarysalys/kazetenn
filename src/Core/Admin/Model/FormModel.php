@@ -9,12 +9,32 @@
 namespace Kazetenn\Core\Admin\Model;
 
 use Exception;
+use Kazetenn\Pages\Entity\PageContent;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\FormView;
 
 class FormModel
 {
     private array $form_data = [];
+
+    private function contentToArray(PageContent $pageContent){
+        $result = [
+            'id' => $pageContent->getId()->toRfc4122(),
+            'content' => $pageContent->getContent(),
+            'template' => $pageContent->getTemplate(),
+            'blocOrder' => $pageContent->getBlocOrder(),
+            'align' => $pageContent->getAlign(),
+            'childrens' => []
+        ];
+
+        if (!empty($pageContent->getContent())){
+            foreach ($pageContent->getChildrens() as $children){
+                $result['childrens'][] = $this->contentToArray($children);
+            }
+        }
+
+        return $result;
+    }
 
     public function __construct(FormView $formView)
     {
@@ -41,10 +61,7 @@ class FormModel
             $formPrototype = [];
             if ('collection' === $formType) {
                 foreach ($formVars['data'] as $key => $children) {
-                    $formChoices[] = [
-                        'label' => 'test',
-                        'key'   => $key
-                    ];
+                    $formChildrens[] = $this->contentToArray($children);
                 }
 
                 foreach ($formVars['prototype'] as $key => $prototype) {
@@ -55,17 +72,27 @@ class FormModel
                         'key'   => $key
                     ];
                 }
-            }
 
-            $this->form_data[$formLabel] = [
-                'name'              => $formVars['name'],
-                'value'             => $formVars['value'],
-                'type'              => $formType,
-                'id'                => $formVars['id'],
-                'choice_values'     => $formChoices,
-                'collection_values' => $formChildrens,
-                'prototype'         => $formPrototype,
-            ];
+                $this->form_data[$formLabel] = [
+                    'name'              => $formVars['name'],
+                    'value'             => $formChildrens,
+                    'type'              => $formType,
+                    'id'                => $formVars['id'],
+                    'choice_values'     => $formChoices,
+                    'collection_values' => $formChildrens,
+                    'prototype'         => $formPrototype,
+                ];
+            }else{
+                $this->form_data[$formLabel] = [
+                    'name'              => $formVars['name'],
+                    'value'             => $formVars['value'],
+                    'type'              => $formType,
+                    'id'                => $formVars['id'],
+                    'choice_values'     => $formChoices,
+                    'collection_values' => $formChildrens,
+                    'prototype'         => $formPrototype,
+                ];
+            }
         }
     }
 

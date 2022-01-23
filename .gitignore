@@ -7,12 +7,12 @@
 /src/Kazetenn/*/vendor
 /src/Kazetenn/*/node_modules
 
-/src/Kazetenn/Core/*/.idea
-/src/Kazetenn/Core/*/.git
-/src/Kazetenn/Core*/vendor
-/src/Kazetenn/Core*/node_modules
+/src/Core/*/.idea
+/src/Core/*/.git
+/src/Core/vendor
+/src/Core/node_modules
 
-src/App/
+App/
 
 /bin/
 /migrations/
@@ -20,6 +20,7 @@ src/App/
 /config/
 /templates/
 /translations/
+assets
 .env
 .env.test
 

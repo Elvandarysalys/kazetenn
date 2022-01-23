@@ -65,40 +65,42 @@ class ContentForm extends React.Component {
   }
 
   render () {
-    console.log(this.props)
+    let align = 'admin_children_vertical'
+    if (this.props.children.align === 'horizontal') {
+      align = 'admin_children_horizontal'
+    }
     return (
-      <form>
+      <div key={this.props.children.id} style={{ order: this.props.children.blocOrder }}>
         <button value={'master'} onClick={this.addContent}>Ajouter du contenu</button>
-        {/*{*/}
-        {/*  this.props.children.map(form => {*/}
-        {/*    switch (form.type) {*/}
-        {/*      default:*/}
-        {/*      case 'text':*/}
-        {/*        return <div className={'field'} key={form.key}>*/}
-        {/*          <label className={'label'}>{form.key}</label>*/}
-        {/*          <div className={'control'}>*/}
-        {/*            <input className={'input'} type="text" id={form.key} value={form.value}*/}
-        {/*                   onChange={this.handleChange}/>*/}
-        {/*          </div>*/}
-        {/*        </div>*/}
 
-        {/*      case 'choice':*/}
-        {/*        return <div className={'field'} key={form.key}>*/}
-        {/*          <label className={'label'}>{form.key}</label>*/}
-        {/*          <div className={'control'}>*/}
-        {/*            <div className={'select'}>*/}
-        {/*              <select id={form.key} value={form.choice_values[0]} onChange={this.handleChange}>*/}
-        {/*                {form.choice_values.map(option => {*/}
-        {/*                  return <option key={option.key} value={option.value}>{option.key}</option>*/}
-        {/*                })}*/}
-        {/*              </select>*/}
-        {/*            </div>*/}
-        {/*          </div>*/}
-        {/*        </div>*/}
-        {/*    }*/}
-        {/*  })*/}
-        {/*}*/}
-      </form>
+        <div className={'field is-grouped'}>
+          <div className={'field'} key={'align'}>
+            <label className={'label'}>Alignement</label>
+            <div className={'control'}>
+              <div className={'select'}>
+                <select value={this.props.children.align} onChange={this.handleChange}>
+                  <option key={0} value={'horizontal'}>Horizontal</option>
+                  <option key={1} value={'vertical'}>Vertical</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className={'field'} key={'content'}>
+            <label className={'label'}>content</label>
+            <div className={'control'}>
+              <input className={'input'} type="text" value={this.props.children.content}
+                     onChange={this.handleChange}/>
+            </div>
+          </div>
+        </div>
+
+        <div className={align}>
+          {this.props.children.childrens.map(form => {
+            return <ContentForm>{form}</ContentForm>
+          })}
+        </div>
+      </div>
     )
   }
 }
@@ -204,7 +206,6 @@ class PageForm extends React.Component {
                   </div>
 
                 case 'collection':
-                  console.log(pageId)
                   if (pageId !== null) {
                     return (
                       <div>
@@ -214,7 +215,7 @@ class PageForm extends React.Component {
                         })}
                       </div>
                     )
-                  }else{
+                  } else {
                     ''
                   }
 

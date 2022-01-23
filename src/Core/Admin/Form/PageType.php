@@ -15,7 +15,8 @@ class PageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $repository = $options['repository'];
+        $currentPage = $options['data'];
+        $repository  = $options['repository'];
         $builder
             ->add('title', TextType::class, [
                 'label' => 'page_title.label'
@@ -24,16 +25,15 @@ class PageType extends AbstractType
                 'label' => 'page_url.label'
             ])
             ->add('parent', ChoiceType::class, [
-                'choices' => self::buildTargetChoices($repository),
+                'choices' => self::buildTargetChoices($repository, $currentPage),
                 'label'   => 'parent_page.label',
             ])
-            ->add('children', CollectionType::class, [
-                'entry_type' => PageContentType::class,
-                'allow_add' => true,
+            ->add('pageContents', CollectionType::class, [
+                'entry_type'   => PageContentType::class,
+                'allow_add'    => true,
                 'allow_delete' => true,
-                'prototype' => true,
-            ])
-        ;
+                'prototype'    => true,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -44,10 +44,16 @@ class PageType extends AbstractType
         ]);
     }
 
-    private function buildTargetChoices(PageRepository $pageRepository)
+    private function buildTargetChoices(PageRepository $pageRepository, ?Page $currentPage = null): array
     {
         $return = ['Aucune' => null];
-        foreach ($pageRepository->findAll() as $page) {
+
+        $datas  = $pageRepository->createQueryBuilder('page')
+                                 ->where('page.id != :currentPage')
+                                 ->setParameter('currentPage', $currentPage->getId(), 'uuid')
+                                 ->getQuery()->getResult();
+
+        foreach ($datas as $page) {
             $return[$page->getSlug()] = $page;
         }
 

@@ -25,7 +25,7 @@
                     <a href="{{ path('kazetenn_front_index', {'page_path_1': page.slug}) }}" target="_blank">Consulter</a>
                 {% endif %}
 
-{#                <a href="{{ path('kazetenn_admin_page_content_new', {'id': page.id}) }}">add content ({{ page.pageContents|length }})</a>#}
+                <a href="{{ path('kazetenn_admin_page_content_new', {'id': page.id}) }}">add content ({{ page.pageContents|length }})</a>
             </div>
         </div>
     {% else %}
