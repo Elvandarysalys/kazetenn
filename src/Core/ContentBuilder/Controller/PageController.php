@@ -1,12 +1,13 @@
 <?php
 
-namespace Kazetenn\Core\Admin\Controller;
+namespace Kazetenn\Core\ContentBuilder\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use Kazetenn\Core\Admin\Model\FormModel;
-use Kazetenn\Core\Admin\Form\PageContentType;
-use Kazetenn\Core\Admin\Form\PageType;
+use Kazetenn\Core\Admin\Controller\BaseAdminController;
+use Kazetenn\Core\ContentBuilder\Model\FormModel;
+use Kazetenn\Core\ContentBuilder\Form\PageContentType;
+use Kazetenn\Core\ContentBuilder\Form\PageType;
 use Kazetenn\Pages\Entity\Page;
 use Kazetenn\Pages\Entity\PageContent;
 use Kazetenn\Pages\Repository\PageContentRepository;

@@ -9,8 +9,8 @@
 
 /src/Core/*/.idea
 /src/Core/*/.git
-/src/Core/vendor
-/src/Core/node_modules
+/src/Core/*/vendor
+/src/Core/*/node_modules
 
 App/
 
@@ -38,11 +38,6 @@ assets
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/

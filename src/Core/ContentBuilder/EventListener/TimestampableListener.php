@@ -6,7 +6,7 @@
  *
  *
  */
-namespace Kazetenn\Core\Admin\EventListener;
+namespace Kazetenn\Core\ContentBuilder\EventListener;
 
 use DateTime;
 use Kazetenn\Articles\Entity\Article;
