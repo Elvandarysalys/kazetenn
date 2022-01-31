@@ -20,7 +20,7 @@ App/
 /config/
 /templates/
 /translations/
-assets
+/assets
 .env
 .env.test
 
