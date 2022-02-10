@@ -53,8 +53,9 @@ class PageType extends AbstractType
                                  ->setParameter('currentPage', $currentPage->getId(), 'uuid')
                                  ->getQuery()->getResult();
 
+        /** @var Page $page */
         foreach ($datas as $page) {
-            $return[$page->getSlug()] = $page;
+            $return[$page->getSlug()] = $page->getId()->toRfc4122();
         }
 
         return $return;

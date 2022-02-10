@@ -20,13 +20,13 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('kazetenn');
 
-        $treeBuilder->getRootNode()
-                        ->children()
-                            ->scalarNode('menu_url')
-                                ->defaultValue('menu')
-                            ->end()
-                        ->end()
-                    ->end();
+//        $treeBuilder->getRootNode()
+//                        ->children()
+//                            ->scalarNode('menu_url')
+//                                ->defaultValue('menu')
+//                            ->end()
+//                        ->end()
+//                    ->end();
 
         return $treeBuilder;
     }

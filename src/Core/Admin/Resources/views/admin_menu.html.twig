@@ -1,20 +1,30 @@
 {% trans_default_domain 'kazetenn_admin' %}
 
 <nav>
-    <ul class="nav_list">
-        <li class="item_header">
-            <a class="master_link">{% trans %}kazetenn_admin.nav_size.expand_collapse{% endtrans %}</a>
-        </li>
+    <ul class="menu-label">
+        <li><a>{% trans %}kazetenn_admin.nav_size.expand_collapse{% endtrans %}</a></li>
     </ul>
-    <ul class="nav_list">
-        <li class="item_header">
-            <a class="master_link">{% trans %}kazetenn_admin.nav_size.main_menus{% endtrans %}</a>
-        </li>
+    <ul>
         {% if admin_menu_list is defined and admin_menu_list is not empty %}
             {% for menu in admin_menu_list %}
-                <li class="item" id="{{ menu.name }}">
-                    <a class="link" href="{{ menu.destination }}">{{ menu.displayName }}</a>
-                </li>
+                {% if menu.type == 'link' %}
+                    <li id="{{ menu.name }}">
+                        <a href="{{ menu.destination }}">{{ menu.displayName }}</a>
+                    </li>
+                {% elseif menu.type == 'main' %}
+                    <li class="menu-label" id="{{ menu.name }}">
+                        <a href="{{ menu.destination }}">{{ menu.displayName }}</a>
+                        {% if menu.children is not empty %}
+                            <ul class="menu-list">
+                            {% for menu in menu.children %}
+                                <li id="{{ menu.name }}">
+                                    <a href="{{ menu.destination }}">{{ menu.displayName }}</a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endif %}
             {% endfor %}
         {% endif %}
     </ul>

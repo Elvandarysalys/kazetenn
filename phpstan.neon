@@ -1,4 +1,8 @@
 parameters:
-	level: 8
-	paths:
-		- src
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    level: 8
+    paths:
+        - src/Core/Admin
+    excludePaths:
+        - src/Core/Admin/DependencyInjection/Configuration.php

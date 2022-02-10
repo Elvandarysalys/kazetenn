@@ -2,11 +2,11 @@
 
 namespace Kazetenn\Core\ContentBuilder\Form;
 
-use Kazetenn\Pages\Entity\Page;
 use Kazetenn\Pages\Entity\PageContent;
 use Kazetenn\Pages\Repository\PageContentRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,11 +15,6 @@ class PageContentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $blocRepository = $options['bloc_repository'];
-
-        $parentChoices = [];
-        if (array_key_exists('data', $options)){
-            $parentChoices = self::buildParentChoices($options['data'], $blocRepository);
-        }
 
         $builder
             ->add('content')
@@ -32,9 +27,9 @@ class PageContentType extends AbstractType
                 ],
                 'label'   => 'align.label',
             ])
-            ->add('parent', ChoiceType::class, [
-                'choices' => $parentChoices,
-                'label'   => 'parent_bloc.label',
+            ->add('childrens', CollectionType::class, [
+                'entry_type' => PageContentType::class,
+                'prototype'  => true,
             ]);
     }
 
@@ -44,15 +39,5 @@ class PageContentType extends AbstractType
             'data_class'      => PageContent::class,
             'bloc_repository' => PageContentRepository::class
         ]);
-    }
-
-    private function buildParentChoices(Page $page, PageContentRepository $pageContentRepository)
-    {
-        $return = ['Aucune' => null];
-        foreach ($pageContentRepository->findBy(['page' => $page]) as $bloc) {
-            $return[(string)$bloc->getId()] = $bloc;
-        }
-
-        return $return;
     }
 }

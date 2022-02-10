@@ -1,0 +1,8 @@
+kazetenn_admin:
+  menu_entries:
+    name: 'pages'
+    destination: 'kazetenn_admin_page_index'
+    display_name: 'admin_menu.pages_link'
+#    routes:
+#        name:
+#        function:

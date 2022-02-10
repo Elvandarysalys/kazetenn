@@ -8,6 +8,7 @@ services:
         exclude:
             - '../../DependencyInjection/'
             - '../../Tests/'
+            - '../../Entity/'
 
     Kazetenn\Core\ContentBuilder\EventListener\TimestampableListener:
         tags:

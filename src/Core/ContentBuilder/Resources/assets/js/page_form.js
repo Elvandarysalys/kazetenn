@@ -69,10 +69,19 @@ class ContentForm extends React.Component {
     if (this.props.children.align === 'horizontal') {
       align = 'admin_children_horizontal'
     }
+
+    let contentChildrens = this.props.children.childrens;
+    let contents;
+    if(undefined === contentChildrens){
+      contents = [];
+    }else if(contentChildrens.value === undefined){
+      contents = [];
+    }else{
+      contents = contentChildrens.value;
+    }
+
     return (
       <div key={this.props.children.id} style={{ order: this.props.children.blocOrder }}>
-        <button value={'master'} onClick={this.addContent}>Ajouter du contenu</button>
-
         <div className={'field is-grouped'}>
           <div className={'field'} key={'align'}>
             <label className={'label'}>Alignement</label>
@@ -96,13 +105,26 @@ class ContentForm extends React.Component {
         </div>
 
         <div className={align}>
-          {this.props.children.childrens.map(form => {
-            return <ContentForm>{form}</ContentForm>
+          { contents.map(form => {
+            console.log(form)
+            return <ContentForm key={form.id}>{form}</ContentForm>
           })}
         </div>
+
+        <button value={'master'} onClick={this.addContent}>Ajouter du contenu</button>
       </div>
     )
   }
+}
+
+function textForm(props){
+  return <div className={'field'} key={props.id}>
+    <label className={'label'}>{props.name}</label>
+    <div className={'control'}>
+      <input className={'input'} type="text" id={props.name} value={props.value}
+             onChange={this.handleChange}/>
+    </div>
+  </div>
 }
 
 class PageForm extends React.Component {
@@ -159,19 +181,15 @@ class PageForm extends React.Component {
   render () {
     let fields = []
     let pageId = document.querySelector('#ajaxurl').getAttribute('data-pageid')
-    // let childrens = []
-    // let prototype = []
+    let title = this.state.formData.title;
+    let slug = this.state.formData.slug;
+    let parent = this.state.formData.parent;
+    let pageContents = this.state.formData.pageContents;
+    let token = this.state.formData._token;
     for (const key in this.state.formData) {
       fields.push(this.state.formData[key])
-      // if (key === 'children') {
-      //   childrens = this.state.formData[key]
-      // }
     }
 
-    // for (const key in childrens.prototype) {
-    //   prototype.push(childrens.prototype[key])
-    // }
-    // console.log(prototype)
     if (fields.length === 0) {
       return <div>empty</div>
     } else {
@@ -179,62 +197,47 @@ class PageForm extends React.Component {
         <div>
           <span>{this.state.ajax_route}</span>
           <form onSubmit={this.handleSubmit}>
-            {fields.map(form => {
-              switch (form.type) {
-                default:
-                case 'text':
-                  return <div className={'field'} key={form.id}>
-                    <label className={'label'}>{form.name}</label>
-                    <div className={'control'}>
-                      <input className={'input'} type="text" id={form.name} value={form.value}
-                             onChange={this.handleChange}/>
-                    </div>
-                  </div>
 
-                case 'choice':
-                  return <div className={'field'} key={form.id}>
-                    <label className={'label'}>{form.name}</label>
-                    <div className={'control'}>
-                      <div className={'select'}>
-                        <select id={form.name} value={form.choice_values[0]} onChange={this.handleChange}>
-                          {form.choice_values.map(option => {
-                            return <option key={option.key} value={option.value}>{option.label}</option>
-                          })}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
+            <div key={token.id}>
+              <input type="hidden" id={token.name} value={token.value} onChange={this.handleChange}/>
+            </div>
 
-                case 'collection':
-                  if (pageId !== null) {
-                    return (
-                      <div>
-                        <button value={pageId} onClick={this.addContent}>Ajouter du contenu</button>
-                        {form.collection_values.map(data => {
-                          return (<ContentForm>{data}</ContentForm>)
-                        })}
-                      </div>
-                    )
-                  } else {
-                    ''
-                  }
+            <div className={'field'} key={title.id}>
+              <label className={'label'}>{title.name}</label>
+              <div className={'control'}>
+                <input className={'input'} type="text" id={title.name} value={title.value} onChange={this.handleChange}/>
+              </div>
+            </div>
 
-                case 'hidden':
-                  return <div key={form.id}>
-                    <input type="hidden" id={form.name} value={form.value} onChange={this.handleChange}/>
-                  </div>
-              }
+            <div className={'field'} key={slug.id}>
+              <label className={'label'}>{slug.name}</label>
+              <div className={'control'}>
+                <input className={'input'} type="text" id={slug.name} value={slug.value} onChange={this.handleChange}/>
+              </div>
+            </div>
 
-            })}
+            <div className={'field'} key={parent.id}>
+              <label className={'label'}>{parent.name}</label>
+              <div className={'control'}>
+                <div className={'select'}>
+                  <select id={parent.name} value={parent.choice_values[0]} onChange={this.handleChange}>
+                    {parent.choice_values.map(option => {
+                      return <option key={option.key} value={option.value}>{option.label}</option>
+                    })}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+
+            <div key={pageId}>
+              <button key={pageId} value={pageId} onClick={this.addContent}>Ajouter du contenu</button>
+              {pageContents.value.map(data => {
+                return (<ContentForm key={data.id}>{data}</ContentForm>)
+              })}
+            </div>
             <input type="submit" value="Submit"/>
           </form>
-          {/*<div>*/}
-          {/*  <button id={'master'} onClick={this.addContent}>Ajouter du contenu</button>*/}
-          {/*  /!*<ContentForm>{prototype}</ContentForm>*!/*/}
-          {/*  {childrens.collection_values.map(data => {*/}
-          {/*    return (<ContentForm>{data}</ContentForm>)*/}
-          {/*  })}*/}
-          {/*</div>*/}
         </div>
       )
     }

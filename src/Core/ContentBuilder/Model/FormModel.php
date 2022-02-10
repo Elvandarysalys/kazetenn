@@ -9,7 +9,6 @@
 namespace Kazetenn\Core\ContentBuilder\Model;
 
 use Exception;
-use Kazetenn\Pages\Entity\PageContent;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\FormView;
 
@@ -17,23 +16,61 @@ class FormModel
 {
     private array $form_data = [];
 
-    private function contentToArray(PageContent $pageContent){
-        $result = [
-            'id' => $pageContent->getId()->toRfc4122(),
-            'content' => $pageContent->getContent(),
-            'template' => $pageContent->getTemplate(),
-            'blocOrder' => $pageContent->getBlocOrder(),
-            'align' => $pageContent->getAlign(),
-            'childrens' => []
-        ];
+    private function contentToArray(FormView $pageContent): array
+    {
+        $result = [];
+        foreach ($pageContent->children as $name => $data) {
+            $formVars = $data->vars;
+            $formType = $formVars['block_prefixes'][1];
 
-        if (!empty($pageContent->getContent())){
-            foreach ($pageContent->getChildrens() as $children){
-                $result['childrens'][] = $this->contentToArray($children);
+            if ('collection' === $formType) {
+                $formChild = $this->contentToArray($data);
+
+                $result[$name] = [
+                    'name'              => $formVars['name'],
+                    'value'             => $formChild,
+                    'type'              => $formType,
+                    'id'                => $formVars['id'],
+                    'choice_values'     => null,
+                    'collection_values' => $formChild,
+                ];
+            } else {
+                $formChoices = [];
+                if ('choice' === $formType) {
+                    /** @var ChoiceView $choice */
+                    foreach ($formVars['choices'] as $key => $choice) {
+                        $formChoices[] = [
+                            'label' => $choice->label,
+                            'value' => $choice->value,
+                            'data'  => $choice->data,
+                            'key'   => $key
+                        ];
+                    }
+                }
+
+                $result[$name] = [
+                    'name'              => $formVars['name'],
+                    'value'             => $formVars['value'],
+                    'type'              => $formType,
+                    'id'                => $formVars['id'],
+                    'choice_values'     => $formChoices,
+                    'collection_values' => null,
+                ];
             }
         }
 
         return $result;
+    }
+
+    function buildChilds(FormView $formView): array
+    {
+        $formChildren = [];
+
+        foreach ($formView->children as $children) {
+            $formChildren[] = $this->contentToArray($children);
+        }
+
+        return $formChildren;
     }
 
     public function __construct(FormView $formView)
@@ -43,54 +80,38 @@ class FormModel
             $formVars = $formChildren->vars;
             $formType = $formVars['block_prefixes'][1];
 
-            $formChoices = [];
-
-            if ('choice' === $formType) {
-                /** @var ChoiceView $choice */
-                foreach ($formVars['choices'] as $key => $choice) {
-                    $formChoices[] = [
-                        'label' => $choice->label,
-                        'value' => $choice->value,
-                        'data'  => $choice->data,
-                        'key'   => $key
-                    ];
-                }
-            }
-
-            $formChildrens = [];
-            $formPrototype = [];
             if ('collection' === $formType) {
-                foreach ($formVars['data'] as $key => $children) {
-                    $formChildrens[] = $this->contentToArray($children);
-                }
-
-                foreach ($formVars['prototype'] as $key => $prototype) {
-                    $formPrototype[] = [
-                        'label' => $prototype->vars['label'],
-                        'value' => $prototype->vars['value'],
-                        'data'  => $prototype->vars['data'],
-                        'key'   => $key
-                    ];
-                }
+                $formChild = $this->buildChilds($formChildren);
 
                 $this->form_data[$formLabel] = [
                     'name'              => $formVars['name'],
-                    'value'             => $formChildrens,
+                    'value'             => $formChild,
                     'type'              => $formType,
                     'id'                => $formVars['id'],
-                    'choice_values'     => $formChoices,
-                    'collection_values' => $formChildrens,
-                    'prototype'         => $formPrototype,
+                    'choice_values'     => null,
+                    'collection_values' => $formChild,
                 ];
-            }else{
+            } else {
+                $formChoices = [];
+                if ('choice' === $formType) {
+                    /** @var ChoiceView $choice */
+                    foreach ($formVars['choices'] as $key => $choice) {
+                        $formChoices[] = [
+                            'label' => $choice->label,
+                            'value' => $choice->value,
+                            'data'  => $choice->data,
+                            'key'   => $key
+                        ];
+                    }
+                }
+
                 $this->form_data[$formLabel] = [
                     'name'              => $formVars['name'],
                     'value'             => $formVars['value'],
                     'type'              => $formType,
                     'id'                => $formVars['id'],
                     'choice_values'     => $formChoices,
-                    'collection_values' => $formChildrens,
-                    'prototype'         => $formPrototype,
+                    'collection_values' => null,
                 ];
             }
         }

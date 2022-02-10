@@ -15,26 +15,31 @@
     </head>
 
     <body class="page-columns">
-        <nav id="nav-top" class="navbar is-white">
-            <div class="container">
-                <div class="navbar-brand">
-                    <a class="navbar-item" href="#">
-                        Kazetenn
-                    </a>
-                </div>
-                <div class="navbar-menu">
-                    {% block nav_top %}
-                        <p>
-                            je suis une navbar top
-                        </p>
+        <nav id="nav-top" class="navbar is-white" role="navigation" aria-label="main navigation" style="padding: 0 3rem 0 3rem">
+            <div class="navbar-brand" style="flex: none; width: 16.66667%;">
+                <a class="navbar-item has-text-centered" href="{{ path('kazetenn_admin_admin_index') }}" style="width: 100%;">
+                    Kazetenn
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                    {% block nav_top_mobile %}
                     {% endblock %}
-                </div>
+                </a>
+            </div>
+            <div class="navbar-menu">
+                {% block nav_top %}
+                {% endblock %}
+            </div>
+            <div class="navbar-end">
+                <a href="" class="navbar-item">{% trans %}kazetenn_admin.top_menu.platform_settings_button{% endtrans %}</a>
+                <a href="" class="navbar-item">{% trans %}kazetenn_admin.top_menu.account_button{% endtrans %}</a>
+                <a href="" class="navbar-item">{% trans %}kazetenn_admin.top_menu.logout_button{% endtrans %}</a>
             </div>
         </nav>
 
-        <section id="page-container" class="section" style="min-height: 77%; width: 100%;">
+        <section id="page-container" class="section" style="min-height: 85.5%; width: 100%;">
             <div id="page-content" class="columns container is-full" style="height: 100%; width: 100%; min-width: 100%">
-                <div class="column is-3 aside_container">
+                <div class="column is-2 aside_container">
                     <aside id="nav-side" class="menu is-hidden-mobile ">
                         {% block nav_side %}
                             {{ include('@KazetennAdmin/admin_menu.html.twig') }}
@@ -42,7 +47,7 @@
                     </aside>
                 </div>
 
-                <div class="column is-9 body_container" style="background-color: white;">
+                <div class="column is-10 body_container" style="background-color: white;">
                     {% block body_hidden_infos %}{% endblock %}
 
                     <div id="body" class="section">
@@ -53,7 +58,7 @@
             </div>
         </section>
 
-        <footer class="footer">
+        <footer class="footer" style="padding-bottom: 2rem; padding-top: 2rem;">
             <div class="content has-text-centered">
                 <p>
                     Je suis un footer

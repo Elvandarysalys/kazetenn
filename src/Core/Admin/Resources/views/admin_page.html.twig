@@ -1,0 +1,10 @@
+{% extends '@KazetennAdmin/admin_base.html.twig' %}
+{% trans_default_domain 'kazetenn_admin' %}
+
+{% block title %}
+    {{ page.name }}
+{% endblock %}
+
+{% block body %}
+    {{ page.content|raw }}
+{% endblock %}
