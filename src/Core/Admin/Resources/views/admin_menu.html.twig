@@ -5,8 +5,8 @@
         <li><a>{% trans %}kazetenn_admin.nav_size.expand_collapse{% endtrans %}</a></li>
     </ul>
     <ul>
-        {% if admin_menu_list is defined and admin_menu_list is not empty %}
-            {% for menu in admin_menu_list %}
+        {% if vertical is defined and vertical is not empty %}
+            {% for menu in vertical %}
                 {% if menu.type == 'link' %}
                     <li id="{{ menu.name }}">
                         <a href="{{ menu.destination }}">{{ menu.displayName }}</a>

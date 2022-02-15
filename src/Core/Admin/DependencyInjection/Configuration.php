@@ -49,6 +49,14 @@ class Configuration implements ConfigurationInterface
                                             ->thenInvalid('Invalid menu type %s . Value should ne link, page, header or route.')
                                         ->end()
                                     ->end()
+                                    ->arrayNode('authorized_roles')
+                                        ->scalarPrototype()->end()
+                                        ->info('Define the roles who can see the menu')
+                                    ->end()
+                                    ->enumNode(AdminMenu::MENU_ORIENTATION)
+                                        ->values([AdminMenu::ORIENTATION_VERTICAL, AdminMenu::ORIENTATION_HORIZONTAL])
+                                        ->defaultValue(AdminMenu::ORIENTATION_VERTICAL)
+                                    ->end()
                                     ->arrayNode(AdminMenu::MENU_CHILDREN)
                                         ->useAttributeAsKey(AdminMenu::MENU_NAME)
                                         ->arrayPrototype()
@@ -70,6 +78,10 @@ class Configuration implements ConfigurationInterface
                                                     ->defaultValue('')
                                                     ->info('Define the translation domain for this specific menu entry. If not set, the default one set for the bundle will be used.')
                                                 ->end()
+                                                ->arrayNode('authorized_roles')
+                                                    ->scalarPrototype()->end()
+                                                    ->info('Define the roles who can see the menu')
+                                                ->end()
                                                 ->scalarNode(AdminMenu::MENU_TYPE)
                                                     ->defaultValue('route')
                                                     ->info('Defines the menu type between link, page , or route.')
@@ -88,6 +100,7 @@ class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder(): TreeBuilder
     {
+        /** @formatter:on */
         $treeBuilder = new TreeBuilder('kazetenn_admin');
         $treeBuilder->getRootNode()
                     ->children()
@@ -109,7 +122,13 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                         ->end()
+                        ->arrayNode('authorized_roles')
+                            ->scalarPrototype()->end()
+                            ->isRequired()
+                            ->info('Define the roles who can see the menu')
+                        ->end()
                     ->end();
+        /** @formatter:off */
 
         return $treeBuilder;
     }

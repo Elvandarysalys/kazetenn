@@ -15,30 +15,29 @@
     </head>
 
     <body class="page-columns">
-        <nav id="nav-top" class="navbar is-white" role="navigation" aria-label="main navigation" style="padding: 0 3rem 0 3rem">
-            <div class="navbar-brand" style="flex: none; width: 16.66667%;">
+        <nav id="nav-top" class="navbar admin-navbar is-white" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand admin-navbar-brand">
                 <a class="navbar-item has-text-centered" href="{{ path('kazetenn_admin_admin_index') }}" style="width: 100%;">
                     Kazetenn
                 </a>
 
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                    {% block nav_top_mobile %}
-                    {% endblock %}
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenuTop">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                 </a>
             </div>
-            <div class="navbar-menu">
-                {% block nav_top %}
-                {% endblock %}
-            </div>
-            <div class="navbar-end">
-                <a href="" class="navbar-item">{% trans %}kazetenn_admin.top_menu.platform_settings_button{% endtrans %}</a>
-                <a href="" class="navbar-item">{% trans %}kazetenn_admin.top_menu.account_button{% endtrans %}</a>
-                <a href="" class="navbar-item">{% trans %}kazetenn_admin.top_menu.logout_button{% endtrans %}</a>
+            <div class="navbar-menu" id="navbarMenuTop">
+                <div class="navbar-end">
+                    {% block nav_top %}
+                        {{ include('@KazetennAdmin/admin_menu_top.html.twig') }}
+                    {% endblock %}
+                </div>
             </div>
         </nav>
 
-        <section id="page-container" class="section" style="min-height: 85.5%; width: 100%;">
-            <div id="page-content" class="columns container is-full" style="height: 100%; width: 100%; min-width: 100%">
+        <section id="page-container" class="section admin-page-container">
+            <div id="page-content" class="columns container is-full admin-page-content">
                 <div class="column is-2 aside_container">
                     <aside id="nav-side" class="menu is-hidden-mobile ">
                         {% block nav_side %}
@@ -47,21 +46,20 @@
                     </aside>
                 </div>
 
-                <div class="column is-10 body_container" style="background-color: white;">
-                    {% block body_hidden_infos %}{% endblock %}
+                <div class="column is-10 admin-body_container">
+                    <span class="is-hidden">{% block body_hidden_infos %}{% endblock %}</span>
 
                     <div id="body" class="section">
-                        {% block body %}
-                        {% endblock %}
+                        {% block body %}{% endblock %}
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer class="footer" style="padding-bottom: 2rem; padding-top: 2rem;">
+        <footer class="footer admin-footer">
             <div class="content has-text-centered">
                 <p>
-                    Je suis un footer
+                    {% trans %}kazetenn_admin_interface.footer.text{% endtrans %}
                 </p>
             </div>
         </footer>

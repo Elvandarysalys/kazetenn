@@ -1,0 +1,22 @@
+{% trans_default_domain 'kazetenn_admin' %}
+
+{% if horizontal is defined and horizontal is not empty %}
+    {% for menu in horizontal %}
+        {% if menu.type == 'link' %}
+            <a class="navbar-item" href="{{ menu.destination }}">{{ menu.displayName }}</a>
+        {% elseif menu.type == 'main' %}
+            {% if menu.children is not empty %}
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-item" href="#">{{ menu.displayName }}</a>
+                    <div class="navbar-dropdown">
+                        {% for menu in menu.children %}
+                            <a class="navbar-item" href="{{ menu.destination }}">{{ menu.displayName }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <a class="navbar-item" href="{{ menu.destination }}">{{ menu.displayName }}</a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}

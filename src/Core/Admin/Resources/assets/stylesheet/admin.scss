@@ -24,3 +24,33 @@ body {
   flex-direction: row;
   justify-content: space-evenly
 }
+
+.admin-body_container {
+  background-color: white;
+}
+
+.admin-page-content {
+  height: 100%;
+  width: 100%;
+  min-width: 100%
+}
+
+.admin-page-container {
+  min-height: 85.5%;
+  width: 100%;
+}
+
+.admin-footer {
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.admin-navbar {
+  background-color: white;
+  padding: 0 3rem 0 3rem;
+}
+
+.admin-navbar-brand {
+  flex: none;
+  width: 16.66667%;
+}

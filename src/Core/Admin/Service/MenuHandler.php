@@ -8,12 +8,12 @@
 
 namespace Kazetenn\Core\Admin\Service;
 
-use Kazetenn\Core\Admin\DependencyInjection\Configuration;
 use Kazetenn\Core\Admin\Model\AdminMenu;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MenuHandler
@@ -31,10 +31,10 @@ class MenuHandler
      */
     public function __construct(UrlGeneratorInterface $urlGenerator, ContainerInterface $container, TranslatorInterface $translator, LoggerInterface $logger)
     {
-        $this->translator = $translator;
-        $this->logger     = $logger;
-        $this->container  = $container;
-        $this->urlGenerator  = $urlGenerator;
+        $this->translator   = $translator;
+        $this->logger       = $logger;
+        $this->container    = $container;
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -51,7 +51,7 @@ class MenuHandler
         switch ($configData[AdminMenu::MENU_TYPE]) {
             case AdminMenu::LINK_TYPE:
                 if (!filter_var($routeInfo, FILTER_VALIDATE_URL)) {
-                    trigger_error("The selected url for $name is not valid", E_USER_WARNING);
+                    $this->logger->warning("The selected url for $name is not valid");
                     $url = '#';
                 } else {
                     $url = $routeInfo;
@@ -73,7 +73,7 @@ class MenuHandler
                     $url = $this->urlGenerator->generate($routeInfo);
                 } catch (RouteNotFoundException $e) {
                     $errorMessage = $e->getMessage();
-                    trigger_error("The selected route for $name cannot be generated with error: $errorMessage", E_USER_WARNING);
+                    $this->logger->warning("The selected route for $name cannot be generated with error: $errorMessage");
                     $url = '#';
                 }
                 break;
@@ -93,14 +93,14 @@ class MenuHandler
         $displayedName = $this->translator->trans($configData['display_name'], [], $translationDomain);
 
         $adminMenu = new AdminMenu($name, $url, $displayedName, $type);
-        if (array_key_exists(AdminMenu::MENU_CHILDREN, $configData)){
+        if (array_key_exists(AdminMenu::MENU_CHILDREN, $configData)) {
             /** @var array $menuChildren */
             $menuChildren = $configData[AdminMenu::MENU_CHILDREN];
             if (!empty($menuChildren)) {
                 $children = [];
                 foreach ($menuChildren as $name => $data) {
                     if (array_key_exists($data[AdminMenu::MENU_ORDER], $children)) {
-                        trigger_error("There is already a menu entry with the same order as $name.", E_USER_WARNING);
+                        $this->logger->warning("There is already a menu entry with the same order as $name.");
                     }
                     $children[$data[AdminMenu::MENU_ORDER]] = $this->buildMenu($name, $data, $defaultTranslationDomain);
                 }
@@ -111,24 +111,52 @@ class MenuHandler
         return $adminMenu;
     }
 
-    public function buildMenuEntries(): array
+    public function buildMenuEntries(?UserInterface $user): array
     {
-        $menu_list                = [];
+        $menu_list = [];
         /** @var string $defaultTranslationDomain */
         $defaultTranslationDomain = $this->container->getParameter('kazetenn_admin.translation_domain');
         if (empty($defaultTranslationDomain)) {
             $defaultTranslationDomain = AdminMenu::DEFAULT_TRANSLATION_DOMAIN;
         }
 
+        /** @var array $authorizedRoles */
+        $authorizedRoles = $this->container->getParameter('kazetenn_admin.authorized_roles');
+        if(!$this->isAuthorized($user, $authorizedRoles)){
+            return [];
+        }
+
         /** @var array $menu_entries */
         $menu_entries = $this->container->getParameter('kazetenn_admin.' . AdminMenu::MENU_ENTRIES_NAME);
-        foreach ($menu_entries as $name => $data) {dump($data);
+        foreach ($menu_entries as $name => $data) {
             if (array_key_exists($data[AdminMenu::MENU_ORDER], $menu_list)) {
-                trigger_error("There is already a menu entry with the same order as $name.", E_USER_WARNING);
+                $this->logger->warning("There is already a menu entry with the same order as $name.");
             }
-            $menu_list[$data[AdminMenu::MENU_ORDER]] = $this->buildMenu($name, $data, $defaultTranslationDomain);
+
+            if ($this->isAuthorized($user, $data[AdminMenu::MENU_AUTHORIZED_ROLES], true)) {
+                $menu_list[$data[AdminMenu::MENU_ORIENTATION]][$data[AdminMenu::MENU_ORDER]] = $this->buildMenu($name, $data, $defaultTranslationDomain);
+            }
         }
 
         return $menu_list;
+    }
+
+    private function isAuthorized(?UserInterface $user, array $authorizedRoles, bool $emptyIsValid = false): bool
+    {
+        if ($emptyIsValid && empty($authorizedRoles)) { // avoid going into the other loops.
+            return true;
+        } else {
+            $anonymous = in_array(AdminMenu::ANONYMOUS_MENU, $authorizedRoles);
+            if (!$anonymous) {
+                if (null === $user) { // if there is no user and anonymous is false, return false
+                    return false;
+                } else {
+                    // if the arrays intersect (not empty) the user has the required roles
+                    return !empty(array_intersect($user->getRoles(), $authorizedRoles));
+                }
+            } else {
+                return true; // if anonymous is granted, the function will always return true.
+            }
+        }
     }
 }

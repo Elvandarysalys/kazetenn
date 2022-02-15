@@ -2,6 +2,7 @@
 
 namespace Kazetenn\Core\Admin\Controller;
 
+use Kazetenn\Core\Admin\Model\AdminMenu;
 use Kazetenn\Core\Admin\Service\MenuHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,10 @@ abstract class BaseAdminController extends AbstractController
 
     public function render(string $view, array $parameters = [], Response $response = null): Response
     {
-        $parameters['admin_menu_list'] = $this->menuHandler->buildMenuEntries();
+        $user = $this->getUser();
+        $menu_list = $this->menuHandler->buildMenuEntries($user);
+        $parameters[AdminMenu::ORIENTATION_HORIZONTAL] = $menu_list[AdminMenu::ORIENTATION_HORIZONTAL];
+        $parameters[AdminMenu::ORIENTATION_VERTICAL] = $menu_list[AdminMenu::ORIENTATION_VERTICAL];
         return parent::render($view, $parameters, $response);
     }
 }

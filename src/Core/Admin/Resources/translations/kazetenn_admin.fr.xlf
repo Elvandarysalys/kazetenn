@@ -5,17 +5,9 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="i54JO4e" resname="kazetenn_admin.top_menu.platform_settings_button">
-        <source>kazetenn_admin.top_menu.platform_settings_button</source>
-        <target>__kazetenn_admin.top_menu.platform_settings_button</target>
-      </trans-unit>
-      <trans-unit id=".gvOYRZ" resname="kazetenn_admin.top_menu.account_button">
-        <source>kazetenn_admin.top_menu.account_button</source>
-        <target>__kazetenn_admin.top_menu.account_button</target>
-      </trans-unit>
-      <trans-unit id="ywlQyeW" resname="kazetenn_admin.top_menu.logout_button">
-        <source>kazetenn_admin.top_menu.logout_button</source>
-        <target>__kazetenn_admin.top_menu.logout_button</target>
+      <trans-unit id="IxfFhxP" resname="kazetenn_admin_interface.footer.text">
+        <source>kazetenn_admin_interface.footer.text</source>
+        <target>__kazetenn_admin_interface.footer.text</target>
       </trans-unit>
       <trans-unit id="QKaH9IF" resname="kazetenn_admin.page_title">
         <source>kazetenn_admin.page_title</source>

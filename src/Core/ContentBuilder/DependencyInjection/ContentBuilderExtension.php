@@ -36,14 +36,35 @@ class ContentBuilderExtension extends Extension implements PrependExtensionInter
             ]
         ]]);
 
+        $admin_config[AdminMenu::MENU_AUTHORIZED_ROLES]          = ['ANONYMOUS'];
         $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'] = [
-            AdminMenu::MENU_DISPLAY_NAME       => 'kazetenn_admin.nav_size.main_menus',
-            AdminMenu::MENU_TYPE               => AdminMenu::HEADER_TYPE,
-            AdminMenu::MENU_ORDER              => 0,
+            AdminMenu::MENU_DISPLAY_NAME => 'kazetenn_admin.nav_size.main_menus',
+            AdminMenu::MENU_TYPE         => AdminMenu::HEADER_TYPE,
+            AdminMenu::MENU_ORDER        => 0,
+        ];
+
+        // tests for horizontal menus
+        $admin_config[AdminMenu::MENU_ENTRIES_NAME]['settings_menu'] = [
+            AdminMenu::MENU_DISPLAY_NAME => 'kazetenn_admin.top_menu.platform_settings_button',
+            AdminMenu::MENU_TYPE         => AdminMenu::LINK_TYPE,
+            AdminMenu::MENU_ORDER        => 0,
+            AdminMenu::MENU_ORIENTATION  => AdminMenu::ORIENTATION_HORIZONTAL,
+        ];
+        $admin_config[AdminMenu::MENU_ENTRIES_NAME]['account_menu']  = [
+            AdminMenu::MENU_DISPLAY_NAME => 'kazetenn_admin.top_menu.account_button',
+            AdminMenu::MENU_TYPE         => AdminMenu::LINK_TYPE,
+            AdminMenu::MENU_ORDER        => 1,
+            AdminMenu::MENU_ORIENTATION  => AdminMenu::ORIENTATION_HORIZONTAL,
+        ];
+        $admin_config[AdminMenu::MENU_ENTRIES_NAME]['logout_menu']   = [
+            AdminMenu::MENU_DISPLAY_NAME => 'kazetenn_admin.top_menu.logout_button',
+            AdminMenu::MENU_TYPE         => AdminMenu::LINK_TYPE,
+            AdminMenu::MENU_ORDER        => 2,
+            AdminMenu::MENU_ORIENTATION  => AdminMenu::ORIENTATION_HORIZONTAL,
         ];
 
         if (in_array(KazetennPages::class, $container->getParameter('kernel.bundles'))) {
-            $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['pages'] = [
+            $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['pages']         = [
                 AdminMenu::MENU_TARGET       => 'kazetenn_admin_page_index',
                 AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.pages_link',
                 AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
