@@ -53,6 +53,7 @@
     "ext-json": "*"
   },
   "require-dev": {
+    "icanhazstring/composer-unused": "^0.8.1",
     "phpstan/phpstan": "^1.4",
     "phpunit/phpunit": "^9.5",
     "symfony/browser-kit": "5.4.*",
