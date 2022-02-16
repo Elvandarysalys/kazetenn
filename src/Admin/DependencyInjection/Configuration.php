@@ -1,8 +1,8 @@
 <?php
 
-namespace Kazetenn\Core\Admin\DependencyInjection;
+namespace Kazetenn\Admin\DependencyInjection;
 
-use Kazetenn\Core\Admin\Model\AdminMenu;
+use Kazetenn\Admin\Model\AdminMenu;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;

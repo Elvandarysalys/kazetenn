@@ -4,8 +4,8 @@ namespace Kazetenn\Core\ContentBuilder\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use Kazetenn\Core\Admin\Controller\BaseAdminController;
-use Kazetenn\Core\Admin\Service\MenuHandler;
+use Kazetenn\Admin\Controller\BaseAdminController;
+use Kazetenn\Admin\Service\MenuHandler;
 use Kazetenn\Core\ContentBuilder\Form\PageContentType;
 use Kazetenn\Core\ContentBuilder\Form\PageType;
 use Kazetenn\Core\ContentBuilder\Model\FormModel;

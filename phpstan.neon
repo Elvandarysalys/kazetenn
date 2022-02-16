@@ -3,6 +3,9 @@ parameters:
     checkGenericClassInNonGenericObjectType: false
     level: 8
     paths:
-        - src/Core/Admin
+        - src/
     excludePaths:
-        - src/Core/Admin/DependencyInjection/Configuration.php
+        - src/Admin/DependencyInjection/Configuration.php
+        - src/Pages/DependencyInjection/Configuration.php
+        - src/Articles/DependencyInjection/Configuration.php
+        - src/Core/ContentBuilder/DependencyInjection/Configuration.php

@@ -1,11 +1,9 @@
 <?php
 
-namespace Kazetenn\Core\Admin\Controller;
+namespace Kazetenn\Admin\Controller;
 
-use Exception;
-use Kazetenn\Core\Admin\Model\AdminMenu;
-use Kazetenn\Core\Admin\Service\PageHandler;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Kazetenn\Admin\Model\AdminMenu;
+use Kazetenn\Admin\Service\PageHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

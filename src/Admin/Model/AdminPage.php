@@ -1,12 +1,6 @@
 <?php
-/**
- *
- *
- *
- *
- */
 
-namespace Kazetenn\Core\Admin\Model;
+namespace Kazetenn\Admin\Model;
 
 class AdminPage
 {

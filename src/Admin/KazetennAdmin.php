@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Kazetenn\Core\Admin;
+namespace Kazetenn\Admin;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

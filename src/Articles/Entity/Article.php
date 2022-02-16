@@ -27,8 +27,6 @@ class Article
 
     use TimestampableEntity;
 
-//    use BlameableEntity;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid")
@@ -59,7 +57,7 @@ class Article
      * @var string|null
      * @ORM\Column(type="string")
      */
-    private ?string $template;
+    private ?string $template = self::ARTICLE_TEMPLATE;
 
     /**
      * @var Category[]
@@ -72,26 +70,19 @@ class Article
     {
         $this->articleContents = new ArrayCollection();
         $this->categories      = new ArrayCollection();
-
-        if (null === $this->id) {
-            $this->id = Uuid::v4();
-        }
-
-        if (null === $this->template) {
-            $this->template = self::ARTICLE_TEMPLATE;
-        }
+        $this->id              = Uuid::v4();
     }
 
     /**
-     * @return Collection|ArticleContent[]
+     * @return ArrayCollection|ArticleContent[]
      */
-    public function getArticleContents(): Collection
+    public function getArticleContents()
     {
         return $this->articleContents;
     }
 
     /**
-     * @return ArticleContent[]
+     * @return ArrayCollection|ArticleContent[]
      */
     public function getArticleContentsOrdered(): array
     {

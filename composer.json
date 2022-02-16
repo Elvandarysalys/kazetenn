@@ -82,6 +82,7 @@
       "App\\": "App",
       "Kazetenn\\Pages\\": "src/Pages",
       "Kazetenn\\Articles\\": "src/Articles",
+      "Kazetenn\\Admin\\": "src/Admin",
       "Kazetenn\\Core\\": "src/Core"
     }
   }

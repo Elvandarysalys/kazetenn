@@ -1,9 +1,9 @@
 <?php
 
-namespace Kazetenn\Core\Admin\DependencyInjection;
+namespace Kazetenn\Admin\DependencyInjection;
 
 use Exception;
-use Kazetenn\Core\Admin\Model\AdminMenu;
+use Kazetenn\Admin\Model\AdminMenu;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -25,8 +25,8 @@ class KazetennAdminExtension extends Extension
         $alias = $this->getAlias();
 
         foreach ($config as $key => $item) {
-            if ($key === AdminMenu::PAGES_ENTRIES_NAME){
-                foreach ($item as $pageName => $pageData){
+            if ($key === AdminMenu::PAGES_ENTRIES_NAME) {
+                foreach ($item as $pageName => $pageData) {
                     $container->setParameter("$alias.pages.$pageName", $pageData);
                 }
             }

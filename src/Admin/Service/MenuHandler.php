@@ -6,9 +6,9 @@
  *
  */
 
-namespace Kazetenn\Core\Admin\Service;
+namespace Kazetenn\Admin\Service;
 
-use Kazetenn\Core\Admin\Model\AdminMenu;
+use Kazetenn\Admin\Model\AdminMenu;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;

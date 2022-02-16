@@ -6,11 +6,11 @@
  *
  */
 
-namespace Kazetenn\Core\Admin\Service;
+namespace Kazetenn\Admin\Service;
 
 use Exception;
-use Kazetenn\Core\Admin\Model\AdminMenu;
-use Kazetenn\Core\Admin\Model\AdminPage;
+use Kazetenn\Admin\Model\AdminMenu;
+use Kazetenn\Admin\Model\AdminPage;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

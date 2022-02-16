@@ -3,7 +3,7 @@
 namespace Kazetenn\Core\ContentBuilder\DependencyInjection;
 
 use Exception;
-use Kazetenn\Core\Admin\Model\AdminMenu;
+use Kazetenn\Admin\Model\AdminMenu;
 use Kazetenn\Pages\KazetennPages;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

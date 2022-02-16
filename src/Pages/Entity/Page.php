@@ -31,7 +31,7 @@ class Page
      * @ORM\Id
      * @ORM\Column(type="uuid")
      */
-    private $id;
+    private ?UuidV4 $id;
 
     /**
      * @var Page[]
