@@ -14,7 +14,10 @@ class LandingController extends BaseAdminController
      */
     public function index(): Response
     {
-        return $this->render('@KazetennAdmin/admin_landing.html.twig');
+        if ($this->menuHandler->isAuthorizedToView($this->getUser())) {
+            return $this->render('@KazetennAdmin/admin_landing.html.twig');
+        }
+        throw $this->createAccessDeniedException();
     }
 
     /**

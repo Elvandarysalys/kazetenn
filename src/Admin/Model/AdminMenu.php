@@ -16,13 +16,13 @@ class AdminMenu
     public const MENU_TARGET             = 'target';
     public const MENU_DISPLAY_NAME       = 'display_name';
     public const MENU_TRANSLATION_DOMAIN = 'translation_domain';
-    public const MENU_AUTHORIZED_ROLES = 'authorized_roles';
+    public const MENU_AUTHORIZED_ROLES   = 'authorized_roles';
     public const MENU_TYPE               = 'type';
     public const MENU_CHILDREN           = 'children';
-    public const MENU_ORIENTATION = 'orientation';
+    public const MENU_ORIENTATION        = 'orientation';
 
     public const ORIENTATION_HORIZONTAL = 'horizontal';
-    public const ORIENTATION_VERTICAL = 'vertical';
+    public const ORIENTATION_VERTICAL   = 'vertical';
 
     public const LINK_TYPE   = 'link';
     public const PAGE_TYPE   = 'page';
@@ -32,14 +32,14 @@ class AdminMenu
     public const MAIN_MENU_TYPES = [self::LINK_TYPE, self::PAGE_TYPE, self::ROUTE_TYPE, self::HEADER_TYPE];
     public const SUB_MENU_TYPES  = [self::LINK_TYPE, self::PAGE_TYPE, self::ROUTE_TYPE];
 
-    public const ANONYMOUS_MENU   = 'ANONYMOUS';
+    public const ANONYMOUS_MENU = 'ANONYMOUS';
 
     private string $name;
     private string $destination;
     private string $displayName;
     private string $type;
     /** @var array <AdminMenu> */
-    private array  $children = [];
+    private array $children = [];
 
     /**
      * @param string $name

@@ -122,7 +122,7 @@ class MenuHandler
 
         /** @var array $authorizedRoles */
         $authorizedRoles = $this->container->getParameter('kazetenn_admin.authorized_roles');
-        if(!$this->isAuthorized($user, $authorizedRoles)){
+        if (!$this->isAuthorized($user, $authorizedRoles)) {
             return [];
         }
 
@@ -141,6 +141,14 @@ class MenuHandler
         return $menu_list;
     }
 
+    public function isAuthorizedToView(?UserInterface $user, bool $return = true): bool
+    {
+        /** @var array $authorizedRoles */
+        $authorizedRoles = $this->container->getParameter('kazetenn_admin.authorized_roles');
+
+        return $this->isAuthorized($user, $authorizedRoles);
+    }
+
     private function isAuthorized(?UserInterface $user, array $authorizedRoles, bool $emptyIsValid = false): bool
     {
         if ($emptyIsValid && empty($authorizedRoles)) { // avoid going into the other loops.
@@ -151,8 +159,10 @@ class MenuHandler
                 if (null === $user) { // if there is no user and anonymous is false, return false
                     return false;
                 } else {
-                    // if the arrays intersect (not empty) the user has the required roles
-                    return !empty(array_intersect($user->getRoles(), $authorizedRoles));
+                    // if the arrays intersect (not empty) the user has the one of required roles
+                    $intersect = array_intersect($user->getRoles(), $authorizedRoles);
+                    // if both count are equals, then the user has all the required roles
+                    return !empty($intersect) && count($intersect) === count($authorizedRoles);
                 }
             } else {
                 return true; // if anonymous is granted, the function will always return true.

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class BaseAdminController extends AbstractController
 {
-    private MenuHandler $menuHandler;
+    protected MenuHandler $menuHandler;
 
     /**
      * @param MenuHandler $menuHandler
@@ -21,10 +21,13 @@ abstract class BaseAdminController extends AbstractController
 
     public function render(string $view, array $parameters = [], Response $response = null): Response
     {
-        $user                                          = $this->getUser();
-        $menu_list                                     = $this->menuHandler->buildMenuEntries($user);
-        $parameters[AdminMenu::ORIENTATION_HORIZONTAL] = $menu_list[AdminMenu::ORIENTATION_HORIZONTAL];
-        $parameters[AdminMenu::ORIENTATION_VERTICAL]   = $menu_list[AdminMenu::ORIENTATION_VERTICAL];
-        return parent::render($view, $parameters, $response);
+        $user = $this->getUser();
+        if ($this->menuHandler->isAuthorizedToView($user)) {
+            $menu_list                                     = $this->menuHandler->buildMenuEntries($user);
+            $parameters[AdminMenu::ORIENTATION_HORIZONTAL] = $menu_list[AdminMenu::ORIENTATION_HORIZONTAL];
+            $parameters[AdminMenu::ORIENTATION_VERTICAL]   = $menu_list[AdminMenu::ORIENTATION_VERTICAL];
+            return parent::render($view, $parameters, $response);
+        }
+        throw $this->createAccessDeniedException();
     }
 }
