@@ -1,0 +1,12 @@
+{% for key, option in options %}
+    <div style="width: 75%">
+        <h3>{{ key }}</h3>
+        <div>
+            <a href="{{ path('kazetenn_admin_install_action', {'bundleName': key}) }}">install ({{ key }})</a>
+        </div>
+    </div>
+{% else %}
+    <div>
+        <h2>no records found</h2>
+    </div>
+{% endfor %}

@@ -13,21 +13,17 @@ use Kazetenn\Admin\Model\AdminMenu;
 use Kazetenn\Admin\Model\AdminPage;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class PageHandler implements ContainerAwareInterface
 {
-    private ContainerInterface $container;
-    private LoggerInterface    $logger;
+    private LoggerInterface $logger;
+    use ContainerAwareTrait;
 
-    /**
-     * @param ContainerInterface $container
-     * @param LoggerInterface $logger
-     */
-    public function __construct(ContainerInterface $container, LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger)
     {
-        $this->container = $container;
-        $this->logger    = $logger;
+        $this->logger = $logger;
     }
 
     public function setContainer(ContainerInterface $container = null): void
@@ -49,7 +45,6 @@ class PageHandler implements ContainerAwareInterface
         /** @var array $pages */
         $pages = $this->container->getParameter('kazetenn_admin.' . AdminMenu::PAGES_ENTRIES_NAME);
         $page  = self::buildAdminPage($pageName);
-
         if (array_key_exists($pageName, $pages)) {
             $pageData         = $pages[$pageName];
             $data             = explode('::', $pageData['function']);

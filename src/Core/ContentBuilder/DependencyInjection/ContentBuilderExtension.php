@@ -10,13 +10,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use function Symfony\Component\Translation\t;
 
 class ContentBuilderExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * @throws Exception
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
@@ -27,7 +28,7 @@ class ContentBuilderExtension extends Extension implements PrependExtensionInter
         ]);
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         // activating the timestampable extension
         $container->prependExtensionConfig('stof_doctrine_extensions', ['orm' => [
@@ -42,6 +43,7 @@ class ContentBuilderExtension extends Extension implements PrependExtensionInter
             AdminMenu::MENU_TYPE         => AdminMenu::HEADER_TYPE,
             AdminMenu::MENU_ORDER        => 0,
         ];
+        t('kazetenn_admin.nav_size.main_menus', [], 'kazetenn_admin');
 
         // tests for horizontal menus
         $admin_config[AdminMenu::MENU_ENTRIES_NAME]['settings_menu'] = [
@@ -62,6 +64,17 @@ class ContentBuilderExtension extends Extension implements PrependExtensionInter
             AdminMenu::MENU_ORDER        => 2,
             AdminMenu::MENU_ORIENTATION  => AdminMenu::ORIENTATION_HORIZONTAL,
         ];
+
+        $admin_config[AdminMenu::PAGES_ENTRIES_NAME]['installation_index'] = [
+            AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\ContentBuilder\Controller\InstallationController::indexAction',
+        ];
+        $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['installation_index'] = [
+            AdminMenu::MENU_TARGET       => 'installation_index',
+            AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.install_link',
+            AdminMenu::MENU_TYPE         => AdminMenu::PAGE_TYPE,
+            AdminMenu::MENU_ORDER        => 5,
+        ];
+
 
         if (in_array(KazetennPages::class, $container->getParameter('kernel.bundles'))) {
             $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['pages']         = [

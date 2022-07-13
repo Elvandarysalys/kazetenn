@@ -10,31 +10,33 @@ namespace Kazetenn\Admin\Service;
 
 use Kazetenn\Admin\Model\AdminMenu;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MenuHandler
 {
     protected TranslatorInterface $translator;
     protected LoggerInterface     $logger;
-    private ContainerInterface    $container;
     private UrlGeneratorInterface $urlGenerator;
 
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param ContainerInterface $container
-     * @param TranslatorInterface $translator
-     * @param LoggerInterface $logger
-     */
-    public function __construct(UrlGeneratorInterface $urlGenerator, ContainerInterface $container, TranslatorInterface $translator, LoggerInterface $logger)
+    /** @var array<string> $pages */
+    private array  $adminPages;
+    private string $defaultTranslationDomain;
+    private array  $authorizedRoles;
+    private array  $menuEntries;
+
+    public function __construct(array $adminPages, string $defaultTranslationDomain, array $authorizedRoles, array $menuEntries, UrlGeneratorInterface $urlGenerator, TranslatorInterface $translator, LoggerInterface $logger)
     {
-        $this->translator   = $translator;
-        $this->logger       = $logger;
-        $this->container    = $container;
-        $this->urlGenerator = $urlGenerator;
+        $this->adminPages               = $adminPages;
+        $this->defaultTranslationDomain = $defaultTranslationDomain;
+        $this->menuEntries              = $menuEntries;
+        $this->authorizedRoles          = $authorizedRoles;
+        $this->translator               = $translator;
+        $this->logger                   = $logger;
+        $this->urlGenerator             = $urlGenerator;
     }
 
     /**
@@ -58,8 +60,7 @@ class MenuHandler
                 }
                 break;
             case AdminMenu::PAGE_TYPE:
-                /** @var array<string> $pages */
-                $pages = $this->container->getParameter('kazetenn_admin.pages');
+                $pages = $this->adminPages;
                 if (array_key_exists($configData['target'], $pages)) {
                     $url = $this->urlGenerator->generate('kazetenn_admin_admin_page_action', ['page' => $configData['target']]);
                 } else {
@@ -113,22 +114,17 @@ class MenuHandler
 
     public function buildMenuEntries(?UserInterface $user): array
     {
-        $menu_list = [];
-        /** @var string $defaultTranslationDomain */
-        $defaultTranslationDomain = $this->container->getParameter('kazetenn_admin.translation_domain');
+        $menu_list                = [];
+        $defaultTranslationDomain = $this->defaultTranslationDomain;
         if (empty($defaultTranslationDomain)) {
             $defaultTranslationDomain = AdminMenu::DEFAULT_TRANSLATION_DOMAIN;
         }
 
-        /** @var array $authorizedRoles */
-        $authorizedRoles = $this->container->getParameter('kazetenn_admin.authorized_roles');
-        if (!$this->isAuthorized($user, $authorizedRoles)) {
+        if (!$this->isAuthorized($user, $this->authorizedRoles)) {
             return [];
         }
 
-        /** @var array $menu_entries */
-        $menu_entries = $this->container->getParameter('kazetenn_admin.' . AdminMenu::MENU_ENTRIES_NAME);
-        foreach ($menu_entries as $name => $data) {
+        foreach ($this->menuEntries as $name => $data) {
             if (array_key_exists($data[AdminMenu::MENU_ORDER], $menu_list)) {
                 $this->logger->warning("There is already a menu entry with the same order as $name.");
             }
@@ -143,10 +139,7 @@ class MenuHandler
 
     public function isAuthorizedToView(?UserInterface $user, bool $return = true): bool
     {
-        /** @var array $authorizedRoles */
-        $authorizedRoles = $this->container->getParameter('kazetenn_admin.authorized_roles');
-
-        return $this->isAuthorized($user, $authorizedRoles);
+        return $this->isAuthorized($user, $this->authorizedRoles);
     }
 
     private function isAuthorized(?UserInterface $user, array $authorizedRoles, bool $emptyIsValid = false): bool

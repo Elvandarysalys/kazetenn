@@ -17,7 +17,7 @@ This bundle provides an administration panel and menu to create a back office.
 
 ### configuration:
 Here is the configuration reference for the bundle, you can configure it 
-in `config/packages/kazetenn-pages.yaml`:
+in `config/packages/kazetenn_admin.yaml`:
 
 ```yaml
 kazetenn_admin:

@@ -1,0 +1,36 @@
+{
+  "manifests": {
+    "elvandar/kazetenn_core_admin ": {
+      "manifest": {
+        "bundles": {
+          "Kazetenn\\Admin\\KazetennAdmin::class": [
+            "all"
+          ]
+        },
+        "copy-from-recipe": {
+          "config/": "%CONFIG_DIR%"
+        },
+        "files": {
+          "config/packages/kazetenn_admin.yaml": {
+            "contents": [
+              "kazetenn_admin:",
+              "    menu_entries:"
+            ],
+            "executable": false
+          },
+          "config/routes.yaml": {
+            "contents": [
+              "kazetenn_admin:",
+              " resource: \"@KazetennAdmin/Resources/config/routes.yaml\""
+            ],
+            "executable": false
+          }
+        },
+        "aliases": [
+          "kazetenn_admin"
+        ]
+      },
+      "ref": "c91b8a31e79a68df2ecf25923b7cbb4d2bf37ccf"
+    }
+  }
+}
