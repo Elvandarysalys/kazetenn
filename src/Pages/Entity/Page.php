@@ -28,7 +28,6 @@ class Page extends BaseContent
     use TimestampableEntity;
 //    use BlameableEntity;
 
-
     /**
      * @var Page[]
      * @ORM\OneToMany(targetEntity="Kazetenn\Pages\Entity\Page", mappedBy="parent")
@@ -41,31 +40,6 @@ class Page extends BaseContent
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
     private ?Page $parent;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private string $title;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private string $slug;
-
-    /**
-     * @var PageContent[]
-     * @ORM\OneToMany(targetEntity="Kazetenn\Pages\Entity\PageContent", mappedBy="page")
-     * @ORM\OrderBy({"blocOrder" = "asc"})
-     */
-    private $pageContents;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string")
-     */
-    private $template;
 
     public function __construct()
     {
