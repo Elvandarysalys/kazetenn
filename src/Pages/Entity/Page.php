@@ -12,10 +12,8 @@ namespace Kazetenn\Pages\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Kazetenn\Core\Entity\BaseContent;
 use Kazetenn\Pages\Repository\PageRepository;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 
 /**
@@ -25,8 +23,9 @@ class Page extends BaseContent
 {
     const PAGE_TEMPLATE = '@KazetennPages/content/_block_content_display.twig'; // todo: do something about this
 
-    use TimestampableEntity;
-//    use BlameableEntity;
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', nullable: false)]
+    protected UuidV4 $id;
 
     /**
      * @var Page[]
@@ -43,16 +42,7 @@ class Page extends BaseContent
 
     public function __construct()
     {
-        $this->children = new ArrayCollection();
-        $this->pageContents = new ArrayCollection();
-
-        if (null === $this->id) {
-            $this->id = Uuid::v4();
-        }
-
-        if (null === $this->template){
-            $this->template = self::PAGE_TEMPLATE;
-        }
+        parent::__construct();
     }
 
     /**
@@ -104,7 +94,7 @@ class Page extends BaseContent
     /**
      * @return UuidV4|null
      */
-    public function getId(): ?UuidV4
+    public function getId(): UuidV4
     {
         return $this->id;
     }
@@ -187,7 +177,7 @@ class Page extends BaseContent
     /**
      * @return string|null
      */
-    public function getTemplate(): ?string
+    public function getTemplate(): string
     {
         return $this->template;
     }

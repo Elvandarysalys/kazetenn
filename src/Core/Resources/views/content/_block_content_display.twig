@@ -1,0 +1,11 @@
+{# This block is the by default block content display. The key anchor here is the twig {{ pageContent.content|raw }} #}
+
+{% if null != pageContent.content %}
+    <div class="bloc_content">
+        <p>
+            {{ pageContent.content|raw }}
+        </p>
+    </div>
+{% else %}
+    <div class="bloc_content_empty"></div>
+{% endif %}

@@ -1,0 +1,25 @@
+@startuml
+interface       "BaseContentInterface"
+abstract class  "BaseContent"
+
+"BaseContent" : UuidV4 $id
+"BaseContent" : string $title
+"BaseContent" : string $slug
+"BaseContent" : Collection $pageContents
+"BaseContent" : string $template
+
+interface       "BaseBlocksInterface"
+abstract class  "BaseBlocks"
+
+"BaseContent" <|-- "BaseContentInterface"
+"BaseBlocks" <|-- "BaseBlocksInterface"
+
+"BaseContent" "1" *- "n" "BaseBlocks"
+
+entity           "Page"
+entity           "PageBlock"
+
+"Page" <|-- "BaseContent"
+"PageBlock" <|-- "BaseBlocks"
+"Page" "1" *- "n" "PageBlock"
+@enduml

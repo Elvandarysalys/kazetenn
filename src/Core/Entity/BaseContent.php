@@ -11,50 +11,96 @@ namespace Kazetenn\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Blameable\Traits\BlameableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 
-class BaseContent
+#[ORM\MappedSuperclass]
+abstract class BaseContent implements BaseContentInterface
 {
-    const DEFAULT_TEMPLATE = '@KazetennPages/content/_block_content_display.twig'; // todo: do something about this
+    const DEFAULT_TEMPLATE = '@Core/content/_block_content_display.twig'; // todo: do something about this
+
+    use TimestampableEntity;
+    use BlameableEntity;
 
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', nullable: false)]
-    private UuidV4 $id;
+    protected UuidV4 $id;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private string $title;
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    protected string $title;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private string $slug;
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
+    protected string $slug;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Kazetenn\Pages\Entity\PageContent", mappedBy="page")
-     * @ORM\OrderBy({"blocOrder" = "asc"})
-     */
-    private Collection $pageContents;
+    #[ORM\OneToMany(mappedBy: 'campaign', targetEntity: BaseBlock::class)]
+    #[ORM\OrderBy(["blocOrder" => "asc"])]
+    protected Collection $blocks;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string")
-     */
-    private $template;
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    protected string $template;
 
-    public function __construct()
+    public function __construct(?string $template = null)
     {
-        $this->children     = new ArrayCollection();
-        $this->pageContents = new ArrayCollection();
+        $this->blocks = new ArrayCollection();
 
         $this->id = Uuid::v4();
 
-        if (null === $this->template) {
+        if (null === $template) {
             $this->template = self::DEFAULT_TEMPLATE;
+        } else {
+            $this->template = $template;
         }
+    }
+
+    public function getId(): UuidV4
+    {
+        return $this->id;
+    }
+
+    public function setId(UuidV4 $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
+    public function getBlocks(): Collection
+    {
+        return $this->blocks;
+    }
+
+    public function setBlocks(Collection $blocks): void
+    {
+        $this->blocks = $blocks;
+    }
+
+    public function getTemplate(): string
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(string $template): void
+    {
+        $this->template = $template;
     }
 }

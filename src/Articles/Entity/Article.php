@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Kazetenn\Articles\Repository\ArticleRepository;
+use Kazetenn\Core\Entity\BaseContent;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,165 +22,40 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
-class Article
+class Article extends BaseContent
 {
     const ARTICLE_TEMPLATE = '@KazetennArticles/content/_block_content_display.twig'; // todo: do something about this
 
-    use TimestampableEntity;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
-     */
-    private ?UuidV4 $id;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private string $title;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Unique()
-     */
-    private string $slug;
-
-    /**
-     * @var ArticleContent[]
-     * @ORM\OneToMany(targetEntity="Kazetenn\Articles\Entity\ArticleContent", mappedBy="article")
-     * @ORM\OrderBy({"blocOrder" = "asc"})
-     */
-    private $articleContents;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string")
-     */
-    private ?string $template = self::ARTICLE_TEMPLATE;
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', nullable: false)]
+    protected UuidV4 $id;
 
     /**
      * @var Category[]
      * @ORM\ManyToMany(targetEntity="Kazetenn\Articles\Entity\Category", inversedBy="articles")
      * @ORM\JoinTable(name="article_categories")
      */
-    private $categories;
+    protected $categories;
 
     public function __construct()
     {
-        $this->articleContents = new ArrayCollection();
+        parent::__construct();
         $this->categories      = new ArrayCollection();
-        $this->id              = Uuid::v4();
     }
 
-    /**
-     * @return ArrayCollection|ArticleContent[]
-     */
-    public function getArticleContents()
+    public function addCategory(Category $category): self
     {
-        return $this->articleContents;
-    }
-
-    /**
-     * @return ArrayCollection|ArticleContent[]
-     */
-    public function getArticleContentsOrdered(): array
-    {
-        $data = $this->articleContents;
-
-        $return = [];
-        foreach ($data as $datum) {
-            if ($datum->getParent() === null) {
-                $return[$datum->getBlocOrder()][] = $datum;
-            }
-        }
-        return $return;
-    }
-
-    public function addArticleContent(ArticleContent $articleContent): self
-    {
-        if (!$this->articleContents->contains($articleContent)) {
-            $this->articleContents[] = $articleContent;
-            $articleContent->setArticle($this);
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
         }
 
         return $this;
     }
 
-    public function removeArticleContent(ArticleContent $articleContent): self
+    public function removeCategory(Category $category): self
     {
-        if ($this->articleContents->removeElement($articleContent)) {
-            // set the owning side to null (unless already changed)
-            if ($articleContent->getArticle() === $this) {
-                $articleContent->setArticle(null);
-            }
-        }
+        $this->categories->removeElement($category);
 
         return $this;
-    }
-
-    /**
-     * @return UuidV4|null
-     */
-    public function getId(): ?UuidV4
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-
-    /**
-     * @param string $slug
-     */
-    public function setSlug(string $slug): void
-    {
-        $this->slug = $slug;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTemplate(): ?string
-    {
-        return $this->template;
-    }
-
-    /**
-     * @param string|null $template
-     */
-    public function setTemplate(?string $template): void
-    {
-        $this->template = $template;
     }
 }

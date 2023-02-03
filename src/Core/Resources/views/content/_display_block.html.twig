@@ -1,0 +1,17 @@
+{# This block is the display logic bloc for content inside of a page. You SHOULD NOT modify it. #}
+
+<div class="content_bloc_container" style="order: {{ block.blocOrder }}">
+    {% block display_block_main %}
+        {{ include(block.template, {pageContent: block}) }}
+    {% endblock %}
+
+    {% block display_block_childrend %}
+        {% if block.childrens|length >= 1 %}
+            <div style="display:flex; flex-direction: {% if block.align == constant('Kazetenn\\Pages\\Entity\\PageContent::HORIZONTAL_ALIGN') %}row{% else %}column{% endif %}; justify-content: space-evenly">
+                {% for child in block.childrensOrdered %}
+                    {{ include('@Core/content/_display_block.html.twig', {block: child}) }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endblock %}
+</div>
