@@ -8,8 +8,7 @@
 
 namespace Kazetenn\Core\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -28,22 +27,23 @@ abstract class BaseContent implements BaseContentInterface
     #[ORM\Column(type: 'uuid', nullable: false)]
     protected UuidV4 $id;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $title;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: false)]
     protected string $slug;
 
-    #[ORM\OneToMany(mappedBy: 'campaign', targetEntity: BaseBlock::class)]
-    #[ORM\OrderBy(["blocOrder" => "asc"])]
-    protected Collection $blocks;
+    // OneToMany association does not work with MappedSuperclass. todo: check how to handle this, can it be handled in a service or not ?
+    //    #[ORM\OneToMany(mappedBy: 'campaign', targetEntity: BaseBlock::class)]
+    //    #[ORM\OrderBy(["blocOrder" => "asc"])]
+    //    protected Collection $blocks;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $template;
 
     public function __construct(?string $template = null)
     {
-        $this->blocks = new ArrayCollection();
+//        $this->blocks = new ArrayCollection();
 
         $this->id = Uuid::v4();
 
@@ -82,16 +82,6 @@ abstract class BaseContent implements BaseContentInterface
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
-    }
-
-    public function getBlocks(): Collection
-    {
-        return $this->blocks;
-    }
-
-    public function setBlocks(Collection $blocks): void
-    {
-        $this->blocks = $blocks;
     }
 
     public function getTemplate(): string

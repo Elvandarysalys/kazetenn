@@ -33,7 +33,8 @@ class CoreExtension extends Extension implements PrependExtensionInterface
         // activating the timestampable extension
         $container->prependExtensionConfig('stof_doctrine_extensions', ['orm' => [
             'default' => [
-                'timestampable' => true
+                'timestampable' => true,
+                'blameable'     => true
             ]
         ]]);
 
@@ -65,18 +66,8 @@ class CoreExtension extends Extension implements PrependExtensionInterface
             AdminMenu::MENU_ORIENTATION  => AdminMenu::ORIENTATION_HORIZONTAL,
         ];
 
-        $admin_config[AdminMenu::PAGES_ENTRIES_NAME]['installation_index'] = [
-            AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\Controller\InstallationController::indexAction',
-        ];
-        $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['installation_index'] = [
-            AdminMenu::MENU_TARGET       => 'installation_index',
-            AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.install_link',
-            AdminMenu::MENU_TYPE         => AdminMenu::PAGE_TYPE,
-            AdminMenu::MENU_ORDER        => 5,
-        ];
-
-
-        if (in_array(KazetennPages::class, $container->getParameter('kernel.bundles'))) {
+        $availableBundles = $container->getParameter('kernel.bundles');
+        if (is_array($availableBundles) && in_array(KazetennPages::class, $availableBundles)) {
             $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['pages']         = [
                 AdminMenu::MENU_TARGET       => 'kazetenn_admin_page_index',
                 AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.pages_link',

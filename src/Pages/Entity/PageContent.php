@@ -9,249 +9,80 @@
 
 namespace Kazetenn\Pages\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Kazetenn\Core\Entity\BaseBlock;
+use Kazetenn\Core\Entity\BaseBlockInterface;
+use Kazetenn\Core\Entity\BaseContent;
 use Kazetenn\Pages\Repository\PageContentRepository;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Uid\UuidV4;
 
-/**
- * @ORM\Entity(repositoryClass=PageContentRepository::class)
- */
-class PageContent
+#[ORM\Entity(repositoryClass: PageContentRepository::class)]
+class PageContent extends BaseBlock
 {
     const ROW_TEMPLATE     = '@KazetennPages/content/_block_content_display.twig';
     const HORIZONTAL_ALIGN = 'horizontal';
     const VERTICAL_ALIGN   = 'vertical';
 
-    use TimestampableEntity;
-//    use BlameableEntity;
+    // todo find a way to abstract this one into the Core bundle
+    #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'blocks')]
+    #[ORM\JoinColumn(name: "content_id", referencedColumnName: "id")]
+    protected ?BaseContent $baseContent;
+
+    // todo find a way to abstract this one into the Core bundle
+    #[ORM\ManyToOne(targetEntity: PageContent::class, inversedBy: 'children')]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id')]
+    protected ?BaseBlockInterface $parent;
+
+    // todo find a way to abstract this one into the Core bundle
+    #[ORM\OneToMany(mappedBy: "parent", targetEntity: PageContent::class)]
+    #[ORM\JoinColumn(name: "children_id", referencedColumnName: "id")]
+    protected Collection $children;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @return BaseContent|null
      */
-    private $id;
-
-    /**
-     * @var Page|null
-     * @ORM\ManyToOne(targetEntity="Kazetenn\Pages\Entity\Page", inversedBy="pageContents")
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
-     */
-    private ?Page $page;
-
-    /**
-     * @var PageContent|null
-     * @ORM\ManyToOne(targetEntity="Kazetenn\Pages\Entity\PageContent", inversedBy="childrens")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
-     */
-    private ?PageContent $parent;
-
-    /**
-     * @var PageContent[]|null
-     * @ORM\OneToMany(targetEntity="Kazetenn\Pages\Entity\PageContent", mappedBy="parent")
-     * @ORM\JoinColumn(name="children_id", referencedColumnName="id")
-     */
-    private $childrens;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private ?string $content = null;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private string $template = self::ROW_TEMPLATE;
-
-    /**
-     * @var int
-     * @ORM\Column(type="integer")
-     */
-    private int $blocOrder;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private string $align = self::VERTICAL_ALIGN;
-
-    public function __construct()
+    public function getBaseContent(): ?BaseContent
     {
-        if (null === $this->id) {
-            $this->id = Uuid::v4();
-        }
-        if (null === $this->template) {
-            $this->template = self::ROW_TEMPLATE;
-        }
-
-        $this->childrens = new ArrayCollection();
-    }
-
-    public function addChildren(PageContent $pageContent): self
-    {
-        if (!$this->childrens->contains($pageContent)) {
-            $this->childrens[] = $pageContent;
-            $pageContent->setParent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeChildren(PageContent $pageContent): self
-    {
-        if ($this->childrens->removeElement($pageContent)) {
-            if ($pageContent->getPage() === $this) {
-                $pageContent->setParent(null);
-            }
-        }
-
-        return $this;
+        return $this->baseContent;
     }
 
     /**
-     * @return UuidV4
+     * @param BaseContent|null $baseContent
      */
-    public function getId()
+    public function setBaseContent(?BaseContent $baseContent): void
     {
-        return $this->id;
+        $this->baseContent = $baseContent;
     }
 
     /**
-     * @param mixed $id
+     * @return BaseBlockInterface|null
      */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return Page|null
-     */
-    public function getPage(): ?Page
-    {
-        return $this->page;
-    }
-
-    /**
-     * @param Page $page
-     */
-    public function setPage(Page $page): void
-    {
-        $this->page = $page;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    /**
-     * @param string|null $content
-     */
-    public function setContent(?string $content): void
-    {
-        $this->content = $content;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTemplate(): string
-    {
-        return $this->template;
-    }
-
-    /**
-     * @param string $template
-     */
-    public function setTemplate(string $template): void
-    {
-        $this->template = $template;
-    }
-
-    /**
-     * @return int
-     */
-    public function getBlocOrder(): int
-    {
-        return $this->blocOrder;
-    }
-
-    /**
-     * @param int $blocOrder
-     */
-    public function setBlocOrder(int $blocOrder): void
-    {
-        $this->blocOrder = $blocOrder;
-    }
-
-    /**
-     * @return PageContent|null
-     */
-    public function getParent(): ?PageContent
+    public function getParent(): ?BaseBlockInterface
     {
         return $this->parent;
     }
 
     /**
-     * @param PageContent|null $parent
+     * @param BaseBlockInterface|null $parent
      */
-    public function setParent(?PageContent $parent): void
+    public function setParent(?BaseBlockInterface $parent): void
     {
         $this->parent = $parent;
     }
 
     /**
-     * @return string
+     * @return Collection
      */
-    public function getAlign(): string
+    public function getChildren(): Collection
     {
-        return $this->align;
+        return $this->children;
     }
 
     /**
-     * @param string $align
+     * @param Collection $children
      */
-    public function setAlign(string $align): void
+    public function setChildren(Collection $children): void
     {
-        $this->align = $align;
-    }
-
-    /**
-     * @return PageContent[]|null
-     */
-    public function getChildrens()
-    {
-        return $this->childrens;
-    }
-
-    /**
-     * @return PageContent[]
-     */
-    public function getChildrensOrdered(): array
-    {
-        /** @var PageContent[] $data */
-        $data = $this->childrens;
-
-        $return = [];
-        foreach ($data as $datum) {
-            $return[$datum->getBlocOrder()] = $datum;
-        }
-        return $return;
-    }
-
-    /**
-     * @param PageContent|null $childrens
-     */
-    public function setChildrens(?PageContent $childrens): void
-    {
-        $this->childrens = $childrens;
+        $this->children = $children;
     }
 }

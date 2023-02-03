@@ -204,8 +204,8 @@ class PageController extends BaseAdminController
     public function newContent(Page $page, Request $request, PageRepository $pageRepository, PageContentRepository $pageContentRepository, ManagerRegistry $managerRegistry): Response
     {
         $pageContent = new PageContent();
-        $pageContent->setPage($page);
-        $form = $this->createForm(PageContentType::class, $pageContent, ['page_repository' => $pageRepository, 'bloc_repository' => $pageContentRepository]);
+        $pageContent->setBaseContent($page);
+        $form = $this->createForm(PageContentType::class, $pageContent, ['bloc_repository' => $pageContentRepository]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -216,9 +216,9 @@ class PageController extends BaseAdminController
             return $this->redirectToRoute('kazetenn_admin_page_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('@Core/page_content/new.html.twig', [
+        return $this->render('@Core/page_content/new.html.twig', [
             'page_content' => $pageContent,
-            'form'         => $form,
+            'form'         => $form->createView(),
         ]);
     }
 

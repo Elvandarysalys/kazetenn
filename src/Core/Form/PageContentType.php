@@ -27,13 +27,13 @@ class PageContentType extends AbstractType
                 ],
                 'label'   => 'align.label',
             ])
-            ->add('childrens', CollectionType::class, [
+            ->add('children', CollectionType::class, [
                 'entry_type' => PageContentType::class,
                 'prototype'  => true,
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class'      => PageContent::class,

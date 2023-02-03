@@ -10,145 +10,107 @@
 namespace Kazetenn\Articles\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Kazetenn\Articles\Repository\CategoryRepository;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 
-/**
- * @ORM\Entity(repositoryClass=CategoryRepository::class)
- */
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
-      use TimestampableEntity;
-//    use BlameableEntity;
+    use TimestampableEntity;
+    use BlameableEntity;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
-     */
-    private ?UuidV4 $id;
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', nullable: false)]
+    protected UuidV4 $id;
 
-    /**
-     * @var Category[]
-     * @ORM\OneToMany(targetEntity="Kazetenn\Articles\Entity\Category", mappedBy="parent")
-     */
-    private $children;
+    #[ORM\OneToMany(mappedBy: "parent", targetEntity: Category::class)]
+    private Collection $children;
 
-    /**
-     * @var Category|null
-     * @ORM\ManyToOne(targetEntity="Kazetenn\Articles\Entity\Category", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
-     */
-    private Category $parent;
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: "children")]
+    #[ORM\JoinColumn(name: "parent_id", referencedColumnName: "id", nullable: true)]
+    private ?Category $parent;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $title;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     private string $slug;
 
-    /**
-     * @var Article[]
-     * @ORM\ManyToMany(targetEntity="Kazetenn\Articles\Entity\Article", mappedBy="categories")
-     * @ORM\JoinTable(name="article_categories")
-     */
-    private $articles;
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: "categories")]
+    #[ORM\JoinTable(name: "article_categories")]
+    private Collection $articles;
 
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->articles = new ArrayCollection();
 
-        if (null === $this->id) {
-            $this->id = Uuid::v4();
-        }
+        $this->id = Uuid::v4();
     }
 
-    /**
-     * @return UuidV4|null
-     */
-    public function getId(): ?UuidV4
+    public function getId(): UuidV4
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
+    public function setId(UuidV4 $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return ArrayCollection|Category[]
-     */
-    public function getChildren()
+    public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    /**
-     * @param mixed $children
-     */
-    public function setChildren($children): void
+    public function setChildren(Collection $children): void
     {
         $this->children = $children;
     }
 
-    /**
-     * @return Category|null
-     */
     public function getParent(): ?Category
     {
         return $this->parent;
     }
 
-    /**
-     * @param Category|null $parent
-     */
     public function setParent(?Category $parent): void
     {
         $this->parent = $parent;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
     public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
     public function getSlug(): string
     {
         return $this->slug;
     }
 
-    /**
-     * @param string $slug
-     */
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function setArticles(Collection $articles): void
+    {
+        $this->articles = $articles;
     }
 }

@@ -9,184 +9,72 @@
 
 namespace Kazetenn\Pages\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Kazetenn\Core\Entity\BaseContent;
 use Kazetenn\Pages\Repository\PageRepository;
 use Symfony\Component\Uid\UuidV4;
 
-/**
- * @ORM\Entity(repositoryClass=PageRepository::class)
- */
+#[ORM\Entity(repositoryClass: PageRepository::class)]
 class Page extends BaseContent
 {
     const PAGE_TEMPLATE = '@KazetennPages/content/_block_content_display.twig'; // todo: do something about this
 
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid', nullable: false)]
-    protected UuidV4 $id;
+    // todo find a way to abstract this one into the Core bundle
+    #[ORM\OneToMany(mappedBy: 'baseContent', targetEntity: PageContent::class)]
+    #[ORM\OrderBy(["blocOrder" => "asc"])]
+    protected Collection $blocks;
 
-    /**
-     * @var Page[]
-     * @ORM\OneToMany(targetEntity="Kazetenn\Pages\Entity\Page", mappedBy="parent")
-     */
-    private $children;
+    #[ORM\OneToMany(mappedBy: "parent", targetEntity: Page::class)]
+    private Collection $children;
 
-    /**
-     * @var Page|null
-     * @ORM\ManyToOne(targetEntity="Kazetenn\Pages\Entity\Page", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: "children")]
+    #[ORM\JoinColumn(name: "parent_id", referencedColumnName: "id", nullable: true)]
     private ?Page $parent;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * @return Collection|PageContent[]
-     */
-    public function getPageContents(): Collection
-    {
-        return $this->pageContents;
-    }
-
-    /**
-     * @return PageContent[]
-     */
-    public function getPageContentsOrdered(): array
-    {
-        $data = $this->pageContents;
-
-        $return = [];
-        foreach ($data as $datum){
-            if($datum->getParent() === null) {
-                $return[$datum->getBlocOrder()][] = $datum;
-            }
-        }
-        return $return;
-    }
-
-    public function addPageContent(PageContent $pageContent): self
-    {
-        if (!$this->pageContents->contains($pageContent)) {
-            $this->pageContents[] = $pageContent;
-            $pageContent->setPage($this);
-        }
-
-        return $this;
-    }
-
-    public function removePageContent(PageContent $pageContent): self
-    {
-        if ($this->pageContents->removeElement($pageContent)) {
-            // set the owning side to null (unless already changed)
-            if ($pageContent->getPage() === $this) {
-                $pageContent->setPage(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return UuidV4|null
-     */
     public function getId(): UuidV4
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
+    public function setId(UuidV4 $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return ArrayCollection|Page[]
-     */
-    public function getChildren()
+    public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    /**
-     * @param mixed $children
-     */
-    public function setChildren($children): void
+    public function setChildren(Collection $children): void
     {
         $this->children = $children;
     }
 
-    /**
-     * @return Page|null
-     */
     public function getParent(): ?Page
     {
-        if (isset($this->parent)) {
-            return $this->parent;
-        }
-        return null;
+        return $this->parent;
     }
 
-    /**
-     * @param Page|null $parent
-     */
     public function setParent(?Page $parent): void
     {
         $this->parent = $parent;
     }
 
     /**
-     * @return string
+     * @return Collection
      */
-    public function getTitle(): string
+    public function getBlocks(): Collection
     {
-        return $this->title;
+        return $this->blocks;
     }
 
     /**
-     * @param string $title
+     * @param Collection $blocks
      */
-    public function setTitle(string $title): void
+    public function setBlocks(Collection $blocks): void
     {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-
-    /**
-     * @param string $slug
-     */
-    public function setSlug(string $slug): void
-    {
-        $this->slug = $slug;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTemplate(): string
-    {
-        return $this->template;
-    }
-
-    /**
-     * @param string|null $template
-     */
-    public function setTemplate(?string $template): void
-    {
-        $this->template = $template;
+        $this->blocks = $blocks;
     }
 }

@@ -26,10 +26,6 @@ interface BaseContentInterface
 
     public function setSlug(string $slug): void;
 
-    public function getBlocks(): Collection;
-
-    public function setBlocks(Collection $blocks): void;
-
     public function getTemplate(): string;
 
     public function setTemplate(string $template): void;

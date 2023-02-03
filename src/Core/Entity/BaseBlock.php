@@ -18,7 +18,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 
 #[ORM\MappedSuperclass]
-abstract class BaseBlock
+abstract class BaseBlock implements BaseBlockInterface
 {
     const ROW_TEMPLATE     = '@Core/content/_block_content_display.twig';
     const HORIZONTAL_ALIGN = 'horizontal';
@@ -31,17 +31,18 @@ abstract class BaseBlock
     #[ORM\Column(type: 'uuid', nullable: false)]
     protected UuidV4 $id;
 
-    #[ORM\ManyToOne(targetEntity: BaseContent::class, inversedBy: "pageContents")]
-    #[ORM\JoinColumn(name: "page_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: BaseContent::class)]
+    #[ORM\JoinColumn(name: "content_id", referencedColumnName: "id")]
     protected ?BaseContent $baseContent;
 
-    #[ORM\ManyToOne(targetEntity: BaseBlock::class, inversedBy: 'childrens')]
+    #[ORM\ManyToOne(targetEntity: BaseBlock::class)]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id')]
-    protected ?BaseBlock $parent;
+    protected ?BaseBlockInterface $parent;
 
-    #[ORM\OneToMany(mappedBy: "parent", targetEntity: BaseBlock::class)]
-    #[ORM\JoinColumn(name: "children_id", referencedColumnName: "id")]
-    protected Collection $childrens;
+    // OneToMany association does not work with MappedSuperclass. todo: check how to handle this, can it be handled in a service or not ?
+    //    #[ORM\OneToMany(mappedBy: "parent", targetEntity: BaseBlock::class)]
+    //    #[ORM\JoinColumn(name: "children_id", referencedColumnName: "id")]
+    //    protected Collection $children;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $content = null;
@@ -60,13 +61,13 @@ abstract class BaseBlock
         $this->id       = Uuid::v4();
         $this->template = self::ROW_TEMPLATE;
 
-        $this->childrens = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     public function addChildren(BaseBlock $baseBlock): self
     {
-        if (!$this->childrens->contains($baseBlock)) {
-            $this->childrens[] = $baseBlock;
+        if (!$this->children->contains($baseBlock)) {
+            $this->children[] = $baseBlock;
             $baseBlock->setParent($this);
         }
 
@@ -75,7 +76,7 @@ abstract class BaseBlock
 
     public function removeChildren(BaseBlock $baseBlock): self
     {
-        if ($this->childrens->removeElement($baseBlock)) {
+        if ($this->children->removeElement($baseBlock)) {
             if ($baseBlock->getBaseContent() === $this) {
                 $baseBlock->setParent(null);
             }
@@ -104,7 +105,7 @@ abstract class BaseBlock
         $this->baseContent = $baseContent;
     }
 
-    public function getParent(): ?BaseBlock
+    public function getParent(): ?BaseBlockInterface
     {
         return $this->parent;
     }
@@ -112,16 +113,6 @@ abstract class BaseBlock
     public function setParent(?BaseBlock $parent): void
     {
         $this->parent = $parent;
-    }
-
-    public function getChildrens(): Collection
-    {
-        return $this->childrens;
-    }
-
-    public function setChildrens(Collection $childrens): void
-    {
-        $this->childrens = $childrens;
     }
 
     public function getContent(): ?string
