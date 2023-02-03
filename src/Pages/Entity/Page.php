@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Kazetenn\Core\Entity\BaseContent;
 use Kazetenn\Pages\Repository\PageRepository;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
@@ -20,18 +21,13 @@ use Symfony\Component\Uid\UuidV4;
 /**
  * @ORM\Entity(repositoryClass=PageRepository::class)
  */
-class Page
+class Page extends BaseContent
 {
     const PAGE_TEMPLATE = '@KazetennPages/content/_block_content_display.twig'; // todo: do something about this
 
     use TimestampableEntity;
 //    use BlameableEntity;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
-     */
-    private ?UuidV4 $id;
 
     /**
      * @var Page[]

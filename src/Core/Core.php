@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Kazetenn\Core\ContentBuilder;
+namespace Kazetenn\Core;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class ContentBuilder extends Bundle
+class Core extends Bundle
 {
 }

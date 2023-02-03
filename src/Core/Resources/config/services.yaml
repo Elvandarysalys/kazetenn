@@ -3,13 +3,13 @@ services:
         autowire: true
         autoconfigure: true
 
-    Kazetenn\Core\ContentBuilder\:
+    Kazetenn\Core\Core\:
         resource: '../../'
         exclude:
             - '../../DependencyInjection/'
             - '../../Tests/'
             - '../../Entity/'
 
-    Kazetenn\Core\ContentBuilder\EventListener\TimestampableListener:
+    Kazetenn\Core\Core\EventListener\TimestampableListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }

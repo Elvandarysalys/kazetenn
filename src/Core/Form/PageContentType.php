@@ -1,6 +1,6 @@
 <?php
 
-namespace Kazetenn\Core\ContentBuilder\Form;
+namespace Kazetenn\Core\Form;
 
 use Kazetenn\Pages\Entity\PageContent;
 use Kazetenn\Pages\Repository\PageContentRepository;

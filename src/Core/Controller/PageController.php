@@ -1,26 +1,24 @@
 <?php
 
-namespace Kazetenn\Core\ContentBuilder\Controller;
+namespace Kazetenn\Core\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Kazetenn\Admin\Controller\BaseAdminController;
 use Kazetenn\Admin\Service\MenuHandler;
-use Kazetenn\Core\ContentBuilder\Form\PageContentType;
-use Kazetenn\Core\ContentBuilder\Form\PageType;
-use Kazetenn\Core\ContentBuilder\Model\FormModel;
+use Kazetenn\Core\Form\PageContentType;
+use Kazetenn\Core\Form\PageType;
+use Kazetenn\Core\Model\FormModel;
 use Kazetenn\Pages\Entity\Page;
 use Kazetenn\Pages\Entity\PageContent;
 use Kazetenn\Pages\Repository\PageContentRepository;
 use Kazetenn\Pages\Repository\PageRepository;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use function dump;
 
 /**
@@ -42,7 +40,7 @@ class PageController extends BaseAdminController
 
     public function listAction(): string
     {
-        return $this->renderView('@ContentBuilder/page/page_index.html.twig', [
+        return $this->renderView('@Core/page/page_index.html.twig', [
             'pages' => $this->pageRepository->findAll(),
         ]);
     }
@@ -52,7 +50,7 @@ class PageController extends BaseAdminController
      */
     public function index(PageRepository $pageRepository): Response
     {
-        return $this->render('@ContentBuilder/page/index.html.twig', [
+        return $this->render('@Core/page/index.html.twig', [
             'pages' => $pageRepository->findAll(),
         ]);
     }
@@ -70,7 +68,7 @@ class PageController extends BaseAdminController
 
         $ajaxRoute = $this->generateUrl('kazetenn_admin_ajax_page_handling', ['id' => $pageId]);
 
-        return $this->render('@ContentBuilder/page/page_form.html.twig', [
+        return $this->render('@Core/page/page_form.html.twig', [
             'ajax_route'       => $ajaxRoute,
             'page_id'          => $pageId,
             'ajax_add_content' => $this->generateUrl('kazetenn_admin_ajax_page_add_content', ['id' => null])
@@ -171,7 +169,7 @@ class PageController extends BaseAdminController
      */
     public function preview(Page $page): Response
     {
-        return $this->render('@ContentBuilder/page/preview.html.twig', [
+        return $this->render('@Core/page/preview.html.twig', [
             'page' => $page,
         ]);
     }
@@ -195,7 +193,7 @@ class PageController extends BaseAdminController
      */
     public function indexContent(PageContentRepository $pageContentRepository): Response
     {
-        return $this->render('@ContentBuilder/page_content/index.html.twig', [
+        return $this->render('@Core/page_content/index.html.twig', [
             'page_contents' => $pageContentRepository->findAll(),
         ]);
     }
@@ -218,7 +216,7 @@ class PageController extends BaseAdminController
             return $this->redirectToRoute('kazetenn_admin_page_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('@ContentBuilder/page_content/new.html.twig', [
+        return $this->renderForm('@Core/page_content/new.html.twig', [
             'page_content' => $pageContent,
             'form'         => $form,
         ]);
@@ -229,7 +227,7 @@ class PageController extends BaseAdminController
      */
     public function showContent(PageContent $pageContent): Response
     {
-        return $this->render('@ContentBuilder/page_content/show.html.twig', [
+        return $this->render('@Core/page_content/show.html.twig', [
             'page_content' => $pageContent,
         ]);
     }
@@ -248,7 +246,7 @@ class PageController extends BaseAdminController
             return $this->redirectToRoute('kazetenn_admin_page_content_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('@ContentBuilder/page_content/edit.html.twig', [
+        return $this->renderForm('@Core/page_content/edit.html.twig', [
             'page_content' => $pageContent,
             'form'         => $form,
         ]);

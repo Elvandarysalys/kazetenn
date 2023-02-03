@@ -1,6 +1,6 @@
 <?php
 
-namespace Kazetenn\Core\ContentBuilder\DependencyInjection;
+namespace Kazetenn\Core\DependencyInjection;
 
 use Exception;
 use Kazetenn\Admin\Model\AdminMenu;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use function Symfony\Component\Translation\t;
 
-class ContentBuilderExtension extends Extension implements PrependExtensionInterface
+class CoreExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * @throws Exception
@@ -66,7 +66,7 @@ class ContentBuilderExtension extends Extension implements PrependExtensionInter
         ];
 
         $admin_config[AdminMenu::PAGES_ENTRIES_NAME]['installation_index'] = [
-            AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\ContentBuilder\Controller\InstallationController::indexAction',
+            AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\Core\Controller\InstallationController::indexAction',
         ];
         $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['installation_index'] = [
             AdminMenu::MENU_TARGET       => 'installation_index',
@@ -98,7 +98,7 @@ class ContentBuilderExtension extends Extension implements PrependExtensionInter
             ];
 
             $admin_config[AdminMenu::PAGES_ENTRIES_NAME]['pages_index'] = [
-                AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\ContentBuilder\Controller\PageController::listAction',
+                AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\Core\Controller\PageController::listAction',
             ];
         }
 

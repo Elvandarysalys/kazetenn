@@ -1,7 +1,8 @@
 <?php
 
-namespace Kazetenn\Core\ContentBuilder\Form;
+namespace Kazetenn\Core\Form;
 
+use Kazetenn\Core\Form\PageContentType;
 use Kazetenn\Pages\Entity\Page;
 use Kazetenn\Pages\Repository\PageRepository;
 use Symfony\Component\Form\AbstractType;

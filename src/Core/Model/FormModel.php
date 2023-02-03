@@ -6,7 +6,7 @@
  *
  */
 
-namespace Kazetenn\Core\ContentBuilder\Model;
+namespace Kazetenn\Core\Model;
 
 use Exception;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
