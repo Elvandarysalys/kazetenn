@@ -71,6 +71,23 @@ class Page extends BaseContent
     }
 
     /**
+     * This return an ordered array of the direct descendant blocks.
+     */
+    public function getBlocksOrdered(){
+        $data = $this->blocks;
+
+        $return = [];
+        foreach ($data as $datum) {
+            if ($datum->getparent() === null) {
+                $return[$datum->getBlocOrder()] = $datum;
+            }
+        }
+
+        return $return;
+//        return $this->blocks;
+    }
+
+    /**
      * @param Collection $blocks
      */
     public function setBlocks(Collection $blocks): void

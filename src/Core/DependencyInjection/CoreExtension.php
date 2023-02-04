@@ -68,12 +68,6 @@ class CoreExtension extends Extension implements PrependExtensionInterface
 
         $availableBundles = $container->getParameter('kernel.bundles');
         if (is_array($availableBundles) && in_array(KazetennPages::class, $availableBundles)) {
-            $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['pages']         = [
-                AdminMenu::MENU_TARGET       => 'kazetenn_admin_page_index',
-                AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.pages_link',
-                AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
-                AdminMenu::MENU_ORDER        => 0,
-            ];
             $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['page_handling'] = [
                 AdminMenu::MENU_TARGET       => 'kazetenn_admin_page_handling',
                 AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.page_handling_link',
@@ -83,9 +77,9 @@ class CoreExtension extends Extension implements PrependExtensionInterface
 
             $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['page_test'] = [
                 AdminMenu::MENU_TARGET       => 'pages_index',
-                AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.page_test_link',
+                AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.pages_link',
                 AdminMenu::MENU_TYPE         => AdminMenu::PAGE_TYPE,
-                AdminMenu::MENU_ORDER        => 2,
+                AdminMenu::MENU_ORDER        => 0,
             ];
 
             $admin_config[AdminMenu::PAGES_ENTRIES_NAME]['pages_index'] = [

@@ -2,7 +2,6 @@
 
 namespace Kazetenn\Core\Form;
 
-use Kazetenn\Core\Form\PageContentType;
 use Kazetenn\Pages\Entity\Page;
 use Kazetenn\Pages\Repository\PageRepository;
 use Symfony\Component\Form\AbstractType;
@@ -14,8 +13,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PageType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var Page $currentPage */
         $currentPage = $options['data'];
         $repository  = $options['repository'];
         $builder
@@ -28,16 +28,20 @@ class PageType extends AbstractType
             ->add('parent', ChoiceType::class, [
                 'choices' => self::buildTargetChoices($repository, $currentPage),
                 'label'   => 'parent_page.label',
-            ])
-            ->add('pageContents', CollectionType::class, [
+            ]);
+
+        if (null !== $currentPage->getCreatedAt()) {
+            $builder->add('blocks', CollectionType::class, [
                 'entry_type'   => PageContentType::class,
                 'allow_add'    => true,
                 'allow_delete' => true,
                 'prototype'    => true,
+                'label'        => false,
             ]);
+        }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Page::class,
@@ -49,10 +53,10 @@ class PageType extends AbstractType
     {
         $return = ['Aucune' => null];
 
-        $datas  = $pageRepository->createQueryBuilder('page')
-                                 ->where('page.id != :currentPage')
-                                 ->setParameter('currentPage', $currentPage->getId(), 'uuid')
-                                 ->getQuery()->getResult();
+        $datas = $pageRepository->createQueryBuilder('page')
+                                ->where('page.id != :currentPage')
+                                ->setParameter('currentPage', $currentPage->getId(), 'uuid')
+                                ->getQuery()->getResult();
 
         /** @var Page $page */
         foreach ($datas as $page) {

@@ -46,33 +46,40 @@ class PageController extends BaseAdminController
     }
 
     /**
-     * @Route("/", name="page_index", methods={"GET"}, priority="1")
+     * @Route("/handling/{id<\S+>?}", name="page_handling", methods={"GET","POST"}, priority="1")
      */
-    public function index(PageRepository $pageRepository): Response
+    public function createEditPage(Request $request, PageRepository $pageRepository, ManagerRegistry $managerRegistry, Page $page = null): Response
     {
-        return $this->render('@Core/page/index.html.twig', [
-            'pages' => $pageRepository->findAll(),
+        if (null === $page) {
+            $page = new Page();
+        }
+
+        $form = $this->createForm(PageType::class, $page, ['repository' => $pageRepository]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $managerRegistry->getManager()->persist($page);
+            $managerRegistry->getManager()->flush();
+
+            return $this->redirectToRoute('kazetenn_admin_page_handling', ['id' => $page->getId()->toRfc4122()]);
+        }
+
+        return $this->render('@Core/page/page_form.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 
-    /**
-     * @Route("/handling/{id<\S+>?}", name="page_handling", methods={"GET","POST"}, priority="1")
-     */
-    public function createEditPage(Page $page = null): Response
+    #[Route('/add_content/{page}/{higherOrder}/{parent}', name: 'page_add_content')]
+    public function addContent(ManagerRegistry $managerRegistry, Page $page, PageContent $parent = null, int $higherOrder = 0): Response
     {
-        if (null === $page) {
-            $pageId = null;
-        } else {
-            $pageId = $page->getId()->toRfc4122();
-        }
+        $pageContent = new PageContent();
+        $pageContent->setBaseContent($page);
+        $pageContent->setParent($parent);
+        $pageContent->setBlocOrder($higherOrder+1);
 
-        $ajaxRoute = $this->generateUrl('kazetenn_admin_ajax_page_handling', ['id' => $pageId]);
+        $managerRegistry->getManager()->persist($pageContent);
+        $managerRegistry->getManager()->flush();
 
-        return $this->render('@Core/page/page_form.html.twig', [
-            'ajax_route'       => $ajaxRoute,
-            'page_id'          => $pageId,
-            'ajax_add_content' => $this->generateUrl('kazetenn_admin_ajax_page_add_content', ['id' => null])
-        ]);
+        return $this->redirectToRoute('kazetenn_admin_page_handling', ['id' => $page->getId()->toRfc4122()]);
     }
 
     /**
@@ -189,16 +196,6 @@ class PageController extends BaseAdminController
     }
 
     /**
-     * @Route("/", name="page_content_index", methods={"GET"}, priority="1")
-     */
-    public function indexContent(PageContentRepository $pageContentRepository): Response
-    {
-        return $this->render('@Core/page_content/index.html.twig', [
-            'page_contents' => $pageContentRepository->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/new/{id}", name="page_content_new", methods={"GET","POST"}, priority="1")
      */
     public function newContent(Page $page, Request $request, PageRepository $pageRepository, PageContentRepository $pageContentRepository, ManagerRegistry $managerRegistry): Response
@@ -223,16 +220,6 @@ class PageController extends BaseAdminController
     }
 
     /**
-     * @Route("/{id}", name="page_content_show", methods={"GET"}, priority="1")
-     */
-    public function showContent(PageContent $pageContent): Response
-    {
-        return $this->render('@Core/page_content/show.html.twig', [
-            'page_content' => $pageContent,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="page_content_edit", methods={"GET","POST"}, priority="1")
      */
     public function editContent(Request $request, PageContent $pageContent, ManagerRegistry $managerRegistry): Response
@@ -246,9 +233,9 @@ class PageController extends BaseAdminController
             return $this->redirectToRoute('kazetenn_admin_page_content_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('@Core/page_content/edit.html.twig', [
+        return $this->render('@Core/page_content/edit.html.twig', [
             'page_content' => $pageContent,
-            'form'         => $form,
+            'form'         => $form->createView(),
         ]);
     }
 

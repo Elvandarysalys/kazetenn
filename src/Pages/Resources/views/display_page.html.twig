@@ -14,8 +14,9 @@
             </div>
         {% endblock %}
 
-        {% for order, data in page.pageContentsOrdered %}
-            {{ include('@KazetennPages/content/_display_block.html.twig', {block: data.0}) }}
+        {# launch de blocks display  #}
+        {% for order, data in page.blocksOrdered %}
+            {{ include('@KazetennPages/content/_display_block.html.twig', {block: data}) }}
         {% endfor %}
     </div>
 {% endblock %}

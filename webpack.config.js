@@ -14,7 +14,7 @@ Encore
   .enableSassLoader()
 
   /* entries */
-  .addEntry('page_form', '/src/Core/ContentBuilder/Resources/assets/js/page_form.js')
+  .addEntry('page_form', '/src/Core/Resources/assets/js/page_form.js')
 
   .addStyleEntry('admin_style', '/src/Admin/Resources/assets/stylesheet/admin.scss')
 

@@ -1,0 +1,22 @@
+{% extends '@KazetennAdmin/admin_base.html.twig' %}
+{% trans_default_domain 'kazetenn_admin' %}
+
+{% block title %}
+    {% trans %}kazetenn_admin.page_index_title{% endtrans %}
+{% endblock %}
+
+{% block nav_top %}
+    <div style="justify-content: center">
+        <h1>{% trans %}kazetenn_admin.page_index_title{% endtrans %}</h1>
+    </div>
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_widget(form.content) }}
+    {{ form_widget(form.template) }}
+    {{ form_widget(form.blocOrder) }}
+    {{ form_widget(form.align) }}
+    <button type="submit" class="button">{{ 'page_content.save_button.label'|trans }}</button>
+    {{ form_end(form) }}
+{% endblock %}
