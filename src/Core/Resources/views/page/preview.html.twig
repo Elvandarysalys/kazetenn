@@ -6,11 +6,16 @@
 {% endblock %}
 
 {% block body %}
-    {% block page_title %}
-        <h1>{{ page.title }}</h1>
-    {% endblock %}
+    <div id="page_container" class="page_container">
+        {% block page_title %}
+            <div class="bloc_content">
+                <h1 id="page_title" class="page_title">{{ page.title }}</h1>
+            </div>
+        {% endblock %}
 
-    {% for order, data in page.pageContentsOrdered %}
-        {{ include('@KazetennAdmin/page/_display_block.html.twig', {block: data.0}) }}
-    {% endfor %}
+        {# launch de blocks display  #}
+        {% for order, data in page.blocksOrdered %}
+            {{ include('@KazetennPages/content/_display_block.html.twig', {block: data}) }}
+        {% endfor %}
+    </div>
 {% endblock %}

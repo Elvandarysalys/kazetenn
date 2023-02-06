@@ -13,3 +13,7 @@ services:
     Kazetenn\Core\EventListener\TimestampableListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
+
+    Kazetenn\Core\Service\ContentService:
+        arguments:
+            $availableContentTypes: !tagged_iterator kazetenn.content_type_tag

@@ -25,7 +25,4 @@ return static function (ContainerConfigurator $configurator) {
 
     $services->set(PageHandler::class)
              ->call('setContainer', [new Reference('service_container')]);
-
-//    $services->set(LandingController::class)
-//        ->arg('$')
 };

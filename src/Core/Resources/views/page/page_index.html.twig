@@ -3,7 +3,7 @@
         <h3>Page {{ page.id }} - {{ page.Title }} ({{ page.Slug }})</h3>
         <div>
             <a href="{{ path('kazetenn_admin_page_show', {'id': page.id}) }}">preview</a>
-            <a href="{{ path('kazetenn_admin_page_handling', {'id': page.id} ) }}">edit</a>
+            <a href="{{ path('kazetenn_admin_content_handling', {'content': page.id} ) }}">edit</a>
 
             {% if null != page.parent %}
                 <a href="{{ path('kazetenn_front_index', {'page_path_1': page.parent.slug, 'page_path_2': page.slug}) }}" target="_blank">Consulter</a>
@@ -11,7 +11,7 @@
                 <a href="{{ path('kazetenn_front_index', {'page_path_1': page.slug}) }}" target="_blank">Consulter</a>
             {% endif %}
 
-            <a href="{{ path('kazetenn_admin_page_content_new', {'id': page.id}) }}">add content ({{ page.blocks|length }})</a>
+{#            <a href="{{ path('kazetenn_admin_page_content_new', {'id': page.id}) }}">add content ({{ page.blocks|length }})</a>#}
         </div>
     </div>
 {% else %}
@@ -20,4 +20,4 @@
     </div>
 {% endfor %}
 
-<a href="{{ path('kazetenn_admin_page_handling') }}">Create new</a>
+<a href="{{ path('kazetenn_admin_content_handling') }}">Create new</a>

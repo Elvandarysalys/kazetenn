@@ -75,6 +75,13 @@ class CoreExtension extends Extension implements PrependExtensionInterface
                 AdminMenu::MENU_ORDER        => 1,
             ];
 
+            $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['content_handling'] = [
+                AdminMenu::MENU_TARGET       => 'kazetenn_admin_content_handling',
+                AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.content_handling_link',
+                AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
+                AdminMenu::MENU_ORDER        => 2,
+            ];
+
             $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['page_test'] = [
                 AdminMenu::MENU_TARGET       => 'pages_index',
                 AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.pages_link',
@@ -83,7 +90,7 @@ class CoreExtension extends Extension implements PrependExtensionInterface
             ];
 
             $admin_config[AdminMenu::PAGES_ENTRIES_NAME]['pages_index'] = [
-                AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\Controller\PageController::listAction',
+                AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\Controller\ContentController::listAction',
             ];
         }
 
