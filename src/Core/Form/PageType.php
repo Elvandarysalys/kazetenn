@@ -20,14 +20,23 @@ class PageType extends AbstractType
         $repository  = $options['repository'];
         $builder
             ->add('title', TextType::class, [
-                'label' => 'page_title.label'
+                'label' => 'page_title.label',
+                'attr' =>[
+                    'class' => 'input'
+                ]
             ])
             ->add('slug', TextType::class, [
-                'label' => 'page_url.label'
+                'label' => 'page_url.label',
+                'attr' =>[
+                    'class' => 'input'
+                ]
             ])
             ->add('parent', ChoiceType::class, [
                 'choices' => self::buildTargetChoices($repository, $currentPage),
                 'label'   => 'parent_page.label',
+                'attr' =>[
+                    'class' => 'input'
+                ]
             ]);
 
         if (null !== $currentPage->getCreatedAt()) {

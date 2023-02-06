@@ -26,16 +26,13 @@ use function dump;
  */
 class PageController extends BaseAdminController
 {
-    private PageRepository $pageRepository;
-
     /**
      * @param MenuHandler $menuHandler
      * @param PageRepository $pageRepository
      */
-    public function __construct(MenuHandler $menuHandler, PageRepository $pageRepository)
+    public function __construct(MenuHandler $menuHandler, protected PageRepository $pageRepository)
     {
         parent::__construct($menuHandler);
-        $this->pageRepository = $pageRepository;
     }
 
     public function listAction(): string

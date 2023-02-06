@@ -2,15 +2,30 @@
 
 {% block title %}New Page{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin_page_form') }}
+{#    <script src="{{ asset('bundles/kazetenn/page_form.js') }}"></script>#}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin_page_form') }}
+{% endblock %}
+
 {% block body %}
     {{ form_start(form) }}
 
     {% set page_id = form.vars.data.id %}
 
-    {{ form_widget(form.title) }}
-    {{ form_widget(form.slug) }}
-    {{ form_widget(form.parent) }}
+    <h3 class="subtitle">page information</h3>
+    <div class="columns">
+        <div class="column">{{ form_row(form.title) }}</div>
+        <div class="column">{{ form_row(form.slug) }}</div>
+        <div class="column">{{ form_row(form.parent) }}</div>
+    </div>
 
+    <h3 class="subtitle">page content</h3>
     <div>
         {% set rendered_blocks = [] %}
         {% set page_order = 0 %}
@@ -19,11 +34,13 @@
             {% if block_id not in rendered_blocks and block_form.vars.data.parent is null %}
                 <div class="columns">
                     <div class="column is-10">
-                        {{ form_widget(block_form.content) }}
+                        {% dump block_form.content.vars.id ~ '_header' %}
+                        <div id="{{ block_form.content.vars.id ~ '_header' }}" class="block_text_area_toolbar"></div>
+                        {{ form_row(block_form.content) }}
                     </div>
                     <div class="column is-2">
-                        {{ form_widget(block_form.blocOrder) }}
-                        {{ form_widget(block_form.align) }}
+                        {{ form_row(block_form.blocOrder) }}
+                        {{ form_row(block_form.align) }}
                     </div>
                 </div>
 
@@ -34,15 +51,15 @@
                     {% if block_form.vars.data.children|length >= 1 %}
                         {% for child in block_form.vars.data.children %}
 
-                            {% for children_block_form in form.blocks.children %}
+                            {% for key, children_block_form in form.blocks.children %}
                                 {% if children_block_form.vars.data.id not in rendered_blocks and children_block_form.vars.data.id == child.id %}
                                     <div class="columns">
                                         <div class="column is-8">
-                                            {{ form_widget(children_block_form.content) }}
+                                            {{ form_row(children_block_form.content) }}
                                         </div>
                                         <div class="column is-3">
-                                            {{ form_widget(children_block_form.blocOrder) }}
-                                            {{ form_widget(children_block_form.align) }}
+                                            {{ form_row(children_block_form.blocOrder) }}
+                                            {{ form_row(children_block_form.align) }}
                                         </div>
                                     </div>
                                     {% set rendered_blocks = rendered_blocks|merge([children_block_form.vars.data.id]) %}
@@ -50,6 +67,8 @@
                                     {% if children_block_form.vars.data.blocOrder >= max_order %}
                                         {% set max_order = children_block_form.vars.data.blocOrder %}
                                     {% endif %}
+
+                                    {# todo this need a recursion #}
                                 {% endif %}
                             {% endfor %}
                         {% endfor %}
@@ -66,7 +85,7 @@
         {% endfor %}
         <a href="{{ path('kazetenn_admin_page_add_content', {'page': page_id, 'parent': null, 'higherOrder': page_order}) }}" type="button">add</a>
     </div>
-    {% do form.blocks.rendered(true) %}
+    {% do form.blocks.setRendered  %}
 
     <div>
         <button type="submit" class="button">{{ 'page_content.save_button.label'|trans }}</button>

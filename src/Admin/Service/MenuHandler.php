@@ -39,6 +39,11 @@ class MenuHandler
         $this->urlGenerator             = $urlGenerator;
     }
 
+    public function getAdminPages(): array
+    {
+        return $this->adminPages;
+    }
+
     /**
      * @param string $name
      * @param array<string> $configData

@@ -44,7 +44,7 @@ abstract class BaseBlock implements BaseBlockInterface
     //    #[ORM\JoinColumn(name: "children_id", referencedColumnName: "id")]
     //    protected Collection $children;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $content = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: false)]

@@ -2,6 +2,7 @@
 
 namespace Kazetenn\Admin\DependencyInjection\Loader\Configurator;
 
+use Kazetenn\Admin\Controller\LandingController;
 use Kazetenn\Admin\Service\MenuHandler;
 use Kazetenn\Admin\Service\PageHandler;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -24,4 +25,7 @@ return static function (ContainerConfigurator $configurator) {
 
     $services->set(PageHandler::class)
              ->call('setContainer', [new Reference('service_container')]);
+
+//    $services->set(LandingController::class)
+//        ->arg('$')
 };

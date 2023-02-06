@@ -9,17 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class BaseAdminController extends AbstractController
 {
-    protected MenuHandler $menuHandler;
-
-    /**
-     * @param MenuHandler $menuHandler
-     */
-    public function __construct(MenuHandler $menuHandler)
+    public function __construct(protected MenuHandler $menuHandler)
     {
-        $this->menuHandler = $menuHandler;
     }
 
-    public function render(string $view, array $parameters = [], Response $response = null): Response
+    public function render(string $view, array $parameters = [], ?Response $response = null): Response
     {
         $user = $this->getUser();
         if ($this->menuHandler->isAuthorizedToView($user)) {
@@ -29,5 +23,13 @@ abstract class BaseAdminController extends AbstractController
             return parent::render($view, $parameters, $response);
         }
         throw $this->createAccessDeniedException();
+    }
+
+    protected function checkAuthorisation(): bool
+    {
+        if (!$this->menuHandler->isAuthorizedToView($this->getUser())) {
+            throw $this->createAccessDeniedException('You do not have access to this page.');
+        }
+        return true;
     }
 }

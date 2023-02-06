@@ -5,10 +5,8 @@ namespace Kazetenn\Core\Form;
 use Kazetenn\Pages\Entity\Page;
 use Kazetenn\Pages\Entity\PageContent;
 use Kazetenn\Pages\Repository\PageContentRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -26,10 +24,10 @@ class PageContentType extends AbstractType
             ->add('content', TextareaType::class,[
                 'label' => false,
                 'attr' =>[
-                    'class' => 'textarea'
+                    'class' => 'textarea block_text_area'
                 ]
             ])
-            ->add('template', HiddenType::class)
+//            ->add('template', HiddenType::class)
 //            ->add('parent', EntityType::class, [
 //                'class' => PageContent::class,
 //                'choice_label' => 'id'

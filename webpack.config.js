@@ -5,8 +5,16 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
-  .setOutputPath('public/bundles/kazetenn/')
-  .setPublicPath('/bundles/kazetenn')
+  // .setOutputPath('public/bundles/kazetenn/')
+  // .setPublicPath('/bundles/kazetenn')
+  // .setManifestKeyPrefix('bundles/kazetenn')
+  // .enableSourceMaps(false)
+  // .enableVersioning(false)
+  // .disableSingleRuntimeChunk()
+  // .enableSassLoader()
+
+  .setOutputPath('public/build/')
+  .setPublicPath('/build')
   .setManifestKeyPrefix('bundles/kazetenn')
   .enableSourceMaps(false)
   .enableVersioning(false)
@@ -14,7 +22,7 @@ Encore
   .enableSassLoader()
 
   /* entries */
-  .addEntry('page_form', '/src/Core/Resources/assets/js/page_form.js')
+  .addEntry('admin_page_form', '/src/Core/Resources/assets/js/page_form.js')
 
   .addStyleEntry('admin_style', '/src/Admin/Resources/assets/stylesheet/admin.scss')
 
@@ -25,16 +33,16 @@ Encore
   .cleanupOutputBeforeBuild()
   .enableBuildNotifications()
 
-  .configureBabel((config) => {
-    config.plugins.push('@babel/plugin-proposal-class-properties')
-  })
+  // .configureBabel((config) => {
+  //   config.plugins.push('@babel/plugin-proposal-class-properties')
+  // })
+  //
+  // .configureBabelPresetEnv((config) => {
+  //   config.useBuiltIns = 'usage'
+  //   config.corejs = 3
+  // })
 
-  .configureBabelPresetEnv((config) => {
-    config.useBuiltIns = 'usage'
-    config.corejs = 3
-  })
-
-  .enableReactPreset()
+  // .enableReactPreset()
 
 // uncomment to get integrity="..." attributes on your script & link tags
 // requires WebpackEncoreBundle 1.4 or higher
