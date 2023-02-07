@@ -22,6 +22,9 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('pages_url')
                             ->defaultValue('')
                         ->end()
+                        ->scalarNode('blog_name')
+                            ->defaultValue('')
+                        ->end()
                     ->end();
 
         return $treeBuilder;

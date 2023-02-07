@@ -10,6 +10,7 @@ namespace Kazetenn\Core\Model;
 
 use Kazetenn\Core\Entity\BaseContentInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+use Symfony\Component\HttpFoundation\Response;
 
 #[AutoconfigureTag('kazetenn.content_type_tag')]
 interface ContentInterface

@@ -30,7 +30,7 @@ class CoreExtension extends Extension implements PrependExtensionInterface
 
     public function prepend(ContainerBuilder $container): void
     {
-        // activating the timestampable extension
+        // activating the timestampable and blameable extension
         $container->prependExtensionConfig('stof_doctrine_extensions', ['orm' => [
             'default' => [
                 'timestampable' => true,
@@ -66,33 +66,24 @@ class CoreExtension extends Extension implements PrependExtensionInterface
             AdminMenu::MENU_ORIENTATION  => AdminMenu::ORIENTATION_HORIZONTAL,
         ];
 
-        $availableBundles = $container->getParameter('kernel.bundles');
-        if (is_array($availableBundles) && in_array(KazetennPages::class, $availableBundles)) {
-            $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['page_handling'] = [
-                AdminMenu::MENU_TARGET       => 'kazetenn_admin_page_handling',
-                AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.page_handling_link',
-                AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
-                AdminMenu::MENU_ORDER        => 1,
-            ];
+        // general content handling (basic edition)
+        $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['content_handling'] = [
+            AdminMenu::MENU_TARGET       => 'kazetenn_admin_content_handling',
+            AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.content_handling_link',
+            AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
+            AdminMenu::MENU_ORDER        => 2,
+        ];
 
-            $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['content_handling'] = [
-                AdminMenu::MENU_TARGET       => 'kazetenn_admin_content_handling',
-                AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.content_handling_link',
-                AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
-                AdminMenu::MENU_ORDER        => 2,
-            ];
+        $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['content_index'] = [
+            AdminMenu::MENU_TARGET       => 'content_index',
+            AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.contents_link',
+            AdminMenu::MENU_TYPE         => AdminMenu::PAGE_TYPE,
+            AdminMenu::MENU_ORDER        => 0,
+        ];
 
-            $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['page_test'] = [
-                AdminMenu::MENU_TARGET       => 'pages_index',
-                AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.pages_link',
-                AdminMenu::MENU_TYPE         => AdminMenu::PAGE_TYPE,
-                AdminMenu::MENU_ORDER        => 0,
-            ];
-
-            $admin_config[AdminMenu::PAGES_ENTRIES_NAME]['pages_index'] = [
-                AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\Controller\ContentController::listAction',
-            ];
-        }
+        $admin_config[AdminMenu::PAGES_ENTRIES_NAME]['content_index'] = [
+            AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\Controller\ContentController::contentListAction',
+        ];
 
         // adding the routes to the menu
         $container->prependExtensionConfig('kazetenn_admin', $admin_config);

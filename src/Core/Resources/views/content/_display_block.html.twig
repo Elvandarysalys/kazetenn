@@ -2,6 +2,7 @@
 
 <div class="content_bloc_container" style="order: {{ block.blocOrder }}">
     {% block display_block_main %}
+        {# This is the place the bloc content is displayed. For reference, see '_block_content_display.html.twig' #}
         {{ include(block.template, {pageContent: block}) }}
     {% endblock %}
 

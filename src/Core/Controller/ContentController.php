@@ -31,7 +31,7 @@ class ContentController extends BaseAdminController
      * todo: can this be turned into a custom all content route ?
      * @return string
      */
-    public function listAction(): string
+    public function contentListAction(): string
     {
         return $this->renderView('@Core/page/page_index.html.twig', [
             'pages' => $this->pageRepository->findAll(),
@@ -90,7 +90,7 @@ class ContentController extends BaseAdminController
             $managerRegistry->getManager()->persist($content);
             $managerRegistry->getManager()->flush();
 
-            return $this->redirectToRoute('kazetenn_admin_content_handling', ['id' => $content->getId()->toRfc4122()]);
+            return $this->redirectToRoute('kazetenn_admin_content_handling', ['content' => $content->getId()->toRfc4122()]);
         }
 
         $template = '@Core/page/page_form.html.twig';
@@ -113,7 +113,7 @@ class ContentController extends BaseAdminController
         $managerRegistry->getManager()->persist($pageContent);
         $managerRegistry->getManager()->flush();
 
-        return $this->redirectToRoute('kazetenn_admin_page_handling', ['id' => $page->getId()->toRfc4122()]);
+        return $this->redirectToRoute('kazetenn_admin_content_handling', ['content' => $page->getId()->toRfc4122()]);
     }
 
     #[Route("/{id}", name: "page_show", methods: ["GET"], priority: 1)]
