@@ -16,6 +16,59 @@ Create a symfony project (full or skeleton, it doesn't matter) and use :
 composer require elvandar/kazetenn
 ````
 
+## Use cases:
+
+### I do not know how all this work, I just want to build a website
+
+Go to the green "<>code" button at the top right of the page, click it and select "Dowload Zip"
+
+unzip it and transfer the folder to your server (There should be plenty of doccumentation on you server renting space)
+
+ensure that PHP is installed 
+
+ensure that composer is installed
+
+once the transfer done, go to the ``kazetenn`` folder.
+
+Create a .env file in the ``kazetenn`` folder and complete it whith the following information:
+````dotenv
+APP_ENV=prod
+APP_SECRET="a random secret"
+DATABASE_URL="the url to connect to your database, such as mysql://username:password@127.0.0.1/kazetenn"
+````
+
+Then, you will want to run the ``composer install`` command.
+
+If you arrived at those steps without error, you should be setup. You can go to ``url_of_your_website/admin`` and start
+working.
+
+### I come from Wordpress/Drupal
+
+I am assuming that if you went this far, you intend to do some advanced customisation.
+
+Fire up your favorite Ide, check that composer is installed and build a symfonny project:
+
+[symfony's documentation](https://symfony.com/doc/current/getting_started/index.html)
+
+Once it is done, you can run the
+
+``composer require elvandar/kazetenn``
+
+You are now as set up as the precedent example. I would suggest that you read the documentation of the component you are
+interested in to learn about and the symfony documentation.
+
+//todo: build an example project and link the github here as an aid
+
+### I want to use it in my symfony project
+
+Then you probably know and understand everything I already explained. You may want a more custom installation, in which
+case.
+
+I would suggest to start small, the bare-minimum  of the installation is the Core component. And you can find a dependency
+map [here](Current%20dependency%20map).
+
+From there, you can look at the different components, install the one you want, or build what you need from here.
+
 # How does it work ?
 
 DISCLAIMER: this is still a WORK IN PROGRESS. The following text describe a goal, not a documentation
@@ -67,10 +120,11 @@ they are a basic content with a category mechanic (one or more category by artic
 
 # Current dependency map:
 
-
 ````shell
 Admin
 └── Core
     ├── Pages
     ├── Articles
 ````
+
+# 
