@@ -9,6 +9,7 @@
 namespace Kazetenn\Core\Service;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Kazetenn\Core\Model\ContentInterface;
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 
@@ -54,7 +55,7 @@ class ContentService
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function getContentById(string $id)
     {
@@ -68,12 +69,12 @@ class ContentService
 
         if (!empty($datas)) {
             if (count($datas) > 1) {
-                throw new \Exception('More than one content found with this id');
+                throw new Exception('More than one content found with this id');
             }
 
             return $datas[0];
         }
-        throw new \Exception('No content found with this id');
+        throw new Exception('No content found with this id');
     }
 
     /**

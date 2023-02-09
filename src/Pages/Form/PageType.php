@@ -3,7 +3,7 @@
 namespace Kazetenn\Pages\Form;
 
 use Kazetenn\Core\Form\ContentType;
-use Kazetenn\Core\Form\PageContentType;
+use Kazetenn\Core\Form\ContentBlockType;
 use Kazetenn\Pages\Entity\Page;
 use Kazetenn\Pages\Repository\PageRepository;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

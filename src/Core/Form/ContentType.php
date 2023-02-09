@@ -33,7 +33,7 @@ class ContentType extends AbstractType
 
         if (null !== $content && null !== $content->getCreatedAt()) {
             $builder->add('blocks', CollectionType::class, [
-                'entry_type'   => PageContentType::class,
+                'entry_type'   => ContentBlockType::class,
                 'allow_add'    => true,
                 'allow_delete' => true,
                 'prototype'    => true,

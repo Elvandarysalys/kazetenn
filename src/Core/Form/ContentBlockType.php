@@ -13,13 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PageContentType extends AbstractType
+class ContentBlockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var PageContentRepository $blocRepository */
-        $blocRepository = $options['bloc_repository'];
-
         $builder
             ->add('content', TextareaType::class,[
                 'label' => false,
@@ -27,11 +24,6 @@ class PageContentType extends AbstractType
                     'class' => 'textarea block_text_area'
                 ]
             ])
-//            ->add('template', HiddenType::class)
-//            ->add('parent', EntityType::class, [
-//                'class' => PageContent::class,
-//                'choice_label' => 'id'
-//            ])
             ->add('blocOrder', IntegerType::class, [
                 'attr' =>[
                     'class' => 'input'
@@ -47,17 +39,5 @@ class PageContentType extends AbstractType
                     'class' => 'input'
                 ]
             ]);
-//            ->add('children', CollectionType::class, [
-//                'entry_type' => PageContentType::class,
-//                'prototype'  => true,
-//            ]);
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class'      => PageContent::class,
-            'bloc_repository' => PageContentRepository::class
-        ]);
     }
 }

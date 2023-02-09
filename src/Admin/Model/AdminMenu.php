@@ -38,7 +38,7 @@ class AdminMenu
     private string $destination;
     private string $displayName;
     private string $type;
-    /** @var array <AdminMenu> */
+    /** @var array<AdminMenu> */
     private array $children = [];
 
     /**
@@ -56,7 +56,7 @@ class AdminMenu
     }
 
     /**
-     * @return array <AdminMenu>
+     * @return array<AdminMenu>
      */
     public function getChildren(): array
     {
@@ -64,7 +64,7 @@ class AdminMenu
     }
 
     /**
-     * @param array  <AdminMenu> $children
+     * @param array<AdminMenu> $children
      */
     public function setChildren(array $children): void
     {
