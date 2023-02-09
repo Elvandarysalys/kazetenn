@@ -8,6 +8,7 @@
 
 namespace Kazetenn\Core\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
@@ -36,7 +37,7 @@ abstract class BaseContent implements BaseContentInterface
     // OneToMany association does not work with MappedSuperclass. todo: check how to handle this, can it be handled in a service or not ?
     //    #[ORM\OneToMany(mappedBy: 'campaign', targetEntity: BaseBlock::class)]
     //    #[ORM\OrderBy(["blocOrder" => "asc"])]
-    //    protected Collection $blocks;
+    protected Collection $blocks;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     protected string $template;
@@ -92,5 +93,38 @@ abstract class BaseContent implements BaseContentInterface
     public function setTemplate(string $template): void
     {
         $this->template = $template;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getBlocks(): Collection
+    {
+        return $this->blocks;
+    }
+
+    /**
+     * This return an ordered array of the direct descendant blocks.
+     * @return array<BaseBlockInterface>
+     */
+    public function getBlocksOrdered(): array{
+        $data = $this->blocks;
+
+        $return = [];
+        foreach ($data as $datum) {
+            if ($datum->getparent() === null) {
+                $return[$datum->getBlocOrder()] = $datum;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * @param Collection $blocks
+     */
+    public function setBlocks(Collection $blocks): void
+    {
+        $this->blocks = $blocks;
     }
 }

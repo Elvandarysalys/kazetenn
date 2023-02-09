@@ -21,6 +21,9 @@ interface ContentInterface
 
     public function getContentName(): string;
 
+    /**
+     * @return class-string<object>
+     */
     public function getContentClass(): string;
 
     public function getContentTemplate(): string;

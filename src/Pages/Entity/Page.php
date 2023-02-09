@@ -73,7 +73,7 @@ class Page extends BaseContent
     /**
      * This return an ordered array of the direct descendant blocks.
      */
-    public function getBlocksOrdered(){
+    public function getBlocksOrdered(): array{
         $data = $this->blocks;
 
         $return = [];
@@ -84,7 +84,6 @@ class Page extends BaseContent
         }
 
         return $return;
-//        return $this->blocks;
     }
 
     /**

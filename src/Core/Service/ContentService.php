@@ -10,6 +10,7 @@ namespace Kazetenn\Core\Service;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Kazetenn\Core\Entity\BaseContentInterface;
 use Kazetenn\Core\Model\ContentInterface;
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 
@@ -57,12 +58,13 @@ class ContentService
     /**
      * @throws Exception
      */
-    public function getContentById(string $id)
+    public function getContentById(string $id): BaseContentInterface
     {
         /** @var ContentInterface $contentType */
         foreach ($this->contentTypes as $contentType) {
             $search = $this->managerRegistry->getRepository($contentType->getContentClass())->find($id);
             if (null !== $search){
+                /** @var array<BaseContentInterface> $datas */
                 $datas[] = $search;
             }
         }

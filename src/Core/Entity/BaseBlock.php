@@ -42,7 +42,7 @@ abstract class BaseBlock implements BaseBlockInterface
     // OneToMany association does not work with MappedSuperclass. todo: check how to handle this, can it be handled in a service or not ?
     //    #[ORM\OneToMany(mappedBy: "parent", targetEntity: BaseBlock::class)]
     //    #[ORM\JoinColumn(name: "children_id", referencedColumnName: "id")]
-    //    protected Collection $children;
+    protected Collection $children;
 
     #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $content = null;
@@ -77,7 +77,7 @@ abstract class BaseBlock implements BaseBlockInterface
     public function removeChildren(BaseBlock $baseBlock): self
     {
         if ($this->children->removeElement($baseBlock)) {
-            if ($baseBlock->getBaseContent() === $this) {
+            if (null !== $baseBlock->getBaseContent() && $baseBlock->getBaseContent()->getId() === $this->getId()) {
                 $baseBlock->setParent(null);
             }
         }
@@ -110,7 +110,7 @@ abstract class BaseBlock implements BaseBlockInterface
         return $this->parent;
     }
 
-    public function setParent(?BaseBlock $parent): void
+    public function setParent(?BaseBlockInterface $parent): void
     {
         $this->parent = $parent;
     }

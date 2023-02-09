@@ -14,7 +14,7 @@ class ContentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var BaseContentInterface $content */
+        /** @var ?BaseContentInterface $content */
         $content = array_key_exists('data', $options) ? $options['data'] : null;
 
         $builder
