@@ -16,9 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/pages")
- */
+#[Route("/pages")]
 class ContentController extends BaseAdminController
 {
     public function __construct(MenuHandler $menuHandler, protected PageRepository $pageRepository, protected ContentService $contentService)
@@ -33,15 +31,15 @@ class ContentController extends BaseAdminController
      */
     public function contentListAction(): string
     {
-        return $this->renderView('@Core/page/page_index.html.twig', [
+        return $this->renderView('@Core/content_handling/page_index.html.twig', [
             'pages' => $this->pageRepository->findAll(),
         ]);
     }
 
     /**
      * Used to create or edit any content based on the tagged_iterator
-     * @Route("/handling_content/{content}", name="content_handling", methods={"GET","POST"}, priority="1")
      */
+    #[Route("/handling_content/{content}", name: "content_handling", methods: ["GET", "POST"], priority: 1)]
     public function createEditContent(Request $request, ManagerRegistry $managerRegistry, ?BaseContentInterface $content = null): Response
     {
         $creation = true;
@@ -93,12 +91,20 @@ class ContentController extends BaseAdminController
             return $this->redirectToRoute('kazetenn_admin_content_handling', ['content' => $content->getId()->toRfc4122()]);
         }
 
-        $template = '@Core/page/page_form.html.twig';
-        if (null !== $contentType){
+        $template = '@Core/content_handling/page_form.html.twig';
+        if (null !== $contentType) {
             $template = $contentType->getContentTemplate();
         }
         return $this->render($template, [
             'form' => $form->createView()
+        ]);
+    }
+
+    #[Route("/content/preview/{id}", name: "page_show", methods: ["GET"], priority: 1)]
+    public function preview(Page $page): Response
+    {
+        return $this->render('@Core/content_handling/preview.html.twig', [
+            'page' => $page,
         ]);
     }
 
@@ -114,13 +120,5 @@ class ContentController extends BaseAdminController
         $managerRegistry->getManager()->flush();
 
         return $this->redirectToRoute('kazetenn_admin_content_handling', ['content' => $page->getId()->toRfc4122()]);
-    }
-
-    #[Route("/{id}", name: "page_show", methods: ["GET"], priority: 1)]
-    public function preview(Page $page): Response
-    {
-        return $this->render('@Core/page/preview.html.twig', [
-            'page' => $page,
-        ]);
     }
 }

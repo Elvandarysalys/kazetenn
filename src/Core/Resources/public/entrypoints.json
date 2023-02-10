@@ -1,0 +1,12 @@
+{
+  "entrypoints": {
+    "admin_page_form": {
+      "css": [
+        "/admin_page_form.css"
+      ],
+      "js": [
+        "/admin_page_form.js"
+      ]
+    }
+  }
+}

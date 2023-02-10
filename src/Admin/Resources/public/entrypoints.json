@@ -1,0 +1,12 @@
+{
+  "entrypoints": {
+    "admin_style": {
+      "js": [
+        "/runtime.js"
+      ],
+      "css": [
+        "/admin_style.css"
+      ]
+    }
+  }
+}
