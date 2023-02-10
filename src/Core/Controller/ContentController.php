@@ -6,12 +6,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Kazetenn\Admin\Controller\BaseAdminController;
 use Kazetenn\Admin\Service\MenuHandler;
+use Kazetenn\Core\Entity\BaseBlockInterface;
 use Kazetenn\Core\Entity\BaseContentInterface;
 use Kazetenn\Core\Form\ContentType;
 use Kazetenn\Core\Service\ContentService;
-use Kazetenn\Pages\Entity\Page;
-use Kazetenn\Pages\Entity\PageContent;
-use Kazetenn\Pages\Repository\PageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,25 +17,26 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route("/pages")]
 class ContentController extends BaseAdminController
 {
-    public function __construct(MenuHandler $menuHandler, protected PageRepository $pageRepository, protected ContentService $contentService)
+    public function __construct(MenuHandler $menuHandler, protected ContentService $contentService)
     {
         parent::__construct($menuHandler);
     }
 
     /**
      * Used as a route in the admin to  list all pages.
-     * todo: can this be turned into a custom all content route ?
+     * todo: paginate!
      * @return string
      */
     public function contentListAction(): string
     {
         return $this->renderView('@Core/content_handling/page_index.html.twig', [
-            'pages' => $this->pageRepository->findAll(),
+            'contents' => $this->contentService->getAllContents(),
         ]);
     }
 
     /**
      * Used to create or edit any content based on the tagged_iterator
+     * @throws Exception
      */
     #[Route("/handling_content/{content}", name: "content_handling", methods: ["GET", "POST"], priority: 1)]
     public function createEditContent(Request $request, ManagerRegistry $managerRegistry, ?BaseContentInterface $content = null): Response
@@ -50,6 +49,7 @@ class ContentController extends BaseAdminController
             $contentType = $this->contentService->getContentByClass($content);
             if (null !== $contentType) {
                 $formType = $contentType->getFormType();
+                $creation = false;
             }
         }
 
@@ -100,25 +100,34 @@ class ContentController extends BaseAdminController
         ]);
     }
 
-    #[Route("/content/preview/{id}", name: "page_show", methods: ["GET"], priority: 1)]
-    public function preview(Page $page): Response
+    // todo: is this really necessary ?
+//    #[Route("/content/preview/{id}", name: "page_show", methods: ["GET"], priority: 1)]
+//    public function preview(Page $page): Response
+//    {
+//        return $this->render('@Core/content_handling/preview.html.twig', [
+//            'page' => $page,
+//        ]);
+//    }
+
+    #[Route('/add_content/{content}/{highestOrder}/{baseBlock}', name: 'content_add_block')]
+    public function addContent(ManagerRegistry $managerRegistry, BaseContentInterface $content, BaseBlockInterface $baseBlock = null, int $highestOrder = 0): Response
     {
-        return $this->render('@Core/content_handling/preview.html.twig', [
-            'page' => $page,
-        ]);
-    }
+        $contentType = $this->contentService->getContentByClass($content);
+        if (null !== $contentType) {
+            $blockType = $contentType->getBlockClass();
+            /** @var BaseBlockInterface $newBlock */
+            $newBlock = new $blockType;
 
-    #[Route('/add_content/{page}/{higherOrder}/{parent}', name: 'page_add_content')]
-    public function addContent(ManagerRegistry $managerRegistry, Page $page, PageContent $parent = null, int $higherOrder = 0): Response
-    {
-        $pageContent = new PageContent();
-        $pageContent->setBaseContent($page);
-        $pageContent->setParent($parent);
-        $pageContent->setBlocOrder($higherOrder + 1);
+            $newBlock->setBaseContent($content);
+            $newBlock->setParent($baseBlock);
+            $newBlock->setBlocOrder($highestOrder + 1);
 
-        $managerRegistry->getManager()->persist($pageContent);
-        $managerRegistry->getManager()->flush();
+            $managerRegistry->getManager()->persist($newBlock);
+            $managerRegistry->getManager()->flush();
+        } else {
+            $this->addFlash('error', sprintf('Impossible to find a content type for %s', $content->getId()));
+        }
 
-        return $this->redirectToRoute('kazetenn_admin_content_handling', ['content' => $page->getId()->toRfc4122()]);
+        return $this->redirectToRoute('kazetenn_admin_content_handling', ['content' => $content->getId()->toRfc4122()]);
     }
 }

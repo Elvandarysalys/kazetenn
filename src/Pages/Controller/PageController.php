@@ -12,6 +12,7 @@ use Kazetenn\Core\Entity\BaseContentInterface;
 use Kazetenn\Core\Model\ContentInterface;
 use Kazetenn\Core\Model\ContentModel;
 use Kazetenn\Pages\Entity\Page;
+use Kazetenn\Pages\Entity\PageContent;
 use Kazetenn\Pages\Form\PageType;
 use Kazetenn\Pages\Repository\PageRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,6 +43,11 @@ class PageController extends ContentModel implements ContentInterface
     public function getContentTemplate(): string
     {
         return '@KazetennPages/content/page_form.html.twig';
+    }
+
+    public function getBlockClass(): string
+    {
+        return PageContent::class;
     }
 
     #[Route("/404", name: "page_not_found", methods: ["GET"], priority: 1)]

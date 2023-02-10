@@ -100,7 +100,7 @@ abstract class BaseBlock implements BaseBlockInterface
         return $this->baseContent;
     }
 
-    public function setBaseContent(?BaseContent $baseContent): void
+    public function setBaseContent(?BaseContentInterface $baseContent): void
     {
         $this->baseContent = $baseContent;
     }

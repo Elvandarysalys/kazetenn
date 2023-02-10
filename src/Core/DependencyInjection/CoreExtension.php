@@ -67,18 +67,18 @@ class CoreExtension extends Extension implements PrependExtensionInterface
         ];
 
         // general content handling (basic edition)
-        $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['content_handling'] = [
-            AdminMenu::MENU_TARGET       => 'kazetenn_admin_content_handling',
-            AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.content_handling_link',
-            AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
-            AdminMenu::MENU_ORDER        => 2,
-        ];
-
         $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['content_index'] = [
             AdminMenu::MENU_TARGET       => 'content_index',
             AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.contents_link',
             AdminMenu::MENU_TYPE         => AdminMenu::PAGE_TYPE,
             AdminMenu::MENU_ORDER        => 0,
+        ];
+
+        $admin_config[AdminMenu::MENU_ENTRIES_NAME]['main_menu'][AdminMenu::MENU_CHILDREN]['content_handling'] = [
+            AdminMenu::MENU_TARGET       => 'kazetenn_admin_content_handling',
+            AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.content_handling_link',
+            AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
+            AdminMenu::MENU_ORDER        => 2,
         ];
 
         $admin_config[AdminMenu::PAGES_ENTRIES_NAME]['content_index'] = [

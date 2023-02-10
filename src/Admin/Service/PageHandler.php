@@ -73,11 +73,14 @@ class PageHandler implements ContainerAwareInterface
                         $page->setStatus(AdminPage::PAGE_STATUS_FOUND);
                     }
                 } catch (Exception $e) {
-                    $this->logger->warning("Function provided for page $pageName returner an error: \n" . $e->getMessage());
+                    $errorMessage = "Function provided for page $pageName returner an error: \n" . $e->getMessage();
+                    $this->logger->warning($errorMessage);
+                    $page->addError($errorMessage);
                 }
             } else {
                 foreach ($errors as $error) {
                     $this->logger->warning($error);
+                    $page->addError($error);
                 }
             }
         } else {

@@ -7,11 +7,12 @@ class AdminPage
     const PAGE_STATUS_NOT_FOUND = 0;
     const PAGE_STATUS_FOUND     = 1;
 
-    private ?object $service  = null;
-    private ?string $function = null;
-    private ?string $content  = null;
-    private ?string $name     = null;
-    private ?int    $status   = self::PAGE_STATUS_NOT_FOUND;
+    protected ?object $service  = null;
+    protected ?string $function = null;
+    protected ?string $content  = null;
+    protected ?string $name     = null;
+    protected ?int    $status   = self::PAGE_STATUS_NOT_FOUND;
+    protected array   $errors   = [];
 
     public function setServiceInfos(object $service, string $function): AdminPage
     {
@@ -110,5 +111,21 @@ class AdminPage
     public function setStatus(?int $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+
+    /**
+     * @param string $error
+     */
+    public function addError(string $error): void
+    {
+        $this->errors[] = $error;
     }
 }

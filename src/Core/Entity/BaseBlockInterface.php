@@ -22,7 +22,7 @@ interface BaseBlockInterface
 
     public function getBaseContent(): ?BaseContent;
 
-    public function setBaseContent(?BaseContent $baseContent): void;
+    public function setBaseContent(?BaseContentInterface $baseContent): void;
 
     public function getParent(): ?BaseBlockInterface;
 

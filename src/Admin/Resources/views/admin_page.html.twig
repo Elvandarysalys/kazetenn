@@ -1,10 +1,25 @@
 {% extends '@KazetennAdmin/admin_base.html.twig' %}
 {% trans_default_domain 'kazetenn_admin' %}
-{% dump %}
+
 {% block title %}
     {{ page.name }}
 {% endblock %}
 
 {% block body %}
-    {{ page.content|raw }}
+    <div>
+        {% for error in page.errors %}
+
+            <article class="message is-warning">
+                <div class="message-header">
+                    <p>Warning</p>
+                </div>
+                <div class="message-body">
+                    {{ error }}
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+    <div>
+        {{ page.content|raw }}
+    </div>
 {% endblock %}

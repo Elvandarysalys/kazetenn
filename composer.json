@@ -66,9 +66,10 @@
     "symfony/webpack-encore-bundle": ">=1.13"
   },
   "replace": {
-    "elvandar/kazetenn_pages": "0.0.1",
-    "elvandar/kazetenn_articles": "0.0.1",
-    "elvandar/kazetenn_core_admin": "self.version"
+    "elvandar/kazetenn-admin": "1.2.*",
+    "elvandar/kazetenn-core": "1.*",
+    "elvandar/kazetenn-pages": "0.0.1",
+    "elvandar/kazetenn-articles": "self.version"
   },
   "config": {
     "optimize-autoloader": true,

@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Kazetenn\Core\Entity\BaseBlock;
 use Kazetenn\Core\Entity\BaseBlockInterface;
 use Kazetenn\Core\Entity\BaseContent;
+use Kazetenn\Core\Entity\BaseContentInterface;
 use Kazetenn\Pages\Repository\PageContentRepository;
 
 #[ORM\Entity(repositoryClass: PageContentRepository::class)]
@@ -49,7 +50,7 @@ class PageContent extends BaseBlock
     /**
      * @param BaseContent|null $baseContent
      */
-    public function setBaseContent(?BaseContent $baseContent): void
+    public function setBaseContent(?BaseContentInterface $baseContent): void
     {
         $this->baseContent = $baseContent;
     }

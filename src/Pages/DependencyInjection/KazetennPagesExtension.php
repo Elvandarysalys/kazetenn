@@ -43,10 +43,6 @@ class KazetennPagesExtension extends Extension implements PrependExtensionInterf
 
     public function prepend(ContainerBuilder $container): void
     {
-//        $availableBundles = $container->getParameter('kernel.bundles');
-//        if (is_array($availableBundles) && in_array(KazetennPages::class, $availableBundles)) {
-//        }
-
         $admin_config[AdminMenu::MENU_ENTRIES_NAME]['page_menu'] = [
             AdminMenu::MENU_DISPLAY_NAME => 'kazetenn_admin.nav_size.page_menus',
             AdminMenu::MENU_TYPE         => AdminMenu::HEADER_TYPE,
@@ -62,7 +58,7 @@ class KazetennPagesExtension extends Extension implements PrependExtensionInterf
         ];
 
         $admin_config[AdminMenu::MENU_ENTRIES_NAME]['page_menu'][AdminMenu::MENU_CHILDREN]['page_handling'] = [
-            AdminMenu::MENU_TARGET       => 'kazetenn_admin_page_handling',
+            AdminMenu::MENU_TARGET       => 'kazetenn_admin_content_handling',
             AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.page_handling_link',
             AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
             AdminMenu::MENU_ORDER        => 1,
