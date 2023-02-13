@@ -4,10 +4,6 @@
 /app/
 /bin/
 /migrations/
-/public/
-/config/
-/templates/
-/translations/
 .env
 .env.test
 

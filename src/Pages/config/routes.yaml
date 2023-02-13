@@ -1,5 +1,5 @@
 front_controller:
-  resource: '@KazetennPages/Controller/PageController.php'
+  resource: '../src/Controller/'
   type: annotation
   prefix: '%kazetenn_pages.pages_url%'
   name_prefix: 'kazetenn_'

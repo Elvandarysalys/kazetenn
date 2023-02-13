@@ -85,7 +85,7 @@
   "autoload": {
     "psr-4": {
       "App\\": "App",
-      "Kazetenn\\Pages\\": "src/Pages",
+      "Kazetenn\\Pages\\": "src/Pages/src",
       "Kazetenn\\Articles\\": "src/Articles",
       "Kazetenn\\Admin\\": "src/Admin/src",
       "Kazetenn\\Core\\": "src/Core/src"

@@ -1,5 +1,5 @@
 {
-  "name": "elvandar/kazetenn_pages",
+  "name": "elvandar/kazetenn-pages",
   "type": "symfony-bundle",
   "license": "MIT",
   "description": "A page handling bundle for symfony. Part of the Kazetenn project",
@@ -54,7 +54,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Kazetenn\\Pages\\": ""
+      "Kazetenn\\Pages\\": "src"
     },
     "exclude-from-classmap": [
       "/Tests/"

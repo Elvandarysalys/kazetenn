@@ -10,10 +10,8 @@ namespace Kazetenn\Core\Model;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use Kazetenn\Articles\Entity\Article;
 use Kazetenn\Core\Entity\BaseContentInterface;
 use Kazetenn\Core\Service\ContentService;
-use Kazetenn\Pages\Entity\Page;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
