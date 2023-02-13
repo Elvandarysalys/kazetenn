@@ -1,0 +1,24 @@
+{% if pages is not empty %}
+    <h2 class="subtitle">Pages</h2>
+    {% for content in pages %}
+        <div style="width: 75%">
+            <h3>page {{ content.id }} - {{ content.Title }} ({{ content.Slug }})</h3>
+            <div>
+{#                <a href="{{ path('kazetenn_admin_page_show', {'id': content.id}) }}">preview</a>#}
+                <a href="{{ path('kazetenn_admin_content_handling', {'content': content.id} ) }}">edit</a>
+
+                {% if null != content.parent %}
+                    <a href="{{ path('kazetenn_front_index', {'page_path_1': content.parent.slug, 'page_path_2': content.slug}) }}" target="_blank">Consulter</a>
+                {% else %}
+                    <a href="{{ path('kazetenn_front_index', {'page_path_1': content.slug}) }}" target="_blank">Consulter</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div>
+        <h2>no records found</h2>
+    </div>
+{% endif %}
+
+<a href="{{ path('kazetenn_admin_content_handling') }}">Create new</a>

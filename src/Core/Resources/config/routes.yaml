@@ -1,5 +1,0 @@
-admin_controllers:
-  resource: '../../Controller/'
-  type: annotation
-  prefix: '%kazetenn_admin.admin_url%'
-  name_prefix: 'kazetenn_admin_'

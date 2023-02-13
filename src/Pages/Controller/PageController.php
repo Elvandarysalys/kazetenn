@@ -20,6 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends ContentModel implements ContentInterface
 {
+    public function __construct(protected PageRepository $pageRepository)
+    {
+    }
+
     public function getFormType(): string
     {
         return PageType::class;
@@ -76,10 +80,10 @@ class PageController extends ContentModel implements ContentInterface
      * todo: can this be turned into a custom all content route ?
      * @return string
      */
-    public function listAction(PageRepository $pageRepository): string
+    public function listAction(): string
     {
-        return $this->renderView('@Core/page/page_index.html.twig', [
-            'pages' => $pageRepository->findAll(),
+        return $this->renderView('@KazetennPages/page_index.html.twig', [
+            'pages' => $this->pageRepository->findAll(),
         ]);
     }
 }

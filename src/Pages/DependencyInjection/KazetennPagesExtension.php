@@ -11,7 +11,6 @@ namespace Kazetenn\Pages\DependencyInjection;
 
 use Exception;
 use Kazetenn\Admin\Model\AdminMenu;
-use Kazetenn\Pages\KazetennPages;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -30,7 +29,7 @@ class KazetennPagesExtension extends Extension implements PrependExtensionInterf
         $loader->load('services.yaml');
 
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config        = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('kazetenn_pages.pages_url', $config['pages_url']);
         $container->setParameter('kazetenn_pages.blog_name', $config['blog_name']);
@@ -58,14 +57,15 @@ class KazetennPagesExtension extends Extension implements PrependExtensionInterf
         ];
 
         $admin_config[AdminMenu::MENU_ENTRIES_NAME]['page_menu'][AdminMenu::MENU_CHILDREN]['page_handling'] = [
-            AdminMenu::MENU_TARGET       => 'kazetenn_admin_content_handling',
-            AdminMenu::MENU_DISPLAY_NAME => 'admin_menu.page_handling_link',
-            AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
-            AdminMenu::MENU_ORDER        => 1,
+            AdminMenu::MENU_TARGET           => 'kazetenn_admin_content_handling',
+            AdminMenu::MENU_TARGET_ARGUMENTS => ['type' => 'page'],
+            AdminMenu::MENU_DISPLAY_NAME     => 'admin_menu.page_handling_link',
+            AdminMenu::MENU_TYPE             => AdminMenu::ROUTE_TYPE,
+            AdminMenu::MENU_ORDER            => 1,
         ];
 
         $admin_config[AdminMenu::PAGES_ENTRIES_NAME]['pages_index'] = [
-            AdminMenu::PAGE_FUNCTION => 'Kazetenn\Core\Controller\PageController::listAction',
+            AdminMenu::PAGE_FUNCTION => 'Kazetenn\Pages\Controller\PageController::listAction',
         ];
 
         $container->prependExtensionConfig('kazetenn_admin', $admin_config);

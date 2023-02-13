@@ -21,8 +21,6 @@ use Kazetenn\Pages\Repository\PageContentRepository;
 class PageContent extends BaseBlock
 {
     const ROW_TEMPLATE     = '@KazetennPages/content/_block_content_display.twig';
-    const HORIZONTAL_ALIGN = 'horizontal';
-    const VERTICAL_ALIGN   = 'vertical';
 
     // todo find a way to abstract this one into the Core bundle
     #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'blocks')]

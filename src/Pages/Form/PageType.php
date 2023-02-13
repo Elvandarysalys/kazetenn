@@ -20,8 +20,10 @@ class PageType extends ContentType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
+
         /** @var Page $currentPage */
-        $currentPage = $options['data'];
+        $currentPage = array_key_exists('data', $options) ? $options['data'] : null;
+
         $builder
             ->add('parent', ChoiceType::class, [
                 'choices' => self::buildTargetChoices($this->pageRepository, $currentPage),

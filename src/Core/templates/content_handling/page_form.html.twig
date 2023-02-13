@@ -1,0 +1,102 @@
+{% extends '@KazetennAdmin/admin_base.html.twig' %}
+
+{% block title %}New content{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin_page_form') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin_page_form') }}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+
+    <h3 class="subtitle">page information</h3>
+    <div class="columns">
+        <div class="column">{{ form_row(form.title) }}</div>
+        <div class="column">{{ form_row(form.slug) }}</div>
+
+        {% block content_custom_form %}
+        {% endblock %}
+    </div>
+
+    {% if form.content_type is defined %}
+        <div class="columns">
+            <div class="column">{{ form_row(form.content_type) }}</div>
+        </div>
+    {% endif %}
+
+    {% if form.blocks is defined %}
+        {% set content_id = form.vars.data.id %}
+
+        <h3 class="subtitle">{{ 'kazetenn_admin.block_form.title'|trans }}</h3>
+        <div>
+            {% set rendered_blocks = [] %}
+            {% set page_order = 0 %}
+            {% for block_form in form.blocks.children %}
+                {% set block_id = block_form.vars.data.id %}
+                {% if block_id not in rendered_blocks and block_form.vars.data.parent is null %}
+                    <div class="columns">
+                        <div class="column is-10">
+                            <div id="{{ block_form.content.vars.id ~ '_header' }}" class="block_text_area_toolbar"></div>
+                            {{ form_row(block_form.content) }}
+                        </div>
+                        <div class="column is-2">
+                            {{ form_row(block_form.blocOrder) }}
+                            {{ form_row(block_form.align) }}
+                        </div>
+                    </div>
+
+                    {% set rendered_blocks = rendered_blocks|merge([block_id]) %}
+
+                    <div style="display:flex; flex-direction: {% if block_form.vars.data.align == constant('Kazetenn\\Core\\Entity\\BaseBlock::HORIZONTAL_ALIGN') %}row{% else %}column{% endif %}; justify-content: space-evenly">
+                        {% set max_order = 0 %}
+                        {% if block_form.vars.data.children|length >= 1 %}
+                            {% for child in block_form.vars.data.children %}
+
+                                {% for key, children_block_form in form.blocks.children %}
+                                    {% if children_block_form.vars.data.id not in rendered_blocks and children_block_form.vars.data.id == child.id %}
+                                        <div class="columns">
+                                            <div class="column is-8">
+                                                {{ form_row(children_block_form.content) }}
+                                            </div>
+                                            <div class="column is-3">
+                                                {{ form_row(children_block_form.blocOrder) }}
+                                                {{ form_row(children_block_form.align) }}
+                                            </div>
+                                        </div>
+                                        {% set rendered_blocks = rendered_blocks|merge([children_block_form.vars.data.id]) %}
+
+                                        {% if children_block_form.vars.data.blocOrder >= max_order %}
+                                            {% set max_order = children_block_form.vars.data.blocOrder %}
+                                        {% endif %}
+
+                                        {# todo this need a recursion #}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
+
+                        <a href="{{ path('kazetenn_admin_content_add_block', {'content': content_id, 'baseBlock': block_id, 'higherOrder': max_order}) }}" type="button">{{ 'kazetenn_admin.add_content.label'|trans }}</a>
+                    </div>
+
+                {% endif %}
+
+                {% if block_form.vars.data.blocOrder >= page_order %}
+                    {% set page_order = block_form.vars.data.blocOrder %}
+                {% endif %}
+            {% endfor %}
+            <a href="{{ path('kazetenn_admin_content_add_block', {'content': content_id, 'baseBlock': null, 'higherOrder': page_order}) }}" type="button">{{ 'kazetenn_admin.add_content.label'|trans }}</a>
+        </div>
+        {% do form.blocks.setRendered %}
+    {% endif %}
+    <div>
+        <button type="submit" class="button">{{ 'kazetenn_admin.content_form.button_label'|trans }}</button>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

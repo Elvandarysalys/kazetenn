@@ -4,10 +4,6 @@
 /app/
 /bin/
 /migrations/
-/public/
-/config/
-/templates/
-/translations/
 .env
 .env.test
 
@@ -19,12 +15,7 @@
 /public/bundles/
 /var/
 /vendor/
-src/*
-templates/*
-public/*
 bin/*
-config/*
-/assets/*
 tests/*
 migrations/*
 ###< symfony/framework-bundle ###
