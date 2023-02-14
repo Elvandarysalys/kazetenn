@@ -21,7 +21,7 @@ class KazetennCore extends AbstractBundle
             ]
         ]]);
 
-        $admin_config[AdminMenu::MENU_AUTHORIZED_ROLES] = ['ANONYMOUS'];
+        $admin_config[AdminMenu::MENU_AUTHORIZED_ROLES] = ['ROLE_USER'];
 
         // tests for horizontal menus
         $admin_config[AdminMenu::MENU_ENTRIES_NAME] = [
@@ -39,7 +39,8 @@ class KazetennCore extends AbstractBundle
             ],
             'logout_menu'   => [
                 AdminMenu::MENU_DISPLAY_NAME => 'kazetenn_admin.top_menu.logout_button',
-                AdminMenu::MENU_TYPE         => AdminMenu::LINK_TYPE,
+                AdminMenu::MENU_TARGET       => 'kazetenn_users_security_logout',
+                AdminMenu::MENU_TYPE         => AdminMenu::ROUTE_TYPE,
                 AdminMenu::MENU_ORDER        => 2,
                 AdminMenu::MENU_ORIENTATION  => AdminMenu::ORIENTATION_HORIZONTAL,
             ]
