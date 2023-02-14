@@ -7,7 +7,7 @@
 {#                <a href="{{ path('kazetenn_admin_page_show', {'id': content.id}) }}">preview</a>#}
                 <a href="{{ path('kazetenn_admin_content_handling', {'content': content.id} ) }}">edit</a>
 
-                {% if null != content.parent %}
+                {% if content_name == 'page' and null != content.parent %}
                     <a href="{{ path('kazetenn_front_index', {'page_path_1': content.parent.slug, 'page_path_2': content.slug}) }}" target="_blank">Consulter</a>
                 {% else %}
                     <a href="{{ path('kazetenn_front_index', {'page_path_1': content.slug}) }}" target="_blank">Consulter</a>

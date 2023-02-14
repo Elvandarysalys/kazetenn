@@ -15,8 +15,10 @@ use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Kazetenn\Core\Entity\BaseBlockInterface;
 use Kazetenn\Core\Entity\BaseContentInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\MappedSuperclass]
 abstract class BaseContent implements BaseContentInterface
@@ -24,6 +26,7 @@ abstract class BaseContent implements BaseContentInterface
     const DEFAULT_TEMPLATE = '@KazetennCore/content/_block_content_display.twig'; // todo: do something about this
 
     use TimestampableEntity;
+    // todo: set the user by email, do we keep it or do we create a real relation
     use BlameableEntity;
 
     #[ORM\Id]

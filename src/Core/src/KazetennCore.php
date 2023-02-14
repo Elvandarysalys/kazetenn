@@ -14,12 +14,14 @@ class KazetennCore extends AbstractBundle
     public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         // activating the timestampable and blameable extension
-        $builder->prependExtensionConfig('stof_doctrine_extensions', ['orm' => [
-            'default' => [
-                'timestampable' => true,
-                'blameable'     => true
+        $builder->prependExtensionConfig('stof_doctrine_extensions', [
+            'orm' => [
+                'default' => [
+                    'timestampable' => true,
+                    'blameable'     => true
+                ]
             ]
-        ]]);
+        ]);
 
         $admin_config[AdminMenu::MENU_AUTHORIZED_ROLES] = ['ROLE_USER'];
 

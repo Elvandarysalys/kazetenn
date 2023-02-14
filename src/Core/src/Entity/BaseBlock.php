@@ -14,9 +14,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Kazetenn\Core\Entity\BaseBlockInterface;
-use Kazetenn\Core\Entity\BaseContent;
-use Kazetenn\Core\Entity\BaseContentInterface;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 

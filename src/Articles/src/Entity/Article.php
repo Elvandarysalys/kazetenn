@@ -12,12 +12,10 @@ namespace Kazetenn\Articles\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Kazetenn\Articles\Repository\ArticleRepository;
 use Kazetenn\Core\Entity\BaseContent;
-use Symfony\Component\Uid\Uuid;
+use Kazetenn\Pages\Entity\PageContent;
 use Symfony\Component\Uid\UuidV4;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article extends BaseContent
@@ -27,6 +25,11 @@ class Article extends BaseContent
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: "articles")]
     #[ORM\JoinTable(name: "article_categories")]
     protected Collection $categories;
+
+    // todo find a way to abstract this one into the Core bundle
+    #[ORM\OneToMany(mappedBy: 'baseContent', targetEntity: PageContent::class)]
+    #[ORM\OrderBy(["blocOrder" => "asc"])]
+    protected Collection $blocks;
 
     public function __construct()
     {
@@ -66,19 +69,45 @@ class Article extends BaseContent
         $this->id = $id;
     }
 
-    /**
-     * @return ArrayCollection|Category[]
-     */
-    public function getCategories(): array|ArrayCollection
+    public function getCategories(): Collection
     {
         return $this->categories;
     }
 
-    /**
-     * @param ArrayCollection|Category[] $categories
-     */
-    public function setCategories(array|ArrayCollection $categories): void
+    public function setCategories(Collection $categories): void
     {
         $this->categories = $categories;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getBlocks(): Collection
+    {
+        return $this->blocks;
+    }
+
+    /**
+     * This return an ordered array of the direct descendant blocks.
+     */
+    public function getBlocksOrdered(): array{
+        $data = $this->blocks;
+
+        $return = [];
+        foreach ($data as $datum) {
+            if ($datum->getparent() === null) {
+                $return[$datum->getBlocOrder()] = $datum;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * @param Collection $blocks
+     */
+    public function setBlocks(Collection $blocks): void
+    {
+        $this->blocks = $blocks;
     }
 }

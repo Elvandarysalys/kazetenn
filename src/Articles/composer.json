@@ -54,7 +54,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Kazetenn\\Articles\\": ""
+      "Kazetenn\\Articles\\": "src"
     },
     "exclude-from-classmap": [
       "/Tests/"

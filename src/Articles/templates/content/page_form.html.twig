@@ -1,0 +1,7 @@
+{% extends '@KazetennCore/content_handling/page_form.html.twig' %}
+
+{% block title %}New Article{% endblock %}
+
+{% block content_custom_form %}
+    <div class="column">{{ form_row(form.categories) }}</div>
+{% endblock %}
