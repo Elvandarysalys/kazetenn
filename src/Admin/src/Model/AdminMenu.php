@@ -16,6 +16,7 @@ class AdminMenu
     public const MENU_TARGET             = 'target';
     public const MENU_TARGET_ARGUMENTS   = 'target_arguments';
     public const MENU_DISPLAY_NAME       = 'display_name';
+    public const MENU_DISPLAY_ICON       = 'display_icon';
     public const MENU_TRANSLATION_DOMAIN = 'translation_domain';
     public const MENU_AUTHORIZED_ROLES   = 'authorized_roles';
     public const MENU_TYPE               = 'type';
@@ -35,10 +36,6 @@ class AdminMenu
 
     public const ANONYMOUS_MENU = 'ANONYMOUS';
 
-    private string $name;
-    private string $destination;
-    private string $displayName;
-    private string $type;
     /** @var array<AdminMenu> */
     private array $children = [];
 
@@ -46,14 +43,11 @@ class AdminMenu
      * @param string $name
      * @param string $destination
      * @param string $displayName
+     * @param string $iconName
      * @param string $type
      */
-    public function __construct(string $name, string $destination, string $displayName, string $type)
+    public function __construct(private string $name, private string $destination, private string $displayName, private string $iconName, private string $type)
     {
-        $this->name        = $name;
-        $this->destination = $destination;
-        $this->displayName = $displayName;
-        $this->type        = $type;
     }
 
     /**
@@ -134,5 +128,21 @@ class AdminMenu
     public function setType(string $type): void
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIconName(): string
+    {
+        return $this->iconName;
+    }
+
+    /**
+     * @param string $iconName
+     */
+    public function setIconName(string $iconName): void
+    {
+        $this->iconName = $iconName;
     }
 }

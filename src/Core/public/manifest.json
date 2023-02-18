@@ -1,4 +1,10 @@
 {
-  "bundles/kazetenn/admin_page_form.css": "/admin_page_form.css",
-  "bundles/kazetenn/admin_page_form.js": "/admin_page_form.js"
+  "bundles/kazetenncore/admin_page_form.js": "bundles/kazetenncore/admin_page_form.0b57f970.js",
+  "bundles/kazetenncore/app.css": "bundles/kazetenncore/app.b75294ae.css",
+  "bundles/kazetenncore/app.js": "bundles/kazetenncore/app.bdb2ab26.js",
+  "bundles/kazetenncore/runtime.js": "bundles/kazetenncore/runtime.61b1725c.js",
+  "bundles/kazetenncore/198.ac35d090.js": "bundles/kazetenncore/198.ac35d090.js",
+  "bundles/kazetenncore/469.46500002.js": "bundles/kazetenncore/469.46500002.js",
+  "bundles/kazetenncore/170.efabf603.css": "bundles/kazetenncore/170.efabf603.css",
+  "bundles/kazetenncore/170.2a8e5b46.js": "bundles/kazetenncore/170.2a8e5b46.js"
 }

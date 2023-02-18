@@ -1,21 +1,25 @@
 {% extends '@KazetennAdmin/admin_base.html.twig' %}
 
+{% trans_default_domain 'kazetenn_admin' %}
+
 {% block title %}New content{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('admin_page_form') }}
+{#    {{ encore_entry_script_tags('admin_page_form', null, 'kazetenn_core') }}#}
+    {{ encore_entry_script_tags('admin_content_app', null, 'kazetenn_core') }}
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('admin_page_form') }}
+{#    {{ encore_entry_link_tags('admin_page_form', null, 'kazetenn_core') }}#}
+    {{ encore_entry_link_tags('admin_content_app', null, 'kazetenn_core') }}
 {% endblock %}
 
 {% block body %}
     {{ form_start(form) }}
 
-    <h3 class="subtitle">page information</h3>
+    <h3 class="subtitle">{{ 'kazetenn_admin.content_form.title'|trans }}</h3>
     <div class="columns">
         <div class="column">{{ form_row(form.title) }}</div>
         <div class="column">{{ form_row(form.slug) }}</div>
@@ -40,16 +44,19 @@
             {% for block_form in form.blocks.children %}
                 {% set block_id = block_form.vars.data.id %}
                 {% if block_id not in rendered_blocks and block_form.vars.data.parent is null %}
-                    <div class="columns">
-                        <div class="column is-10">
-                            <div id="{{ block_form.content.vars.id ~ '_header' }}" class="block_text_area_toolbar"></div>
-                            {{ form_row(block_form.content) }}
-                        </div>
-                        <div class="column is-2">
-                            {{ form_row(block_form.blocOrder) }}
-                            {{ form_row(block_form.align) }}
-                        </div>
-                    </div>
+
+                    {{ _self.block_form_display(block_form, true) }}
+{#                    <div class="columns">#}
+{#                        <div class="column is-10">#}
+{#                            <div id="{{ block_form.content.vars.id ~ '_header' }}"></div>#}
+{#                            {{ form_row(block_form.content) }}#}
+{#                        </div>#}
+{#                        <div class="column is-2">#}
+{#                            {{ form_row(block_form.type) }}#}
+{#                            {{ form_row(block_form.blocOrder) }}#}
+{#                            {{ form_row(block_form.align) }}#}
+{#                        </div>#}
+{#                    </div>#}
 
                     {% set rendered_blocks = rendered_blocks|merge([block_id]) %}
 
@@ -60,15 +67,18 @@
 
                                 {% for key, children_block_form in form.blocks.children %}
                                     {% if children_block_form.vars.data.id not in rendered_blocks and children_block_form.vars.data.id == child.id %}
-                                        <div class="columns">
-                                            <div class="column is-8">
-                                                {{ form_row(children_block_form.content) }}
-                                            </div>
-                                            <div class="column is-3">
-                                                {{ form_row(children_block_form.blocOrder) }}
-                                                {{ form_row(children_block_form.align) }}
-                                            </div>
-                                        </div>
+
+                                        {{ _self.block_form_display(children_block_form, false) }}
+{#                                        <div class="columns">#}
+{#                                            <div class="column is-8">#}
+{#                                                {{ form_row(children_block_form.content) }}#}
+{#                                            </div>#}
+{#                                            <div class="column is-4">#}
+{#                                                {{ form_row(children_block_form.type) }}#}
+{#                                                {{ form_row(children_block_form.blocOrder) }}#}
+{#                                                {{ form_row(children_block_form.align) }}#}
+{#                                            </div>#}
+{#                                        </div>#}
                                         {% set rendered_blocks = rendered_blocks|merge([children_block_form.vars.data.id]) %}
 
                                         {% if children_block_form.vars.data.blocOrder >= max_order %}
@@ -100,3 +110,48 @@
 
     {{ form_end(form) }}
 {% endblock %}
+
+{% macro block_form_display(block_form, full = true) %}
+    <div class="columns">
+        <div class="column {% if full %}is-10{% else %}is-8{% endif %}">
+            <div id="{{ block_form.content.vars.id ~ '_header' }}"></div>
+            {{ form_row(block_form.content) }}
+        </div>
+        <div {{ stimulus_controller('modal') }}>
+            <button type="button" {{ stimulus_target('modal', 'buttonopenmodal') }}>+</button>
+            {{ _self.modal(block_form, full) }}
+        </div>
+{#        <div class="column {% if full %}is-2{% else %}is-4{% endif %}">#}
+{#            {{ form_row(block_form.type) }}#}
+{#            {{ form_row(block_form.blocOrder) }}#}
+{#            {{ form_row(block_form.align) }}#}
+{#        </div>#}
+    </div>
+{% endmacro %}
+
+{% macro modal(block_form, full) %}
+    <div class="modal" {{ stimulus_target('modal', 'modal') }}>
+        <a class="modal-background noHover" {{ stimulus_action('modal', 'closeModal') }}></a>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title"></p>
+                <button class="delete"
+                        aria-label="{% trans %}modal.close_label{% endtrans %}" {{ stimulus_action('modal', 'closeModal') }}></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="card-header">
+                    <p class="card-header-title">modal test title</p>
+                </div>
+                <div class="card-content">
+                    {{ form_row(block_form.type) }}
+                    {{ form_row(block_form.blocOrder) }}
+                    {{ form_row(block_form.align) }}
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+{#                <button class="button is-success" {{ stimulus_action('modal', 'validateModal') }} {{ stimulus_target('modal', 'modalsuccessbutton') }}></button>#}
+                <button class="button" {{ stimulus_action('modal', 'closeModal') }} {{ stimulus_target('modal', 'modalcancelbutton') }}></button>
+            </footer>
+        </div>
+    </div>
+{% endmacro %}

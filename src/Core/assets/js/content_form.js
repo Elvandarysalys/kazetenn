@@ -41,7 +41,4 @@ tinymce.init({
   // content_style: contentUiSkinCss.toString() + '\n' + contentCss.toString(),
 });
 
-document.querySelectorAll('.block_text_area').forEach((element) => {
-
-
-})
+document.querySelectorAll('.block_text_area').forEach((element) => {})

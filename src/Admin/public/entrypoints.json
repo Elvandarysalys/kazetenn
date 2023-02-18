@@ -1,11 +1,26 @@
 {
   "entrypoints": {
+    "admin_sidebar": {
+      "js": [
+        "bundles/kazetennadmin/runtime.ec2b70cf.js",
+        "bundles/kazetennadmin/255.1e0d77dc.js",
+        "bundles/kazetennadmin/admin_sidebar.d66aec29.js"
+      ]
+    },
+    "icons": {
+      "js": [
+        "bundles/kazetennadmin/runtime.ec2b70cf.js",
+        "bundles/kazetennadmin/255.1e0d77dc.js",
+        "bundles/kazetennadmin/867.01acb4c0.js",
+        "bundles/kazetennadmin/icons.7599846f.js"
+      ]
+    },
     "admin_style": {
       "js": [
-        "/runtime.js"
+        "bundles/kazetennadmin/runtime.ec2b70cf.js"
       ],
       "css": [
-        "/admin_style.css"
+        "bundles/kazetennadmin/admin_style.5106e1d0.css"
       ]
     }
   }

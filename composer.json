@@ -1,7 +1,7 @@
 {
   "name": "elvandar/kazetenn",
   "type": "symfony-bundle",
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "description": "CSM library for symfony",
   "authors": [
     {
@@ -51,7 +51,8 @@
     "symfony/yaml": "6.2.*",
     "symfonycasts/verify-email-bundle": "^1.13",
     "twig/extra-bundle": "3.4.*",
-    "twig/twig": "3.4.*"
+    "twig/twig": "3.4.*",
+    "symfony/webpack-encore-bundle": ">=1.13"
   },
   "require-dev": {
     "icanhazstring/composer-unused": ">=0.8.1",
@@ -63,8 +64,7 @@
     "symfony/maker-bundle": ">=1.0",
     "symfony/phpunit-bridge": ">=5.4",
     "symfony/stopwatch": "6.2.*",
-    "symfony/web-profiler-bundle": "6.2.*",
-    "symfony/webpack-encore-bundle": ">=1.13"
+    "symfony/web-profiler-bundle": "6.2.*"
   },
   "replace": {
     "elvandar/kazetenn-admin": "1.2.*",

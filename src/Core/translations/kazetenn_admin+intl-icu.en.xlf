@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="MEMZshV" resname="kazetenn_admin.content_form.title">
+        <source>kazetenn_admin.content_form.title</source>
+        <target>__kazetenn_admin.content_form.title</target>
+      </trans-unit>
+      <trans-unit id="T4L_JIE" resname="kazetenn_admin.block_form.title">
+        <source>kazetenn_admin.block_form.title</source>
+        <target>__kazetenn_admin.block_form.title</target>
+      </trans-unit>
+      <trans-unit id="x1aEDDs" resname="kazetenn_admin.add_content.label">
+        <source>kazetenn_admin.add_content.label</source>
+        <target>__kazetenn_admin.add_content.label</target>
+      </trans-unit>
+      <trans-unit id="XcWjUni" resname="kazetenn_admin.content_form.button_label">
+        <source>kazetenn_admin.content_form.button_label</source>
+        <target>__kazetenn_admin.content_form.button_label</target>
+      </trans-unit>
+      <trans-unit id="BTRhsqE" resname="kazetenn_admin.content_list.nothing_found">
+        <source>kazetenn_admin.content_list.nothing_found</source>
+        <target>__kazetenn_admin.content_list.nothing_found</target>
+      </trans-unit>
+      <trans-unit id="3.zLXnG" resname="kazetenn_admin.page_preview.title">
+        <source>kazetenn_admin.page_preview.title</source>
+        <target>__kazetenn_admin.page_preview.title</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

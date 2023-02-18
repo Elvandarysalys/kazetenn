@@ -1,4 +1,8 @@
 {
-  "bundles/kazetenn/admin_style.css": "/admin_style.css",
-  "bundles/kazetenn/runtime.js": "/runtime.js"
+  "bundles/kazetennadmin/admin_sidebar.js": "bundles/kazetennadmin/admin_sidebar.d66aec29.js",
+  "bundles/kazetennadmin/icons.js": "bundles/kazetennadmin/icons.7599846f.js",
+  "bundles/kazetennadmin/admin_style.css": "bundles/kazetennadmin/admin_style.5106e1d0.css",
+  "bundles/kazetennadmin/runtime.js": "bundles/kazetennadmin/runtime.ec2b70cf.js",
+  "bundles/kazetennadmin/255.1e0d77dc.js": "bundles/kazetennadmin/255.1e0d77dc.js",
+  "bundles/kazetennadmin/867.01acb4c0.js": "bundles/kazetennadmin/867.01acb4c0.js"
 }

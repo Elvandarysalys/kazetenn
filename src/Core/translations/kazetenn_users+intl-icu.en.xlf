@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="Rl.a4oc" resname="login_page.title">
+        <source>login_page.title</source>
+        <target>__login_page.title</target>
+      </trans-unit>
+      <trans-unit id="dFKQqhx" resname="register_page.logged_in_as">
+        <source>register_page.logged_in_as</source>
+        <target>__register_page.logged_in_as</target>
+      </trans-unit>
+      <trans-unit id="KzZ_Edu" resname="login_page.logout_label">
+        <source>login_page.logout_label</source>
+        <target>__login_page.logout_label</target>
+      </trans-unit>
+      <trans-unit id="072rn1b" resname="login_page.sign_in_title">
+        <source>login_page.sign_in_title</source>
+        <target>__login_page.sign_in_title</target>
+      </trans-unit>
+      <trans-unit id="wBSjxAe" resname="login_page.email_label">
+        <source>login_page.email_label</source>
+        <target>__login_page.email_label</target>
+      </trans-unit>
+      <trans-unit id="wDQqi3O" resname="login_page.password_label">
+        <source>login_page.password_label</source>
+        <target>__login_page.password_label</target>
+      </trans-unit>
+      <trans-unit id="p.SUnuK" resname="login_page.sign_in_label">
+        <source>login_page.sign_in_label</source>
+        <target>__login_page.sign_in_label</target>
+      </trans-unit>
+      <trans-unit id="rqUSQhd" resname="register_page.title">
+        <source>register_page.title</source>
+        <target>__register_page.title</target>
+      </trans-unit>
+      <trans-unit id="Xa6vLvC" resname="register_page.display_title">
+        <source>register_page.display_title</source>
+        <target>__register_page.display_title</target>
+      </trans-unit>
+      <trans-unit id="STCJFSK" resname="register_page.submit_button">
+        <source>register_page.submit_button</source>
+        <target>__register_page.submit_button</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

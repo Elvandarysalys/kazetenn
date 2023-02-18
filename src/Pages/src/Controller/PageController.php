@@ -60,7 +60,7 @@ class PageController extends ContentModel implements ContentInterface
         return $this->render('@KazetennPages/not_found.html.twig');
     }
 
-    #[Route("/{page_path_1}/{page_path_2}", name: "front_index", methods: ["GET"])]
+    #[Route("/{page_path_1}/{page_path_2}", name: "front_index", methods: ["GET"], priority: -1)]
     public function index(PageRepository $pageRepository, string $page_path_1 = null, string $page_path_2 = null): Response
     {
         /** @var Page|null $page */

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route("/pages")]
+#[Route("/core")]
 class ContentController extends BaseAdminController
 {
     public function __construct(MenuHandler $menuHandler, protected ContentService $contentService)
@@ -35,6 +35,7 @@ class ContentController extends BaseAdminController
     }
 
     const DEFAULT_CONSTANT_TYPE = 'content';
+
     /**
      * Used to create or edit any content based on the tagged_iterator
      * @throws Exception
@@ -56,7 +57,7 @@ class ContentController extends BaseAdminController
         }
 
         // if the route specify a type and no content is given, this is a specific content creation request.
-        if (self::DEFAULT_CONSTANT_TYPE !== $type && null === $content){
+        if (self::DEFAULT_CONSTANT_TYPE !== $type && null === $content) {
             $testContentType = $this->contentService->getContentByName($type);
             if (null !== $testContentType) {
                 $content['content_type'] = $type;
@@ -91,7 +92,7 @@ class ContentController extends BaseAdminController
             }
 
             // at this point if $content is not an instance of BaseContentInterface, there is a problem
-            if (!$content instanceof BaseContentInterface){
+            if (!$content instanceof BaseContentInterface) {
                 throw new Exception('$content is not an instance of BaseContentInterface, there is a problem');
             }
 

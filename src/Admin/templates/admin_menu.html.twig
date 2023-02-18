@@ -2,25 +2,32 @@
 
 <nav>
     <ul class="menu-label">
-        <li><a>{% trans %}kazetenn_admin.nav_size.expand_collapse{% endtrans %}</a></li>
+        <li>
+            <a id="openCloseBtn" class="icon-text columns">
+                <span class="icon column is-1" style="height: 100%"><i data-feather="home"></i></span>
+                <span class="menu-text column is-11" style="overflow-x: hidden">{{ 'kazetenn_admin.nav_size.expand_collapse'|trans }}</span>
+            </a>
+        </li>
     </ul>
+
     <ul>
         {% if vertical is defined and vertical is not empty %}
             {% for menu in vertical %}
                 {% if menu.type == 'link' %}
-                    <li id="{{ menu.name }}">
-                        <a href="{{ menu.destination }}">{{ menu.displayName }}</a>
-                    </li>
+                    {{ _self.menu_link(menu) }}
                 {% elseif menu.type == 'main' %}
                     <li class="menu-label" id="{{ menu.name }}">
-                        <a href="{{ menu.destination }}">{{ menu.displayName }}</a>
+                        {% if menu.destination == '' %}
+                            {{ _self.menu_link_no_link_content(menu) }}
+                        {% else %}
+                            {{ _self.menu_link_content(menu) }}
+                        {% endif %}
+
                         {% if menu.children is not empty %}
                             <ul class="menu-list">
-                            {% for menu in menu.children %}
-                                <li id="{{ menu.name }}">
-                                    <a href="{{ menu.destination }}">{{ menu.displayName }}</a>
-                                </li>
-                            {% endfor %}
+                                {% for children in menu.children %}
+                                    {{ _self.menu_link(children) }}
+                                {% endfor %}
                             </ul>
                         {% endif %}
                     </li>
@@ -30,3 +37,22 @@
     </ul>
 </nav>
 
+{% macro menu_link(menu) %}
+    <li id="{{ menu.name }}">
+        {{ _self.menu_link_content(menu) }}
+    </li>
+{% endmacro %}
+
+{% macro menu_link_content(menu) %}
+    <a href="{{ menu.destination }}" class="icon-text columns">
+        <span class="icon column is-1" style="height: 100%"><i {% if '' != menu.iconName %}data-feather="{{ menu.iconName }}"{% endif %}></i></span>
+        <span class="menu-text column is-11">{{ menu.displayName }}</span>
+    </a>
+{% endmacro %}
+
+{% macro menu_link_no_link_content(menu) %}
+    <span class="icon-text columns">
+        <span class="icon column is-1" style="height: 100%"><i {% if '' != menu.iconName %}data-feather="{{ menu.iconName }}"{% endif %}></i></span>
+        <span class="menu-text column is-11" style="overflow-x: hidden">{{ menu.displayName }}</span>
+    </span>
+{% endmacro %}

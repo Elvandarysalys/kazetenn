@@ -22,6 +22,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "bulma": "^0.9.4"
+        "bulma": "^0.9.4",
+        "feather-icons": "^4.29.0"
     }
 }

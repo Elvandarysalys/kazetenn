@@ -1,13 +1,10 @@
 ###> phpstorm ide ###
 .idea
 ###< phpstorm ide ###
-/app/
-/bin/
-/migrations/
-.env
-.env.test
 
 ###> symfony/framework-bundle ###
+/.env
+/.env.test
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -18,6 +15,10 @@
 bin/*
 tests/*
 migrations/*
+src/Kernel.php
+
+config/*
+!config/routes.php
 ###< symfony/framework-bundle ###
 
 ###> symfony/webpack-encore-bundle ###

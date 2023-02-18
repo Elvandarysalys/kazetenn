@@ -11,6 +11,7 @@ namespace Kazetenn\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -28,6 +29,9 @@ abstract class BaseBlock implements BaseBlockInterface
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', nullable: false)]
     protected UuidV4 $id;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
+    protected string $type;
 
     #[ORM\ManyToOne(targetEntity: BaseContent::class)]
     #[ORM\JoinColumn(name: "content_id", referencedColumnName: "id")]
@@ -151,5 +155,21 @@ abstract class BaseBlock implements BaseBlockInterface
     public function setAlign(string $align): void
     {
         $this->align = $align;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 }

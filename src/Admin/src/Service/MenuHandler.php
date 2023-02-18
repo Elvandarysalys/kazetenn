@@ -100,9 +100,10 @@ class MenuHandler
             }
         }
 
-        $displayedName = $this->translator->trans($configData['display_name'], [], $translationDomain);
+        $displayedName = $this->translator->trans($configData[AdminMenu::MENU_DISPLAY_NAME], [], $translationDomain);
+        $iconName = $configData[AdminMenu::MENU_DISPLAY_ICON];
 
-        $adminMenu = new AdminMenu($name, $url, $displayedName, $type);
+        $adminMenu = new AdminMenu($name, $url, $displayedName, $iconName, $type);
         if (array_key_exists(AdminMenu::MENU_CHILDREN, $configData)) {
             /** @var array $menuChildren */
             $menuChildren = $configData[AdminMenu::MENU_CHILDREN];

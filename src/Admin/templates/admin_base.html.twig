@@ -1,24 +1,31 @@
 <!DOCTYPE html>
-<html lang="">
+{% trans_default_domain 'kazetenn_admin' %}
+
+<html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>
+            {% block title %}
+                {{ 'kazetenn_admin.default_template.default_title'|trans }}
+            {% endblock %}
+        </title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 
         {% block stylesheets %}
-            <link rel="stylesheet" type="text/css" href="{{ asset('bundles/kazetenn/admin_style.css') }}">
+            {{ encore_entry_link_tags('admin_style', null, 'kazetenn_admin') }}
         {% endblock %}
 
         {% block javascripts %}
+            {{ encore_entry_script_tags('admin_sidebar', null, 'kazetenn_admin') }}
+            {{ encore_entry_script_tags('icons', null, 'kazetenn_admin') }}
         {% endblock %}
-
-        {% trans_default_domain 'kazetenn_admin' %}
     </head>
 
     <body class="page-columns">
         <nav id="nav-top" class="navbar admin-navbar is-white" role="navigation" aria-label="main navigation">
             <div class="navbar-brand admin-navbar-brand">
                 <a class="navbar-item has-text-centered" href="{{ path('kazetenn_admin_admin_index') }}" style="width: 100%;">
-                    Kazetenn
+                    {{ 'kazetenn_admin.default_template.page_title'|trans }}
                 </a>
 
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenuTop">
@@ -38,15 +45,16 @@
 
         <section id="page-container" class="section admin-page-container">
             <div id="page-content" class="columns container is-full admin-page-content">
-                <div class="column is-2 aside_container">
-                    <aside id="nav-side" class="menu is-hidden-mobile ">
+
+                <div id="sidebar" class="column sidebar-2 aside_container sidebar is-fixed-top">
+                    <aside class="menu is-hidden-mobile">
                         {% block nav_side %}
                             {{ include('@KazetennAdmin/admin_menu.html.twig') }}
                         {% endblock %}
                     </aside>
                 </div>
 
-                <div class="column is-10 admin-body_container">
+                <div id="main" class="column is-11 admin-body_container">
                     <span class="is-hidden">{% block body_hidden_infos %}{% endblock %}</span>
 
                     <div id="body" class="section">
@@ -59,7 +67,7 @@
         <footer class="footer admin-footer">
             <div class="content has-text-centered">
                 <p>
-                    {% trans %}kazetenn_admin_interface.footer.text{% endtrans %}
+                    {{ 'kazetenn_admin_interface.footer.text'|trans }}
                 </p>
             </div>
         </footer>

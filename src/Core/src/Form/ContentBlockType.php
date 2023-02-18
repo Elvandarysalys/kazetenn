@@ -11,17 +11,33 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ContentBlockType extends AbstractType
 {
+//    public function __construct(protected RewindableGenerator $availableBlockTypes)
+//    {
+//        foreach ($availableBlockTypes as $blockType){
+//            $this->
+//        }
+//    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content', TextareaType::class,[
+            ->add('content', TextareaType::class, [
                 'label' => false,
-                'attr' =>[
+                'attr'  => [
                     'class' => 'textarea block_text_area'
                 ]
             ])
+            ->add('type', ChoiceType::class, [
+                'choices' => [
+                    'text' => 'text'
+                ],
+                'label'   => 'bloc_type.label',
+                'attr'    => [
+                    'class' => 'input'
+                ]
+            ])
             ->add('blocOrder', IntegerType::class, [
-                'attr' =>[
+                'attr' => [
                     'class' => 'input'
                 ]
             ])
@@ -31,7 +47,7 @@ class ContentBlockType extends AbstractType
                     BaseBlockInterface::VERTICAL_ALIGN   => 'vertical'
                 ],
                 'label'   => 'align.label',
-                'attr' =>[
+                'attr'    => [
                     'class' => 'input'
                 ]
             ]);

@@ -1,0 +1,97 @@
+{
+  "name": "elvandar/kazetenn-users",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "description": "A symfony library to handle users in the kazetenn project",
+  "authors": [
+    {
+      "name": "Elvandar Ysalys",
+      "email": "elvandar.ysalys@protonmail.com"
+    }
+  ],
+  "require": {
+    "php": "8.1.*",
+    "composer/package-versions-deprecated": "1.11.99.4",
+    "doctrine/annotations": "1.13.*",
+    "doctrine/doctrine-bundle": "2.7.*",
+    "doctrine/doctrine-migrations-bundle": "3.2.*",
+    "doctrine/orm": "2.12.*",
+    "phpdocumentor/reflection-docblock": ">=5.2",
+    "stof/doctrine-extensions-bundle": ">=1.7",
+    "symfony/asset": "6.2.*",
+    "symfony/console": "6.2.*",
+    "symfony/dotenv": "6.2.*",
+    "symfony/expression-language": "6.2.*",
+    "symfony/flex": "2.2.*",
+    "symfony/form": "6.2.*",
+    "symfony/framework-bundle": "6.2.*",
+    "symfony/http-client": "6.2.*",
+    "symfony/intl": "6.2.*",
+    "symfony/mailer": "6.2.*",
+    "symfony/mime": "6.2.*",
+    "symfony/monolog-bundle": "3.*",
+    "symfony/notifier": "6.2.*",
+    "symfony/process": "6.2.*",
+    "symfony/property-access": "6.2.*",
+    "symfony/property-info": "6.2.*",
+    "symfony/proxy-manager-bridge": "6.2.*",
+    "symfony/runtime": "6.2.*",
+    "symfony/security-bundle": "6.2.*",
+    "symfony/serializer": "6.2.*",
+    "symfony/string": "6.2.*",
+    "symfony/translation": "6.2.*",
+    "symfony/twig-bundle": "6.2.*",
+    "symfony/uid": "6.2.*",
+    "symfony/validator": "6.2.*",
+    "symfony/web-link": "6.2.*",
+    "symfony/yaml": "6.2.*",
+    "twig/extra-bundle": "3.4.*",
+    "twig/twig": "3.4.*",
+    "symfonycasts/verify-email-bundle": "^1.13"
+  },
+  "autoload": {
+    "psr-4": {
+      "Kazetenn\\Users\\": "src"
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  },
+  "require-dev": {
+    "symfony/webpack-encore-bundle": "^1.13",
+    "phpstan/phpstan": "^1.8",
+    "phpunit/phpunit": "^9.5",
+    "rector/rector": "^0.12.23",
+    "symfony/browser-kit": "6.*",
+    "symfony/css-selector": "6.*",
+    "symfony/debug-bundle": "6.*",
+    "symfony/maker-bundle": "^1.0",
+    "symfony/phpunit-bridge": "^6.0",
+    "symfony/stopwatch": "6.*",
+    "symfony/web-profiler-bundle": "6.*"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true,
+      "symfony/flex": true,
+      "symfony/runtime": true,
+      "phpro/grumphp": true
+    }
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    }
+  },
+  "extra": {
+    "symfony": {
+      "docker": true,
+      "allow-contrib": true,
+      "endpoint": [
+        "https://api.github.com/repos/Elvandarysalys/recipes/contents/index.json",
+        "flex://defaults"
+      ]
+    }
+  }
+}

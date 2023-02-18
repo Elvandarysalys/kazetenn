@@ -1,0 +1,23 @@
+{% extends '@KazetennAdmin/admin_base.html.twig' %}
+
+{% trans_default_domain 'kazetenn_users' %}
+
+{% block title %}{{ 'register_page.title'|trans }}{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <h1>{{ 'register_page.display_title'|trans }}</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">{{ 'register_page.submit_button'|trans }}</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}

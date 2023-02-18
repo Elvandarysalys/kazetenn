@@ -1,0 +1,31 @@
+{% extends '@KazetennAdmin/admin_base.html.twig' %}
+
+{% trans_default_domain 'kazetenn_users' %}
+
+{% block title %}{{ 'login_page.title'|trans }}{% endblock %}
+
+{% block body %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            {{ 'register_page.logged_in_as'|trans({'%user_identifier%': app.user.userIdentifier}) }}, <a href="{{ path('kazetenn_users_security_logout') }}">{{ 'login_page.logout_label'|trans }}</a>
+        </div>
+    {% endif %}
+
+    <h1 class="h3 mb-3 font-weight-normal">{{ 'login_page.sign_in_title'|trans }}</h1>
+    <label for="inputEmail">{{ 'login_page.email_label'|trans }}</label>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+    <label for="inputPassword">{{ 'login_page.password_label'|trans }}</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+
+    <button class="btn btn-lg btn-primary" type="submit">
+        {{ 'login_page.sign_in_label'|trans }}
+    </button>
+</form>
+{% endblock %}

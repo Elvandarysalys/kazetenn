@@ -1,4 +1,5 @@
 @import "~bulma/bulma";
+@import 'sidebar.scss';
 
 html {
   height: 100vh;
@@ -8,9 +9,9 @@ html {
 }
 
 body {
-  height: 100vh;
-  padding: 0;
-  margin: 0;
+  height: 100vh !important;
+  //padding: 0;
+  margin: 1rem !important;
 }
 
 .admin_children_horizontal {
@@ -38,6 +39,7 @@ body {
 .admin-page-container {
   min-height: 85.5%;
   width: 100%;
+  padding-left: 1.5rem;
 }
 
 .admin-footer {

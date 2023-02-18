@@ -21,9 +21,7 @@ use Symfony\Component\Config\Definition\Builder\NodeParentInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Builder\VariableNodeDefinition;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Exception\BadMethodCallException;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
@@ -32,13 +30,17 @@ class KazetennAdmin extends AbstractBundle
 {
     public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-
+        $builder->prependExtensionConfig('webpack_encore', [
+            'builds' => [
+                'kazetenn_admin' => '%kernel.project_dir%/public/bundles/kazetennadmin'
+            ]
+        ]);
     }
 
     /**
      * @return ArrayNodeDefinition|NodeBuilder|NodeDefinition|NodeParentInterface|VariableNodeDefinition|null
      */
-    private function addMenuEntriesNode()
+    private function addMenuEntriesNode(): ArrayNodeDefinition|VariableNodeDefinition|NodeDefinition|NodeBuilder|NodeParentInterface|null
     {
         $treeBuilder = new TreeBuilder('menu_entries', 'array');
 
@@ -57,6 +59,10 @@ class KazetennAdmin extends AbstractBundle
                            ->end()
                            ->scalarNode(AdminMenu::MENU_DISPLAY_NAME)
                            ->defaultValue('')
+                           ->info('Define the displayed name of the menu entry. This value will be translated.')
+                           ->end()
+                           ->scalarNode(AdminMenu::MENU_DISPLAY_ICON)
+                           ->defaultValue('home')
                            ->info('Define the displayed name of the menu entry. This value will be translated.')
                            ->end()
                            ->scalarNode(AdminMenu::MENU_TRANSLATION_DOMAIN)
@@ -103,6 +109,10 @@ class KazetennAdmin extends AbstractBundle
                            ->end()
                            ->scalarNode(AdminMenu::MENU_DISPLAY_NAME)
                            ->defaultValue('')
+                           ->info('Define the displayed name of the menu entry. This value will be translated.')
+                           ->end()
+                           ->scalarNode(AdminMenu::MENU_DISPLAY_ICON)
+                           ->defaultValue('home')
                            ->info('Define the displayed name of the menu entry. This value will be translated.')
                            ->end()
                            ->scalarNode(AdminMenu::MENU_TRANSLATION_DOMAIN)
