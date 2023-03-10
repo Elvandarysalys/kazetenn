@@ -1,0 +1,10 @@
+{# This block is the by default block content display. The key anchor here is the twig {{ pageContent.content|raw }} #}
+{% if null != pageContent.content %}
+    <div style=" display: flex; justify-content: center">
+        <img src="{{ asset( 'documents/'~this.blockContent.source ) }}"
+             alt="{% if this.blockContent.alt is defined %}{{ asset( 'documents/'~this.blockContent.alt ) }}{% else %}{{ asset( 'bundles/kazetenncore/images/default_image.png' ) }}{% endif %}"
+             style="height: 100%; margin: auto;"/>
+    </div>
+{% else %}
+    <div class="bloc_content_empty"></div>
+{% endif %}

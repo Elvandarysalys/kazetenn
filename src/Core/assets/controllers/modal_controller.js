@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
+
 export default class extends Controller {
-  static targets = ['modal', 'modalcontent', 'modaltitle', 'modalbody', 'modalsuccessbutton', 'modalcancelbutton', 'modalbackground', 'buttonopenmodal']
+  static targets = ['modal']
 
   connect () {
     this.element[this.identifier] = this

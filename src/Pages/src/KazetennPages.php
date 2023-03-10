@@ -24,7 +24,7 @@ class KazetennPages extends AbstractBundle
         $definition->rootNode()
                    ->children()
                    ->scalarNode('pages_url')
-                   ->defaultValue('')
+                   ->defaultValue('blog')
                    ->end()
                    ->scalarNode('blog_name')
                    ->defaultValue('')

@@ -38,10 +38,6 @@ interface BaseBlockInterface
 
     public function setContent(?string $content): void;
 
-    public function getTemplate(): string;
-
-    public function setTemplate(string $template): void;
-
     public function getBlocOrder(): int;
 
     public function setBlocOrder(int $blocOrder): void;
@@ -49,4 +45,12 @@ interface BaseBlockInterface
     public function getAlign(): string;
 
     public function setAlign(string $align): void;
+
+    public function getType(): string;
+    public function setType(string $type): void;
+
+    /**
+     * @return array<BaseBlockInterface>
+     */
+    public function getChildrensOrdered(): array;
 }

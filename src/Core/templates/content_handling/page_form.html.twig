@@ -6,14 +6,14 @@
 
 {% block javascripts %}
     {{ parent() }}
-{#    {{ encore_entry_script_tags('admin_page_form', null, 'kazetenn_core') }}#}
-    {{ encore_entry_script_tags('admin_content_app', null, 'kazetenn_core') }}
+    {{ encore_entry_script_tags('admin_page_form', null, 'kazetenn_core') }}
+    {{ encore_entry_script_tags('core_app', null, 'kazetenn_core') }}
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-{#    {{ encore_entry_link_tags('admin_page_form', null, 'kazetenn_core') }}#}
-    {{ encore_entry_link_tags('admin_content_app', null, 'kazetenn_core') }}
+    {{ encore_entry_link_tags('admin_page_form', null, 'kazetenn_core') }}
+    {{ encore_entry_link_tags('core_app', null, 'kazetenn_core') }}
 {% endblock %}
 
 {% block body %}
@@ -40,67 +40,42 @@
         <h3 class="subtitle">{{ 'kazetenn_admin.block_form.title'|trans }}</h3>
         <div>
             {% set rendered_blocks = [] %}
-            {% set page_order = 0 %}
             {% for block_form in form.blocks.children %}
                 {% set block_id = block_form.vars.data.id %}
                 {% if block_id not in rendered_blocks and block_form.vars.data.parent is null %}
 
-                    {{ _self.block_form_display(block_form, true) }}
-{#                    <div class="columns">#}
-{#                        <div class="column is-10">#}
-{#                            <div id="{{ block_form.content.vars.id ~ '_header' }}"></div>#}
-{#                            {{ form_row(block_form.content) }}#}
-{#                        </div>#}
-{#                        <div class="column is-2">#}
-{#                            {{ form_row(block_form.type) }}#}
-{#                            {{ form_row(block_form.blocOrder) }}#}
-{#                            {{ form_row(block_form.align) }}#}
-{#                        </div>#}
-{#                    </div>#}
+                    {{ _self.block_form_display(block_form) }}
 
                     {% set rendered_blocks = rendered_blocks|merge([block_id]) %}
 
-                    <div style="display:flex; flex-direction: {% if block_form.vars.data.align == constant('Kazetenn\\Core\\Entity\\BaseBlock::HORIZONTAL_ALIGN') %}row{% else %}column{% endif %}; justify-content: space-evenly">
-                        {% set max_order = 0 %}
-                        {% if block_form.vars.data.children|length >= 1 %}
-                            {% for child in block_form.vars.data.children %}
+                    {% set children_number = block_form.vars.data.children|length %}
+                    <div class="columns">
+                        <div class="column is-11">
+                            {% if children_number >= 1 %}
+                                <div style="display:flex; flex-direction: {% if block_form.vars.data.align == constant('Kazetenn\\Core\\Entity\\BaseBlock::HORIZONTAL_ALIGN') %}row{% else %}column{% endif %}; justify-content: space-evenly;">
+                                    {% for child in block_form.vars.data.childrensOrdered %}
+                                        {% for key, children_block_form in form.blocks.children %}
+                                            {% if children_block_form.vars.data.id not in rendered_blocks and children_block_form.vars.data.id == child.id %}
 
-                                {% for key, children_block_form in form.blocks.children %}
-                                    {% if children_block_form.vars.data.id not in rendered_blocks and children_block_form.vars.data.id == child.id %}
+                                                {{ _self.block_form_display(children_block_form, children_number, false) }}
+                                                {% set rendered_blocks = rendered_blocks|merge([children_block_form.vars.data.id]) %}
 
-                                        {{ _self.block_form_display(children_block_form, false) }}
-{#                                        <div class="columns">#}
-{#                                            <div class="column is-8">#}
-{#                                                {{ form_row(children_block_form.content) }}#}
-{#                                            </div>#}
-{#                                            <div class="column is-4">#}
-{#                                                {{ form_row(children_block_form.type) }}#}
-{#                                                {{ form_row(children_block_form.blocOrder) }}#}
-{#                                                {{ form_row(children_block_form.align) }}#}
-{#                                            </div>#}
-{#                                        </div>#}
-                                        {% set rendered_blocks = rendered_blocks|merge([children_block_form.vars.data.id]) %}
+                                                {# todo this need a recursion #}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
 
-                                        {% if children_block_form.vars.data.blocOrder >= max_order %}
-                                            {% set max_order = children_block_form.vars.data.blocOrder %}
-                                        {% endif %}
-
-                                        {# todo this need a recursion #}
-                                    {% endif %}
-                                {% endfor %}
-                            {% endfor %}
-                        {% endif %}
-
-                        <a href="{{ path('kazetenn_admin_content_add_block', {'content': content_id, 'baseBlock': block_id, 'higherOrder': max_order}) }}" type="button">{{ 'kazetenn_admin.add_content.label'|trans }}</a>
+                        <div class="column is-1">
+                            <a class="button" href="{{ path('kazetenn_admin_content_add_block', {'content': content_id, 'baseBlock': block_id}) }}" type="button">{{ 'kazetenn_admin.add_content.label'|trans }}</a>
+                        </div>
                     </div>
-
                 {% endif %}
 
-                {% if block_form.vars.data.blocOrder >= page_order %}
-                    {% set page_order = block_form.vars.data.blocOrder %}
-                {% endif %}
             {% endfor %}
-            <a href="{{ path('kazetenn_admin_content_add_block', {'content': content_id, 'baseBlock': null, 'higherOrder': page_order}) }}" type="button">{{ 'kazetenn_admin.add_content.label'|trans }}</a>
+            <a class="button" href="{{ path('kazetenn_admin_content_add_block', {'content': content_id, 'baseBlock': null}) }}" type="button">{{ 'kazetenn_admin.add_content.label'|trans }}</a>
         </div>
         {% do form.blocks.setRendered %}
     {% endif %}
@@ -111,21 +86,17 @@
     {{ form_end(form) }}
 {% endblock %}
 
-{% macro block_form_display(block_form, full = true) %}
-    <div class="columns">
-        <div class="column {% if full %}is-10{% else %}is-8{% endif %}">
+{% macro block_form_display(block_form, number_of_block = 1, full = true) %}
+    {% set width =  100 / number_of_block %}
+    <div class="columns" style="margin: 0.75rem; width: {{ width }}%">
+        <div class="column {% if full %}is-11{% else %}is-10{% endif %}">
             <div id="{{ block_form.content.vars.id ~ '_header' }}"></div>
             {{ form_row(block_form.content) }}
         </div>
-        <div {{ stimulus_controller('modal') }}>
-            <button type="button" {{ stimulus_target('modal', 'buttonopenmodal') }}>+</button>
+        <div class="column {% if full %}is-1{% else %}is-2{% endif %}" {{ stimulus_controller('modal') }}>
+            <button class="button" type="button" {{ stimulus_action('modal', 'openModal') }}>+</button>
             {{ _self.modal(block_form, full) }}
         </div>
-{#        <div class="column {% if full %}is-2{% else %}is-4{% endif %}">#}
-{#            {{ form_row(block_form.type) }}#}
-{#            {{ form_row(block_form.blocOrder) }}#}
-{#            {{ form_row(block_form.align) }}#}
-{#        </div>#}
     </div>
 {% endmacro %}
 
@@ -134,14 +105,10 @@
         <a class="modal-background noHover" {{ stimulus_action('modal', 'closeModal') }}></a>
         <div class="modal-card">
             <header class="modal-card-head">
-                <p class="modal-card-title"></p>
-                <button class="delete"
-                        aria-label="{% trans %}modal.close_label{% endtrans %}" {{ stimulus_action('modal', 'closeModal') }}></button>
+                <p class="modal-card-title">{{ 'kazetenn_admin.block_form_infos.title'|trans }}</p>
+                <button type="button" class="delete" aria-label="{% trans %}modal.close_label{% endtrans %}" {{ stimulus_action('modal', 'closeModal') }}></button>
             </header>
             <section class="modal-card-body">
-                <div class="card-header">
-                    <p class="card-header-title">modal test title</p>
-                </div>
                 <div class="card-content">
                     {{ form_row(block_form.type) }}
                     {{ form_row(block_form.blocOrder) }}
@@ -149,8 +116,7 @@
                 </div>
             </section>
             <footer class="modal-card-foot">
-{#                <button class="button is-success" {{ stimulus_action('modal', 'validateModal') }} {{ stimulus_target('modal', 'modalsuccessbutton') }}></button>#}
-                <button class="button" {{ stimulus_action('modal', 'closeModal') }} {{ stimulus_target('modal', 'modalcancelbutton') }}></button>
+                <button type="button" class="button is-success" {{ stimulus_action('modal', 'closeModal') }} {{ stimulus_target('modal', 'modalcancelbutton') }}>{{ 'kazetenn_admin.block_form_infos.close'|trans }}</button>
             </footer>
         </div>
     </div>

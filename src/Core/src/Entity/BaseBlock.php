@@ -21,8 +21,6 @@ use Symfony\Component\Uid\UuidV4;
 #[ORM\MappedSuperclass]
 abstract class BaseBlock implements BaseBlockInterface
 {
-    const ROW_TEMPLATE     = '@KazetennCore/content/_block_content_display.twig';
-
     use TimestampableEntity;
     use BlameableEntity;
 
@@ -49,9 +47,6 @@ abstract class BaseBlock implements BaseBlockInterface
     #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $content = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
-    protected string $template = self::ROW_TEMPLATE;
-
     #[ORM\Column(type: 'integer', nullable: false)]
     protected int $blocOrder;
 
@@ -61,7 +56,6 @@ abstract class BaseBlock implements BaseBlockInterface
     public function __construct()
     {
         $this->id       = Uuid::v4();
-        $this->template = self::ROW_TEMPLATE;
 
         $this->children = new ArrayCollection();
     }
@@ -85,6 +79,11 @@ abstract class BaseBlock implements BaseBlockInterface
         }
 
         return $this;
+    }
+
+    public function getChildren(): Collection
+    {
+        return $this->children;
     }
 
     public function getId(): UuidV4
@@ -127,16 +126,6 @@ abstract class BaseBlock implements BaseBlockInterface
         $this->content = $content;
     }
 
-    public function getTemplate(): string
-    {
-        return $this->template;
-    }
-
-    public function setTemplate(string $template): void
-    {
-        $this->template = $template;
-    }
-
     public function getBlocOrder(): int
     {
         return $this->blocOrder;
@@ -171,5 +160,19 @@ abstract class BaseBlock implements BaseBlockInterface
     public function setType(string $type): void
     {
         $this->type = $type;
+    }
+
+    public function getChildrensOrdered(): array
+    {
+        $data = $this->children;
+
+        $return = [];
+        /** @var BaseBlock $datum */
+        foreach ($data as $datum) {
+            $return[$datum->getBlocOrder()] = $datum;
+        }
+        ksort($return);
+
+        return $return;
     }
 }

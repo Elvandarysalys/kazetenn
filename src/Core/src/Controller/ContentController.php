@@ -9,6 +9,7 @@ use Kazetenn\Admin\Service\MenuHandler;
 use Kazetenn\Core\Entity\BaseBlockInterface;
 use Kazetenn\Core\Entity\BaseContentInterface;
 use Kazetenn\Core\Form\ContentType;
+use Kazetenn\Core\Service\BlockService;
 use Kazetenn\Core\Service\ContentService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -125,8 +126,8 @@ class ContentController extends BaseAdminController
 //        ]);
 //    }
 
-    #[Route('/add_content/{content}/{highestOrder}/{baseBlock}', name: 'content_add_block')]
-    public function addContent(ManagerRegistry $managerRegistry, BaseContentInterface $content, BaseBlockInterface $baseBlock = null, int $highestOrder = 0): Response
+    #[Route('/add_content/{content}/{baseBlock}', name: 'content_add_block')]
+    public function addContent(ManagerRegistry $managerRegistry, BlockService $blockService, BaseContentInterface $content, BaseBlockInterface $baseBlock = null): Response
     {
         $contentType = $this->contentService->getContentByClass($content);
         if (null !== $contentType) {
@@ -136,7 +137,17 @@ class ContentController extends BaseAdminController
 
             $newBlock->setBaseContent($content);
             $newBlock->setParent($baseBlock);
+            // todo: this should not be a passed parameter but be calculate on the spot
+            // no base block ? child of the page
+            if(null === $baseBlock){
+                $siblings = $content->getBlocksOrdered();
+            }else{
+                $siblings = $baseBlock->getChildrensOrdered();
+            }
+            $siblings = array_keys($siblings);
+            $highestOrder = max($siblings);
             $newBlock->setBlocOrder($highestOrder + 1);
+            $newBlock->setType('text');
 
             $managerRegistry->getManager()->persist($newBlock);
             $managerRegistry->getManager()->flush();

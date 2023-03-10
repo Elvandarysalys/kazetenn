@@ -15,7 +15,7 @@
       </trans-unit>
       <trans-unit id="x1aEDDs" resname="kazetenn_admin.add_content.label">
         <source>kazetenn_admin.add_content.label</source>
-        <target>__kazetenn_admin.add_content.label</target>
+        <target>Add</target>
       </trans-unit>
       <trans-unit id="XcWjUni" resname="kazetenn_admin.content_form.button_label">
         <source>kazetenn_admin.content_form.button_label</source>

@@ -1,16 +1,20 @@
 {# This block is the display logic bloc for content inside of a page. You SHOULD NOT modify it. #}
-
-<div class="content_bloc_container" style="order: {{ block.blocOrder }}">
+{% if size is not defined %}
+    {% set size = 100 %}
+{% endif %}
+<div class="content_bloc_container" style="width: {{ size }}%;order: {{ block.blocOrder }};">
     {% block display_block_main %}
-        {# This is the place the bloc content is displayed. For reference, see '_block_content_display.html.twig' #}
-        {{ include(block.template, {pageContent: block}) }}
+        {{ component('block', { block: block }) }}
     {% endblock %}
 
     {% block display_block_childrend %}
-        {% if block.children|length >= 1 %}
+
+        {% set block_number = block.childrensOrdered|length %}
+        {% if block_number >= 1 %}
+            {% set block_size = 100 / block_number %}
             <div style="display:flex; flex-direction: {% if block.align == constant('Kazetenn\\Core\\Entity\\BaseBlock::HORIZONTAL_ALIGN') %}row{% else %}column{% endif %}; justify-content: space-evenly">
-                {% for child in block.children %}
-                    {{ include('@KazetennCore/content/_display_block.html.twig', {block: child}) }}
+                {% for child in block.childrensOrdered %}
+                    {{ include('@KazetennCore/content/_display_block.html.twig', {block: child, size: block_size}) }}
                 {% endfor %}
             </div>
         {% endif %}

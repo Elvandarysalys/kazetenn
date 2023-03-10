@@ -10,7 +10,6 @@ Encore
   .setManifestKeyPrefix('bundles/kazetennadmin')
   .enableSassLoader()
 
-  /* entries */
   .addStyleEntry('admin_style', '/assets/stylesheet/admin.scss')
   .addEntry('admin_sidebar', '/assets/js/sidebar.js')
   .addEntry('icons', '/assets/js/icons.js')

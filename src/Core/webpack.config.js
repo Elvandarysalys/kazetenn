@@ -11,12 +11,22 @@ Encore
   .enableSassLoader()
 
   .addEntry('admin_page_form', '/assets/js/content_form.js')
-  .addEntry('app', '/assets/app.js')
+  .addEntry('core_app', '/assets/app.js')
+  .addStyleEntry('blog_page_style', '/assets/styles/blog_page.scss')
+
+  .copyFiles({
+    from: './assets/images',
+
+    // optional target path, relative to the output dir
+    to: 'images/[path][name].[ext]',
+
+  })
 
   .enableStimulusBridge('./assets/controllers.json')
 
+  .disableSingleRuntimeChunk()
   .splitEntryChunks()
-  .enableSingleRuntimeChunk()
+  // .enableSingleRuntimeChunk()
   .cleanupOutputBeforeBuild()
   .enableBuildNotifications()
   .enableSourceMaps(!Encore.isProduction())

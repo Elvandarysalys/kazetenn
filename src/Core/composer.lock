@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "85af43e5720e2bd663af54db37d77416",
+    "content-hash": "70c576da4c72619afc5d0c564cfac01c",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1562,12 +1562,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elvandarysalys/kazetenn-admin.git",
-                "reference": "8760dee8925b74d188bd8dd6da2dba66cbecfa28"
+                "reference": "15c6ecaa1f00ef8d3530e24103dd0cde73832ce7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elvandarysalys/kazetenn-admin/zipball/8760dee8925b74d188bd8dd6da2dba66cbecfa28",
-                "reference": "8760dee8925b74d188bd8dd6da2dba66cbecfa28",
+                "url": "https://api.github.com/repos/Elvandarysalys/kazetenn-admin/zipball/15c6ecaa1f00ef8d3530e24103dd0cde73832ce7",
+                "reference": "15c6ecaa1f00ef8d3530e24103dd0cde73832ce7",
                 "shasum": ""
             },
             "require": {
@@ -1657,20 +1657,20 @@
                 "issues": "https://github.com/Elvandarysalys/kazetenn-admin/issues",
                 "source": "https://github.com/Elvandarysalys/kazetenn-admin/tree/1.0.4"
             },
-            "time": "2023-02-16T15:12:26+00:00"
+            "time": "2023-02-18T15:44:12+00:00"
         },
         {
             "name": "elvandar/kazetenn-users",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elvandarysalys/kazetenn-users.git",
-                "reference": "8d5b54b377f3e587d08aae5e83fb14eac4bc2e94"
+                "reference": "878a8d5b0ca51fdbdcb81bcae9acd3d48e6ce52d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elvandarysalys/kazetenn-users/zipball/8d5b54b377f3e587d08aae5e83fb14eac4bc2e94",
-                "reference": "8d5b54b377f3e587d08aae5e83fb14eac4bc2e94",
+                "url": "https://api.github.com/repos/Elvandarysalys/kazetenn-users/zipball/878a8d5b0ca51fdbdcb81bcae9acd3d48e6ce52d",
+                "reference": "878a8d5b0ca51fdbdcb81bcae9acd3d48e6ce52d",
                 "shasum": ""
             },
             "require": {
@@ -1758,9 +1758,9 @@
             "description": "A symfony library to handle users in the kazetenn project",
             "support": {
                 "issues": "https://github.com/Elvandarysalys/kazetenn-users/issues",
-                "source": "https://github.com/Elvandarysalys/kazetenn-users/tree/1.0.5"
+                "source": "https://github.com/Elvandarysalys/kazetenn-users/tree/1.0.6"
             },
-            "time": "2023-02-16T11:00:24+00:00"
+            "time": "2023-02-18T19:24:35+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
@@ -7445,6 +7445,84 @@
             "time": "2023-01-01T08:38:09+00:00"
         },
         {
+            "name": "symfony/ux-twig-component",
+            "version": "v2.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/ux-twig-component.git",
+                "reference": "d304d6b8b27821f7d7e62cbdff21e417636d87bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/ux-twig-component/zipball/d304d6b8b27821f7d7e62cbdff21e417636d87bc",
+                "reference": "d304d6b8b27821f7d7e62cbdff21e417636d87bc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0",
+                "symfony/dependency-injection": "^5.4|^6.0",
+                "symfony/event-dispatcher": "^5.4|^6.0",
+                "symfony/property-access": "^5.4|^6.0",
+                "twig/twig": "^2.0|^3.0"
+            },
+            "conflict": {
+                "symfony/config": "<5.4.0"
+            },
+            "require-dev": {
+                "symfony/framework-bundle": "^5.4|^6.0",
+                "symfony/phpunit-bridge": "^6.0",
+                "symfony/twig-bundle": "^5.4|^6.0",
+                "symfony/webpack-encore-bundle": "^1.15"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "thanks": {
+                    "name": "symfony/ux",
+                    "url": "https://github.com/symfony/ux"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\UX\\TwigComponent\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Twig components for Symfony",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "components",
+                "symfony-ux",
+                "twig"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/ux-twig-component/tree/v2.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-01-19T15:55:42+00:00"
+        },
+        {
             "name": "symfony/validator",
             "version": "v6.2.5",
             "source": {
@@ -7799,6 +7877,79 @@
                 }
             ],
             "time": "2023-01-01T08:38:09+00:00"
+        },
+        {
+            "name": "symfony/webpack-encore-bundle",
+            "version": "v1.16.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/webpack-encore-bundle.git",
+                "reference": "1862d71e483769b40278548a30e756ce13ef9d4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/1862d71e483769b40278548a30e756ce13ef9d4c",
+                "reference": "1862d71e483769b40278548a30e756ce13ef9d4c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.3",
+                "symfony/asset": "^4.4 || ^5.0 || ^6.0",
+                "symfony/config": "^4.4 || ^5.0 || ^6.0",
+                "symfony/dependency-injection": "^4.4 || ^5.0 || ^6.0",
+                "symfony/deprecation-contracts": "^2.1 || ^3.0",
+                "symfony/http-kernel": "^4.4 || ^5.0 || ^6.0",
+                "symfony/polyfill-php80": "^1.25.0",
+                "symfony/service-contracts": "^1.0 || ^2.0 || ^3.0"
+            },
+            "require-dev": {
+                "symfony/framework-bundle": "^4.4 || ^5.0 || ^6.0",
+                "symfony/phpunit-bridge": "^5.3 || ^6.0",
+                "symfony/twig-bundle": "^4.4 || ^5.0 || ^6.0",
+                "symfony/web-link": "^4.4 || ^5.0 || ^6.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "thanks": {
+                    "name": "symfony/webpack-encore",
+                    "url": "https://github.com/symfony/webpack-encore"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\WebpackEncoreBundle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Integration with your Symfony app & Webpack Encore!",
+            "support": {
+                "issues": "https://github.com/symfony/webpack-encore-bundle/issues",
+                "source": "https://github.com/symfony/webpack-encore-bundle/tree/v1.16.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-01-18T19:37:55+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -9136,16 +9287,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.0.8",
+            "version": "10.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "be72e6e446f40e930b6350922d302690bb35888e"
+                "reference": "d18a18b07e7a9ad52d994b1785f9e301fc84b616"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/be72e6e446f40e930b6350922d302690bb35888e",
-                "reference": "be72e6e446f40e930b6350922d302690bb35888e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d18a18b07e7a9ad52d994b1785f9e301fc84b616",
+                "reference": "d18a18b07e7a9ad52d994b1785f9e301fc84b616",
                 "shasum": ""
             },
             "require": {
@@ -9216,7 +9367,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.8"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.11"
             },
             "funding": [
                 {
@@ -9232,7 +9383,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-18T16:32:22+00:00"
+            "time": "2023-02-20T16:39:36+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -10679,79 +10830,6 @@
                 }
             ],
             "time": "2023-01-01T08:38:09+00:00"
-        },
-        {
-            "name": "symfony/webpack-encore-bundle",
-            "version": "v1.16.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/webpack-encore-bundle.git",
-                "reference": "1862d71e483769b40278548a30e756ce13ef9d4c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/1862d71e483769b40278548a30e756ce13ef9d4c",
-                "reference": "1862d71e483769b40278548a30e756ce13ef9d4c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.3",
-                "symfony/asset": "^4.4 || ^5.0 || ^6.0",
-                "symfony/config": "^4.4 || ^5.0 || ^6.0",
-                "symfony/dependency-injection": "^4.4 || ^5.0 || ^6.0",
-                "symfony/deprecation-contracts": "^2.1 || ^3.0",
-                "symfony/http-kernel": "^4.4 || ^5.0 || ^6.0",
-                "symfony/polyfill-php80": "^1.25.0",
-                "symfony/service-contracts": "^1.0 || ^2.0 || ^3.0"
-            },
-            "require-dev": {
-                "symfony/framework-bundle": "^4.4 || ^5.0 || ^6.0",
-                "symfony/phpunit-bridge": "^5.3 || ^6.0",
-                "symfony/twig-bundle": "^4.4 || ^5.0 || ^6.0",
-                "symfony/web-link": "^4.4 || ^5.0 || ^6.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "thanks": {
-                    "name": "symfony/webpack-encore",
-                    "url": "https://github.com/symfony/webpack-encore"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\WebpackEncoreBundle\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Integration with your Symfony app & Webpack Encore!",
-            "support": {
-                "issues": "https://github.com/symfony/webpack-encore-bundle/issues",
-                "source": "https://github.com/symfony/webpack-encore-bundle/tree/v1.16.1"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-01-18T19:37:55+00:00"
         },
         {
             "name": "theseer/tokenizer",

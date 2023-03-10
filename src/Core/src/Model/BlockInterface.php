@@ -12,5 +12,9 @@ interface BlockInterface
 
     public function getModel(): array;
 
-    public function getBlockContent(BaseBlockInterface $content): string;
+    public function getBlockContent(BaseBlockInterface $content);
+
+    public function getFormInfos(): array;
+
+    public function getBlockTemplate(): string;
 }

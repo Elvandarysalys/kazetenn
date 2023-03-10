@@ -2,7 +2,7 @@
 
 # What is Kaztenn ?
 
-Kazetenn is a collection of libraries built in Symfony 6 that aims to provide a quick CMS functionality while still 
+Kazetenn is a collection of libraries built in Symfony 6 that aims to provide a quick CMS functionality while still
 getting symfony's power and modern architecture
 
 # Why ?
@@ -10,7 +10,7 @@ getting symfony's power and modern architecture
 - It is a fun pet project to have
 
 # How to use it ?
-Create a symfony project (full or skeleton, it doesn't matter) and use : 
+Create a symfony project (full or skeleton, it doesn't matter) and use :
 
 ````shell
 composer require elvandar/kazetenn
@@ -24,7 +24,7 @@ Go to the green "<>code" button at the top right of the page, click it and selec
 
 unzip it and transfer the folder to your server (There should be plenty of doccumentation on you server renting space)
 
-ensure that PHP is installed 
+ensure that PHP is installed
 
 ensure that composer is installed
 
@@ -74,9 +74,9 @@ From there, you can look at the different components, install the one you want, 
 DISCLAIMER: this is still a WORK IN PROGRESS. The following text describe a goal, not a documentation
 
 With this project I have a few objectives:
- - provide basic cms functionality (admin + content handling + content display).
- - each component who is not necessary should be a separate library and not required.
- - if it is fun to re-invent the wheel, do it, it is the perfect opportunity to learn.
+- provide basic cms functionality (admin + content handling + content display).
+- each component who is not necessary should be a separate library and not required.
+- if it is fun to re-invent the wheel, do it, it is the perfect opportunity to learn.
 
 How does it work:
 
@@ -87,7 +87,7 @@ Right now there are 4 planned libraries:
 - Pages
 
 ### Admin
-Admin is a standalone library, it allows a developer to build quickly an administration back-office. 
+Admin is a standalone library, it allows a developer to build quickly an administration back-office.
 
 This library is mostly in a satisfactory state right now, you can find its documentation [here](src/Admin/README.md)
 
@@ -105,11 +105,11 @@ The core library is the main working space of the project. Every new functionali
 is an interest in making it a library, it is then extracted.
 
 ### Pages and Articles
-Those 2 libraries are meant to provide with the two most common content in a CSM, a Page and an Article, they are also 
+Those 2 libraries are meant to provide with the two most common content in a CSM, a Page and an Article, they are also
 used as example for other contents libraries
 
-#### page 
-A page is made to represent the static/semi-static pages of a website (Landing, Faq, Presentation, ...) 
+#### page
+A page is made to represent the static/semi-static pages of a website (Landing, Faq, Presentation, ...)
 
 they are a basic content with a hierarchy mechanic (parent and child references)
 
@@ -118,11 +118,21 @@ An artocme is made to represent the main content found on most CMS (Blog posts, 
 
 they are a basic content with a category mechanic (one or more category by article, filter by category, ....)
 
+#### Users
+
+Users is an implementation of symfony users with basics roles.
+
+#### Documents
+
+Users is a library to handle files.
+
 # Current dependency map:
 
 ````shell
-Admin
-└── Core
+├── Admin
+├── Users
+├── Documents
+└─── Core
     ├── Pages
     ├── Articles
 ````

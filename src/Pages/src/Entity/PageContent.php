@@ -20,8 +20,6 @@ use Kazetenn\Pages\Repository\PageContentRepository;
 #[ORM\Entity(repositoryClass: PageContentRepository::class)]
 class PageContent extends BaseBlock
 {
-    const ROW_TEMPLATE     = '@KazetennPages/content/_block_content_display.twig';
-
     // todo find a way to abstract this one into the Core bundle
     #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'blocks')]
     #[ORM\JoinColumn(name: "content_id", referencedColumnName: "id")]

@@ -14,6 +14,7 @@ import 'tinymce/skins/ui/oxide/skin.css';
 /* Import plugins */
 import 'tinymce/plugins/advlist';
 import 'tinymce/plugins/code';
+import 'tinymce/plugins/codesample';
 import 'tinymce/plugins/emoticons';
 import 'tinymce/plugins/emoticons/js/emojis';
 import 'tinymce/plugins/link';
@@ -34,11 +35,23 @@ import 'tinymce/skins/content/default/content.css';
 
 tinymce.init({
   selector: 'textarea.block_text_area',
-  plugins: 'advlist code emoticons link lists table',
+  plugins: 'code emoticons link lists table',
   toolbar: 'bold italic | bullist numlist | link emoticons',
   skin: false,
   content_css: false,
-  // content_style: contentUiSkinCss.toString() + '\n' + contentCss.toString(),
+  statusbar: false,
+  promotion: false,
 });
 
-document.querySelectorAll('.block_text_area').forEach((element) => {})
+// tinymce.init({
+//   selector: 'textarea.block_code_area',
+//   plugins: 'codesample',
+//   toolbar: 'codesample',
+//   menubar: '',
+//   skin: false,
+//   content_css: false,
+//   statusbar: false,
+//   promotion: false,
+// });
+
+// document.querySelectorAll('.block_text_area').forEach((element) => {})

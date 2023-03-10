@@ -5,13 +5,14 @@ html {
   height: 100vh;
   width: 100vw;
   padding: 0;
-  background-color: #AAAAAA;
+  background-color: #AAAAAA !important;
 }
 
 body {
   height: 100vh !important;
   //padding: 0;
   margin: 1rem !important;
+  background-color: #AAAAAA !important;
 }
 
 .admin_children_horizontal {

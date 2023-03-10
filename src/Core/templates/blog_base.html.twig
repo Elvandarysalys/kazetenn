@@ -6,7 +6,8 @@
         <title>{% block title %}{{'kazetenn_admin.base_title'|trans}}{% endblock %}</title>
 
         {% block stylesheets %}
-            <link rel="stylesheet" type="text/css" href="{{ asset('bundles/kazetenn/page_style.css') }}">
+{#            <link rel="stylesheet" type="text/css" href="{{ asset('bundles/kazetenn/page_style.css') }}">#}
+            {{ encore_entry_link_tags('blog_page_style', null, 'kazetenn_core') }}
         {% endblock %}
 
         {% block javascripts %}

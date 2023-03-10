@@ -17,8 +17,22 @@ class TextBlock implements BlockInterface
         return [''];
     }
 
-    public function getBlockContent(BaseBlockInterface $content): string
+    public function getBlockContent(BaseBlockInterface $content): string|null
     {
         return $content->getContent();
+    }
+
+    public function getBlockTemplate(): string{
+        return '@KazetennCore/content/_block_content_display.twig';
+    }
+
+    public function getFormInfos(): array
+    {
+        return [
+            'label' => false,
+            'attr'  => [
+                'class' => 'textarea block_text_area'
+            ]
+        ];
     }
 }

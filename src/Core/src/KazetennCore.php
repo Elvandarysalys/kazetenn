@@ -110,5 +110,7 @@ class KazetennCore extends AbstractBundle
 
         $services->set('Kazetenn\Core\Service\ContentService')
                  ->arg('$availableContentTypes', tagged_iterator('kazetenn.content_type_tag'));
+        $services->set('Kazetenn\Core\Service\BlockService')
+                 ->arg('$availableBlockTypes', tagged_iterator('kazetenn.block_type_tag'));
     }
 }
